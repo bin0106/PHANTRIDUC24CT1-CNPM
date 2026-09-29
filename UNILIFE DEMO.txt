@@ -1,0 +1,717 @@
+import React, { useState, useMemo } from "react";
+import {
+  Home, Search, Bell, MessageCircle, Heart, Star, MapPin, X,
+  Wifi, Fan, WashingMachine, Bike, Filter, ChevronLeft, ChevronRight,
+  Gamepad2, Mic2, CircleDot, Utensils, ShoppingBag, PartyPopper,
+  BookOpen, LayoutDashboard, Users, Building2, ShoppingCart,
+  MessageSquareWarning, ShieldCheck, TrendingUp, Plus, Clock, Phone,
+  ArrowRight, Sparkles
+} from "lucide-react";
+
+const INK = "#16192E";
+const PAPER = "#F6F4EE";
+const MARIGOLD = "#FFC145";
+const CORAL = "#FF5D3E";
+const TEAL = "#0E7C66";
+const CARD = "#FFFFFF";
+const SUBTEXT = "#6B6A63";
+
+const rotations = ["-2.5deg", "1.5deg", "-1deg", "2deg", "-1.5deg", "1deg", "2.5deg"];
+
+const categories = [
+  { id: "housing", label: "Phòng trọ", icon: Home, color: MARIGOLD },
+  { id: "food", label: "Ăn uống", icon: Utensils, color: CORAL },
+  { id: "market", label: "Mua bán", icon: ShoppingBag, color: TEAL },
+  { id: "entertainment", label: "Vui chơi", icon: PartyPopper, color: "#7F77DD" },
+  { id: "study", label: "Học tập", icon: BookOpen, color: "#378ADD" },
+];
+
+const housingData = [
+  { id: 1, name: "Phòng trọ Xanh - gần ĐH Bách Khoa", price: "1.8 triệu", area: "20m²", address: "Q. Bình Thạnh, TP.HCM", distance: "450m", rating: 4.6, reviews: 32, ac: true, washer: false, wifi: true, parking: true, img: "room1" },
+  { id: 2, name: "Chung cư mini Full nội thất", price: "3.2 triệu", area: "28m²", address: "Q. Thủ Đức, TP.HCM", distance: "1.2km", rating: 4.8, reviews: 51, ac: true, washer: true, wifi: true, parking: true, img: "room2" },
+  { id: 3, name: "Phòng trọ giá rẻ sinh viên", price: "1.2 triệu", area: "15m²", address: "Q.5, TP.HCM", distance: "300m", rating: 4.1, reviews: 18, ac: false, washer: false, wifi: true, parking: false, img: "room3" },
+  { id: 4, name: "Căn hộ ghép đôi thoáng mát", price: "2.5 triệu", area: "22m²", address: "Q. Tân Bình, TP.HCM", distance: "800m", rating: 4.4, reviews: 27, ac: true, washer: true, wifi: true, parking: true, img: "room4" },
+];
+
+const foodData = [
+  { id: 1, name: "Cơm tấm Cô Ba", cat: "Cơm", price: "25.000đ", rating: 4.7, reviews: 120, distance: "200m", hours: "6:00 - 21:00", img: "food1" },
+  { id: 2, name: "Trà sữa TocoToco", cat: "Trà sữa", price: "35.000đ", rating: 4.5, reviews: 89, distance: "350m", hours: "8:00 - 22:00", img: "food2" },
+  { id: 3, name: "Bún bò Huế Cô Út", cat: "Bún", price: "30.000đ", rating: 4.8, reviews: 200, distance: "500m", hours: "6:30 - 13:00", img: "food3" },
+  { id: 4, name: "Cafe Học Bài", cat: "Cafe", price: "20.000đ", rating: 4.6, reviews: 75, distance: "150m", hours: "7:00 - 23:00", img: "food4" },
+];
+
+const marketData = [
+  { id: 1, name: "Giáo trình Giải tích 1 (còn mới 90%)", price: "50.000đ", cond: "Đã dùng - tốt", seller: "Minh Anh", loc: "Q. Thủ Đức", img: "prod1" },
+  { id: 2, name: "Laptop Dell Inspiron 15 i5", price: "8.500.000đ", cond: "Đã dùng - khá", seller: "Quốc Huy", loc: "Q.5", img: "prod2" },
+  { id: 3, name: "Xe đạp thể thao mini", price: "1.200.000đ", cond: "Đã dùng - tốt", seller: "Thảo Vy", loc: "Q. Bình Thạnh", img: "prod3" },
+  { id: 4, name: "Balo Laptop chống nước", price: "150.000đ", cond: "Mới 100%", seller: "Đăng Khoa", loc: "Q. Tân Bình", img: "prod4" },
+];
+
+const entertainmentData = [
+  { id: 1, name: "Gaming Center Pro X", cat: "Gaming/Net", icon: Gamepad2, price: "8.000đ/giờ", rating: 4.5, distance: "400m", hours: "24/7" },
+  { id: 2, name: "Music Box Sài Gòn", cat: "Music Box", icon: Mic2, price: "150.000đ/giờ", rating: 4.7, distance: "600m", hours: "9:00 - 24:00" },
+  { id: 3, name: "Bida Sài Gòn Club", cat: "Bida", icon: CircleDot, price: "40.000đ/giờ", rating: 4.3, distance: "700m", hours: "10:00 - 23:00" },
+  { id: 4, name: "Sân cầu lông Phú Nhuận", cat: "Cầu lông", icon: PartyPopper, price: "60.000đ/giờ", rating: 4.6, distance: "1km", hours: "6:00 - 22:00" },
+];
+
+const reviewsSample = [
+  { user: "Ngọc Hân", rating: 5, comment: "Phòng sạch sẽ, chủ trọ thân thiện, giá hợp lý cho sinh viên.", date: "2 ngày trước" },
+  { user: "Tấn Phát", rating: 4, comment: "Vị trí gần trường, hơi ồn vào cuối tuần nhưng ổn.", date: "1 tuần trước" },
+];
+
+function StarRow({ rating, size = 14 }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 2 }}>
+      <Star size={size} fill={MARIGOLD} color={MARIGOLD} />
+      <span style={{ fontWeight: 600, fontSize: 13, color: INK }}>{rating}</span>
+    </span>
+  );
+}
+
+function Placeholder({ seed, height = 140 }) {
+  const hue = Array.from(String(seed)).reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
+  return (
+    <div
+      style={{
+        height,
+        borderRadius: "10px 10px 0 0",
+        background: `linear-gradient(135deg, hsl(${hue},45%,88%), hsl(${hue + 40},50%,78%))`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: `hsl(${hue},30%,30%)`,
+        fontSize: 12,
+        fontWeight: 600,
+      }}
+    >
+      UniLife
+    </div>
+  );
+}
+
+function Badge({ children, bg, color }) {
+  return (
+    <span
+      style={{
+        background: bg,
+        color: color,
+        fontSize: 11,
+        fontWeight: 700,
+        padding: "3px 9px",
+        borderRadius: 999,
+        display: "inline-block",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function FavButton({ active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        width: 30,
+        height: 30,
+        borderRadius: "50%",
+        border: "none",
+        background: "rgba(255,255,255,0.92)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+      }}
+    >
+      <Heart size={15} fill={active ? CORAL : "none"} color={active ? CORAL : INK} />
+    </button>
+  );
+}
+
+export default function UniLifeApp() {
+  const [tab, setTab] = useState("home");
+  const [query, setQuery] = useState("");
+  const [favorites, setFavorites] = useState({});
+  const [detail, setDetail] = useState(null);
+  const [housingFilters, setHousingFilters] = useState({ ac: false, washer: false, wifi: false, parking: false });
+  const [priceMax, setPriceMax] = useState(4);
+  const [toast, setToast] = useState("");
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2200);
+  };
+
+  const toggleFav = (key) => {
+    setFavorites((f) => ({ ...f, [key]: !f[key] }));
+  };
+
+  const filteredHousing = useMemo(() => {
+    return housingData.filter((h) => {
+      const priceNum = parseFloat(h.price);
+      if (priceNum > priceMax) return false;
+      if (housingFilters.ac && !h.ac) return false;
+      if (housingFilters.washer && !h.washer) return false;
+      if (housingFilters.wifi && !h.wifi) return false;
+      if (housingFilters.parking && !h.parking) return false;
+      if (query && !h.name.toLowerCase().includes(query.toLowerCase())) return false;
+      return true;
+    });
+  }, [housingFilters, priceMax, query]);
+
+  const navItems = [
+    { id: "home", label: "Trang chủ" },
+    { id: "housing", label: "Phòng trọ" },
+    { id: "food", label: "Ăn uống" },
+    { id: "market", label: "Mua bán" },
+    { id: "entertainment", label: "Vui chơi" },
+  ];
+
+  return (
+    <div style={{ fontFamily: "'Inter', sans-serif", background: PAPER, minHeight: "100vh", color: INK }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap');
+        .ul-h { font-family: 'Space Grotesk', sans-serif; }
+        .ul-card { transition: transform .15s ease, box-shadow .15s ease; }
+        .ul-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(22,25,46,0.10); }
+        .ul-scroll::-webkit-scrollbar { display: none; }
+        .ul-btn { cursor: pointer; border: none; }
+        .ul-tab { cursor: pointer; }
+      `}</style>
+
+      {/* HEADER */}
+      <header style={{ position: "sticky", top: 0, zIndex: 40, background: INK, color: "#fff" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", height: 62, gap: 24 }}>
+          <div className="ul-h" onClick={() => setTab("home")} style={{ fontSize: 22, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ color: MARIGOLD }}>Uni</span>Life
+          </div>
+          <nav style={{ display: "flex", gap: 4, flex: 1 }}>
+            {navItems.map((n) => (
+              <div
+                key={n.id}
+                className="ul-tab"
+                onClick={() => setTab(n.id)}
+                style={{
+                  padding: "8px 14px",
+                  borderRadius: 8,
+                  fontSize: 14,
+                  fontWeight: 500,
+                  background: tab === n.id ? "rgba(255,193,69,0.16)" : "transparent",
+                  color: tab === n.id ? MARIGOLD : "rgba(255,255,255,0.85)",
+                }}
+              >
+                {n.label}
+              </div>
+            ))}
+          </nav>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <Search size={18} style={{ cursor: "pointer", opacity: 0.9 }} />
+            <div style={{ position: "relative" }}>
+              <Bell size={18} style={{ cursor: "pointer", opacity: 0.9 }} />
+              <span style={{ position: "absolute", top: -4, right: -4, width: 7, height: 7, borderRadius: "50%", background: CORAL }} />
+            </div>
+            <MessageCircle size={18} style={{ cursor: "pointer", opacity: 0.9 }} />
+            <div
+              onClick={() => setTab("admin")}
+              title="Admin dashboard"
+              style={{ width: 30, height: 30, borderRadius: "50%", background: MARIGOLD, color: INK, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 12, cursor: "pointer" }}
+            >
+              SV
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 60px" }}>
+        {tab === "home" && (
+          <HomeView
+            query={query} setQuery={setQuery} setTab={setTab}
+            favorites={favorites} toggleFav={toggleFav} setDetail={setDetail}
+          />
+        )}
+        {tab === "housing" && (
+          <HousingView
+            data={filteredHousing} favorites={favorites} toggleFav={toggleFav}
+            filters={housingFilters} setFilters={setHousingFilters}
+            priceMax={priceMax} setPriceMax={setPriceMax}
+            query={query} setQuery={setQuery} setDetail={setDetail}
+          />
+        )}
+        {tab === "food" && <FoodView favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />}
+        {tab === "market" && <MarketView favorites={favorites} toggleFav={toggleFav} showToast={showToast} setDetail={setDetail} />}
+        {tab === "entertainment" && <EntertainmentView favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />}
+        {tab === "admin" && <AdminView />}
+      </main>
+
+      {detail && <DetailModal item={detail} onClose={() => setDetail(null)} favorites={favorites} toggleFav={toggleFav} />}
+
+      {toast && (
+        <div style={{ position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", background: INK, color: "#fff", padding: "10px 20px", borderRadius: 10, fontSize: 14, fontWeight: 500, zIndex: 100, boxShadow: "0 8px 20px rgba(0,0,0,0.25)" }}>
+          {toast}
+        </div>
+      )}
+
+      <footer style={{ borderTop: "1px solid #E4E1D6", marginTop: 40, padding: "24px 20px", textAlign: "center", color: SUBTEXT, fontSize: 13 }}>
+        UniLife — Mọi nhu cầu sinh viên, trong một nơi. · Bản demo mô phỏng giao diện, dữ liệu minh họa.
+      </footer>
+    </div>
+  );
+}
+
+function SectionTitle({ children, action }) {
+  return (
+    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", margin: "38px 0 16px" }}>
+      <h2 className="ul-h" style={{ fontSize: 21, fontWeight: 700, margin: 0 }}>{children}</h2>
+      {action}
+    </div>
+  );
+}
+
+function HomeView({ query, setQuery, setTab, favorites, toggleFav, setDetail }) {
+  return (
+    <div>
+      {/* HERO */}
+      <section style={{ paddingTop: 44, paddingBottom: 8, textAlign: "center" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,193,69,0.18)", color: "#8A5B00", padding: "5px 12px", borderRadius: 999, fontSize: 12, fontWeight: 700, marginBottom: 18 }}>
+          <Sparkles size={13} /> Dành riêng cho sinh viên
+        </div>
+        <h1 className="ul-h" style={{ fontSize: 40, lineHeight: 1.15, margin: "0 0 14px", maxWidth: 640, marginLeft: "auto", marginRight: "auto" }}>
+          Cuộc sống sinh viên dễ dàng hơn với <span style={{ color: CORAL }}>UniLife</span>
+        </h1>
+        <p style={{ color: SUBTEXT, fontSize: 15, maxWidth: 480, margin: "0 auto 26px" }}>
+          Tìm phòng trọ, quán ăn, đồ cũ và chỗ vui chơi quanh khu vực bạn học — tất cả trong một nơi.
+        </p>
+        <div style={{ maxWidth: 560, margin: "0 auto", display: "flex", gap: 8, background: CARD, padding: 8, borderRadius: 14, boxShadow: "0 8px 24px rgba(22,25,46,0.08)" }}>
+          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8, padding: "0 10px" }}>
+            <Search size={17} color={SUBTEXT} />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Tìm phòng dưới 2 triệu gần trường..."
+              style={{ border: "none", outline: "none", fontSize: 14, width: "100%", background: "transparent" }}
+            />
+          </div>
+          <button className="ul-btn" onClick={() => setTab("housing")} style={{ background: INK, color: "#fff", borderRadius: 10, padding: "0 20px", fontWeight: 600, fontSize: 14 }}>
+            Tìm kiếm
+          </button>
+        </div>
+      </section>
+
+      {/* CATEGORIES - corkboard style */}
+      <SectionTitle>Danh mục</SectionTitle>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+        {categories.map((c, i) => {
+          const Icon = c.icon;
+          return (
+            <div
+              key={c.id}
+              className="ul-card"
+              onClick={() => setTab(c.id === "study" ? "home" : c.id)}
+              style={{
+                background: CARD,
+                borderRadius: 12,
+                padding: "20px 12px",
+                textAlign: "center",
+                cursor: "pointer",
+                transform: `rotate(${rotations[i % rotations.length]})`,
+                boxShadow: "0 6px 16px rgba(22,25,46,0.07)",
+                border: "1px solid #EEEBDF",
+              }}
+            >
+              <div style={{ width: 42, height: 42, borderRadius: 10, background: c.color + "26", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}>
+                <Icon size={20} color={c.color === MARIGOLD ? "#8A5B00" : c.color} />
+              </div>
+              <div style={{ fontSize: 13, fontWeight: 600 }}>{c.label}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* NEARBY */}
+      <SectionTitle>Địa điểm gần bạn</SectionTitle>
+      <CardRow>
+        {housingData.slice(0, 4).map((h) => (
+          <PlaceCard key={h.id} item={h} type="housing" favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />
+        ))}
+      </CardRow>
+
+      {/* TOP RATED */}
+      <SectionTitle>Được sinh viên yêu thích</SectionTitle>
+      <CardRow>
+        {foodData.map((f) => (
+          <FoodCard key={f.id} item={f} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />
+        ))}
+      </CardRow>
+
+      {/* NEW LISTINGS */}
+      <SectionTitle>Tin đăng mới</SectionTitle>
+      <CardRow>
+        {marketData.map((p) => (
+          <ProductCard key={p.id} item={p} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />
+        ))}
+      </CardRow>
+    </div>
+  );
+}
+
+function CardRow({ children }) {
+  return (
+    <div className="ul-scroll" style={{ display: "flex", gap: 16, overflowX: "auto", paddingBottom: 8 }}>
+      {React.Children.map(children, (c) => (
+        <div style={{ minWidth: 240, flex: "0 0 240px" }}>{c}</div>
+      ))}
+    </div>
+  );
+}
+
+function PlaceCard({ item, type, favorites, toggleFav, setDetail }) {
+  const key = `${type}-${item.id}`;
+  return (
+    <div className="ul-card" style={{ background: CARD, borderRadius: 12, overflow: "hidden", border: "1px solid #EEEBDF", cursor: "pointer" }} onClick={() => setDetail({ ...item, type })}>
+      <div style={{ position: "relative" }}>
+        <Placeholder seed={item.img || item.name} />
+        <FavButton active={!!favorites[key]} onClick={(e) => { e.stopPropagation(); toggleFav(key); }} />
+      </div>
+      <div style={{ padding: 12 }}>
+        <div style={{ fontSize: 13.5, fontWeight: 600, marginBottom: 4, lineHeight: 1.35 }}>{item.name}</div>
+        <div style={{ fontSize: 13, color: CORAL, fontWeight: 700, marginBottom: 6 }}>{item.price}<span style={{ color: SUBTEXT, fontWeight: 400 }}>/tháng · {item.area}</span></div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: 12, color: SUBTEXT, display: "flex", alignItems: "center", gap: 3 }}><MapPin size={12} /> {item.distance}</span>
+          <StarRow rating={item.rating} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FoodCard({ item, favorites, toggleFav, setDetail }) {
+  const key = `food-${item.id}`;
+  return (
+    <div className="ul-card" style={{ background: CARD, borderRadius: 12, overflow: "hidden", border: "1px solid #EEEBDF", cursor: "pointer" }} onClick={() => setDetail({ ...item, type: "food" })}>
+      <div style={{ position: "relative" }}>
+        <Placeholder seed={item.img} />
+        <FavButton active={!!favorites[key]} onClick={(e) => { e.stopPropagation(); toggleFav(key); }} />
+        <div style={{ position: "absolute", bottom: 8, left: 8 }}><Badge bg="rgba(14,124,102,0.9)" color="#fff">{item.cat}</Badge></div>
+      </div>
+      <div style={{ padding: 12 }}>
+        <div style={{ fontSize: 13.5, fontWeight: 600, marginBottom: 4 }}>{item.name}</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: TEAL }}>{item.price}</span>
+          <StarRow rating={item.rating} />
+        </div>
+        <div style={{ fontSize: 12, color: SUBTEXT, display: "flex", gap: 10 }}>
+          <span style={{ display: "flex", alignItems: "center", gap: 3 }}><MapPin size={12} />{item.distance}</span>
+          <span style={{ display: "flex", alignItems: "center", gap: 3 }}><Clock size={12} />{item.hours.split(" - ")[0]}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProductCard({ item, favorites, toggleFav, setDetail }) {
+  const key = `market-${item.id}`;
+  return (
+    <div className="ul-card" style={{ background: CARD, borderRadius: 12, overflow: "hidden", border: "1px solid #EEEBDF", cursor: "pointer" }} onClick={() => setDetail({ ...item, type: "market" })}>
+      <div style={{ position: "relative" }}>
+        <Placeholder seed={item.img} />
+        <FavButton active={!!favorites[key]} onClick={(e) => { e.stopPropagation(); toggleFav(key); }} />
+      </div>
+      <div style={{ padding: 12 }}>
+        <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4, lineHeight: 1.35, minHeight: 36 }}>{item.name}</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: CORAL, marginBottom: 6 }}>{item.price}</div>
+        <div style={{ fontSize: 12, color: SUBTEXT, display: "flex", justifyContent: "space-between" }}>
+          <span>{item.cond}</span>
+          <span>{item.loc}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EntCard({ item, favorites, toggleFav, setDetail }) {
+  const key = `ent-${item.id}`;
+  const Icon = item.icon;
+  return (
+    <div className="ul-card" style={{ background: CARD, borderRadius: 12, overflow: "hidden", border: "1px solid #EEEBDF", cursor: "pointer" }} onClick={() => setDetail({ ...item, type: "entertainment" })}>
+      <div style={{ position: "relative" }}>
+        <div style={{ height: 140, background: "linear-gradient(135deg,#7F77DD22,#7F77DD44)", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "10px 10px 0 0" }}>
+          <Icon size={34} color="#534AB7" />
+        </div>
+        <FavButton active={!!favorites[key]} onClick={(e) => { e.stopPropagation(); toggleFav(key); }} />
+      </div>
+      <div style={{ padding: 12 }}>
+        <div style={{ fontSize: 13.5, fontWeight: 600, marginBottom: 4 }}>{item.name}</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "#534AB7" }}>{item.price}</span>
+          <StarRow rating={item.rating} />
+        </div>
+        <div style={{ fontSize: 12, color: SUBTEXT, display: "flex", gap: 10 }}>
+          <span style={{ display: "flex", alignItems: "center", gap: 3 }}><MapPin size={12} />{item.distance}</span>
+          <span style={{ display: "flex", alignItems: "center", gap: 3 }}><Clock size={12} />{item.hours}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FilterChip({ active, label, onClick, icon: Icon }) {
+  return (
+    <button
+      className="ul-btn"
+      onClick={onClick}
+      style={{
+        display: "flex", alignItems: "center", gap: 6,
+        padding: "8px 14px", borderRadius: 999, fontSize: 13, fontWeight: 500,
+        background: active ? INK : CARD, color: active ? "#fff" : INK,
+        border: `1px solid ${active ? INK : "#E4E1D6"}`,
+      }}
+    >
+      {Icon && <Icon size={14} />} {label}
+    </button>
+  );
+}
+
+function HousingView({ data, favorites, toggleFav, filters, setFilters, priceMax, setPriceMax, query, setQuery, setDetail }) {
+  return (
+    <div style={{ paddingTop: 24 }}>
+      <h1 className="ul-h" style={{ fontSize: 26, marginBottom: 4 }}>Phòng trọ</h1>
+      <p style={{ color: SUBTEXT, fontSize: 14, marginBottom: 18 }}>{data.length} phòng phù hợp với bạn</p>
+
+      <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+        <input
+          value={query} onChange={(e) => setQuery(e.target.value)}
+          placeholder="Tìm theo tên phòng, khu vực..."
+          style={{ flex: 1, padding: "10px 14px", borderRadius: 10, border: "1px solid #E4E1D6", fontSize: 14, outline: "none" }}
+        />
+      </div>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", marginBottom: 22 }}>
+        <FilterChip icon={Fan} active={filters.ac} label="Máy lạnh" onClick={() => setFilters((f) => ({ ...f, ac: !f.ac }))} />
+        <FilterChip icon={WashingMachine} active={filters.washer} label="Máy giặt" onClick={() => setFilters((f) => ({ ...f, washer: !f.washer }))} />
+        <FilterChip icon={Wifi} active={filters.wifi} label="Wifi" onClick={() => setFilters((f) => ({ ...f, wifi: !f.wifi }))} />
+        <FilterChip icon={Bike} active={filters.parking} label="Chỗ để xe" onClick={() => setFilters((f) => ({ ...f, parking: !f.parking }))} />
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: "auto", fontSize: 13, color: SUBTEXT }}>
+          Giá tối đa: <b style={{ color: INK }}>{priceMax} triệu</b>
+          <input type="range" min="1" max="4" step="0.5" value={priceMax} onChange={(e) => setPriceMax(parseFloat(e.target.value))} />
+        </div>
+      </div>
+
+      {data.length === 0 ? (
+        <EmptyState text="Không tìm thấy phòng phù hợp. Thử bỏ bớt bộ lọc." />
+      ) : (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 16 }}>
+          {data.map((h) => <PlaceCard key={h.id} item={h} type="housing" favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FoodView({ favorites, toggleFav, setDetail }) {
+  const [cat, setCat] = useState("Tất cả");
+  const cats = ["Tất cả", "Cơm", "Bún", "Trà sữa", "Cafe"];
+  const filtered = cat === "Tất cả" ? foodData : foodData.filter((f) => f.cat === cat);
+  return (
+    <div style={{ paddingTop: 24 }}>
+      <h1 className="ul-h" style={{ fontSize: 26, marginBottom: 16 }}>Ăn uống</h1>
+      <div style={{ display: "flex", gap: 8, marginBottom: 22, flexWrap: "wrap" }}>
+        {cats.map((c) => <FilterChip key={c} active={cat === c} label={c} onClick={() => setCat(c)} />)}
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 16 }}>
+        {filtered.map((f) => <FoodCard key={f.id} item={f} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />)}
+      </div>
+    </div>
+  );
+}
+
+function MarketView({ favorites, toggleFav, showToast, setDetail }) {
+  return (
+    <div style={{ paddingTop: 24 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <h1 className="ul-h" style={{ fontSize: 26 }}>Mua bán</h1>
+        <button className="ul-btn" onClick={() => showToast("Đã mở form đăng sản phẩm (demo)")} style={{ background: CORAL, color: "#fff", padding: "9px 16px", borderRadius: 10, fontWeight: 600, fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+          <Plus size={15} /> Đăng sản phẩm
+        </button>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 16 }}>
+        {marketData.map((p) => <ProductCard key={p.id} item={p} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />)}
+      </div>
+    </div>
+  );
+}
+
+function EntertainmentView({ favorites, toggleFav, setDetail }) {
+  return (
+    <div style={{ paddingTop: 24 }}>
+      <h1 className="ul-h" style={{ fontSize: 26, marginBottom: 16 }}>Vui chơi</h1>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 16 }}>
+        {entertainmentData.map((e) => <EntCard key={e.id} item={e} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />)}
+      </div>
+    </div>
+  );
+}
+
+function EmptyState({ text }) {
+  return (
+    <div style={{ textAlign: "center", padding: "60px 20px", color: SUBTEXT }}>
+      <Search size={28} style={{ marginBottom: 10, opacity: 0.5 }} />
+      <div style={{ fontSize: 14 }}>{text}</div>
+    </div>
+  );
+}
+
+function DetailModal({ item, onClose, favorites, toggleFav }) {
+  const key = `${item.type}-${item.id}`;
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(22,25,46,0.55)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 200, padding: 20 }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ background: CARD, borderRadius: 16, maxWidth: 480, width: "100%", maxHeight: "85vh", overflowY: "auto" }}>
+        <div style={{ position: "relative" }}>
+          <Placeholder seed={item.img || item.name} height={190} />
+          <button onClick={onClose} className="ul-btn" style={{ position: "absolute", top: 12, right: 12, width: 30, height: 30, borderRadius: "50%", background: "rgba(255,255,255,0.95)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <X size={16} />
+          </button>
+        </div>
+        <div style={{ padding: 20 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+            <h2 className="ul-h" style={{ fontSize: 19, margin: "0 0 6px" }}>{item.name}</h2>
+            <button onClick={() => toggleFav(key)} className="ul-btn" style={{ background: "none" }}>
+              <Heart size={20} fill={favorites[key] ? CORAL : "none"} color={favorites[key] ? CORAL : INK} />
+            </button>
+          </div>
+          {item.rating && (
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+              <StarRow rating={item.rating} size={15} />
+              {item.reviews && <span style={{ fontSize: 13, color: SUBTEXT }}>({item.reviews} đánh giá)</span>}
+            </div>
+          )}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+            {item.price && <Badge bg="#FFE9C2" color="#8A5B00">{item.price}{item.area ? "/tháng" : ""}</Badge>}
+            {item.area && <Badge bg="#EEEDFE" color="#3C3489">{item.area}</Badge>}
+            {item.cond && <Badge bg="#E1F5EE" color="#085041">{item.cond}</Badge>}
+            {item.hours && <Badge bg="#FAECE7" color="#712B13">{item.hours}</Badge>}
+          </div>
+          {item.address && (
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13.5, color: SUBTEXT, marginBottom: 6 }}>
+              <MapPin size={14} /> {item.address} · {item.distance}
+            </div>
+          )}
+          {item.seller && (
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13.5, color: SUBTEXT, marginBottom: 6 }}>
+              <Users size={14} /> Người bán: {item.seller} · {item.loc}
+            </div>
+          )}
+          {(item.ac || item.washer || item.wifi || item.parking) && (
+            <div style={{ display: "flex", gap: 14, margin: "14px 0", flexWrap: "wrap" }}>
+              {item.ac && <span style={{ fontSize: 12.5, display: "flex", alignItems: "center", gap: 4 }}><Fan size={14} /> Máy lạnh</span>}
+              {item.washer && <span style={{ fontSize: 12.5, display: "flex", alignItems: "center", gap: 4 }}><WashingMachine size={14} /> Máy giặt</span>}
+              {item.wifi && <span style={{ fontSize: 12.5, display: "flex", alignItems: "center", gap: 4 }}><Wifi size={14} /> Wifi</span>}
+              {item.parking && <span style={{ fontSize: 12.5, display: "flex", alignItems: "center", gap: 4 }}><Bike size={14} /> Chỗ để xe</span>}
+            </div>
+          )}
+
+          <div style={{ borderTop: "1px solid #EEEBDF", marginTop: 16, paddingTop: 14 }}>
+            <div style={{ fontSize: 13.5, fontWeight: 700, marginBottom: 10 }}>Đánh giá gần đây</div>
+            {reviewsSample.map((r, i) => (
+              <div key={i} style={{ marginBottom: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: 13, fontWeight: 600 }}>{r.user}</span>
+                  <span style={{ fontSize: 11.5, color: SUBTEXT }}>{r.date}</span>
+                </div>
+                <StarRow rating={r.rating} size={12} />
+                <p style={{ fontSize: 13, color: SUBTEXT, margin: "3px 0 0" }}>{r.comment}</p>
+              </div>
+            ))}
+          </div>
+
+          <button className="ul-btn" style={{ width: "100%", marginTop: 8, background: INK, color: "#fff", padding: "12px", borderRadius: 10, fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <Phone size={15} /> Liên hệ ngay
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const adminStats = [
+  { label: "Người dùng", value: "2,481", icon: Users, color: "#378ADD" },
+  { label: "Phòng trọ", value: "312", icon: Building2, color: MARIGOLD },
+  { label: "Quán ăn", value: "578", icon: Utensils, color: CORAL },
+  { label: "Sản phẩm", value: "1,096", icon: ShoppingCart, color: TEAL },
+  { label: "Địa điểm vui chơi", value: "204", icon: PartyPopper, color: "#7F77DD" },
+  { label: "Đánh giá", value: "6,730", icon: Star, color: "#BA7517" },
+  { label: "Báo cáo", value: "14", icon: MessageSquareWarning, color: "#D85A30" },
+];
+
+const adminMenu = ["Users", "Housing", "Food", "Marketplace", "Entertainment", "Reviews", "Reports"];
+
+function AdminView() {
+  const [active, setActive] = useState("Users");
+  const rows = [
+    { name: "Nguyễn Văn A", role: "Student", status: "Active" },
+    { name: "Trần Thị B", role: "Provider", status: "Active" },
+    { name: "Lê Văn C", role: "Seller", status: "Banned" },
+    { name: "Phạm Thị D", role: "Student", status: "Active" },
+  ];
+  return (
+    <div style={{ paddingTop: 24, display: "flex", gap: 24 }}>
+      <aside style={{ width: 180, flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, marginBottom: 16 }}>
+          <LayoutDashboard size={18} /> Admin
+        </div>
+        {adminMenu.map((m) => (
+          <div key={m} onClick={() => setActive(m)} className="ul-tab" style={{ padding: "9px 12px", borderRadius: 8, fontSize: 13.5, fontWeight: 500, marginBottom: 4, background: active === m ? INK : "transparent", color: active === m ? "#fff" : INK }}>
+            {m}
+          </div>
+        ))}
+      </aside>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <h1 className="ul-h" style={{ fontSize: 24, marginBottom: 18 }}>Dashboard thống kê</h1>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 30 }}>
+          {adminStats.map((s) => {
+            const Icon = s.icon;
+            return (
+              <div key={s.label} style={{ background: CARD, border: "1px solid #EEEBDF", borderRadius: 12, padding: 16 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: s.color + "22", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 10 }}>
+                  <Icon size={16} color={s.color} />
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 700 }}>{s.value}</div>
+                <div style={{ fontSize: 12.5, color: SUBTEXT }}>{s.label}</div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ background: CARD, border: "1px solid #EEEBDF", borderRadius: 12, overflow: "hidden" }}>
+          <div style={{ padding: "12px 16px", borderBottom: "1px solid #EEEBDF", fontWeight: 700, fontSize: 14, display: "flex", alignItems: "center", gap: 8 }}>
+            <ShieldCheck size={16} /> Quản lý {active}
+          </div>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13.5 }}>
+            <thead>
+              <tr style={{ background: PAPER, textAlign: "left" }}>
+                <th style={{ padding: "10px 16px", fontWeight: 600, color: SUBTEXT }}>Tên</th>
+                <th style={{ padding: "10px 16px", fontWeight: 600, color: SUBTEXT }}>Vai trò</th>
+                <th style={{ padding: "10px 16px", fontWeight: 600, color: SUBTEXT }}>Trạng thái</th>
+                <th style={{ padding: "10px 16px", fontWeight: 600, color: SUBTEXT }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r, i) => (
+                <tr key={i} style={{ borderTop: "1px solid #EEEBDF" }}>
+                  <td style={{ padding: "10px 16px" }}>{r.name}</td>
+                  <td style={{ padding: "10px 16px" }}>{r.role}</td>
+                  <td style={{ padding: "10px 16px" }}>
+                    <Badge bg={r.status === "Active" ? "#E1F5EE" : "#FCEBEB"} color={r.status === "Active" ? "#085041" : "#791F1F"}>{r.status}</Badge>
+                  </td>
+                  <td style={{ padding: "10px 16px", color: "#378ADD", cursor: "pointer" }}>Chi tiết</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
