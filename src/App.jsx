@@ -6,7 +6,8 @@ import {
   BookOpen, LayoutDashboard, Users, Building2, ShoppingCart,
   MessageSquareWarning, ShieldCheck, TrendingUp, Plus, Clock, Phone,
   ArrowRight, Sparkles, Send, CheckCircle2, Bookmark, ExternalLink,
-  SlidersHorizontal, Coffee, FileText, Share2, AlertCircle, Info
+  SlidersHorizontal, Coffee, FileText, Share2, AlertCircle, Info,
+  LogIn, LogOut, User, UserPlus, Lock, Mail
 } from "lucide-react";
 import "./App.css";
 
@@ -47,7 +48,7 @@ const initialHousing = [
     phone: "0905.123.456",
     host: "Cô Tư Quản Trọ",
     desc: "Phòng mới sơn sửa, giờ giấc tự do, có gác lửng đúc chắc chắn, khu an ninh cao cho sinh viên.",
-    img: "room1"
+    img: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 2,
@@ -66,7 +67,7 @@ const initialHousing = [
     phone: "0912.345.678",
     host: "Anh Hoàng BQL",
     desc: "Căn hộ mini cao cấp có khóa vân tay, camera 24/7, máy giặt riêng từng phòng, ban công thoáng gió.",
-    img: "room2"
+    img: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 3,
@@ -85,7 +86,7 @@ const initialHousing = [
     phone: "0988.765.432",
     host: "Bác Năm",
     desc: "Phòng trọ mát mẻ yên tĩnh, điện nước giá nhà nước quy định cho sinh viên, chủ nhà hiền hậu.",
-    img: "room3"
+    img: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 4,
@@ -104,7 +105,7 @@ const initialHousing = [
     phone: "0934.567.890",
     host: "Chị Lan Anh",
     desc: "Tìm 1 bạn sinh viên ở ghép phòng master, đã có sẵn tủ lạnh, máy lạnh, bếp từ, chỉ cần dọn vali vào.",
-    img: "room4"
+    img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 5,
@@ -123,7 +124,7 @@ const initialHousing = [
     phone: "0977.112.233",
     host: "Hệ thống SleepBox UniZone",
     desc: "Bao trọn chi phí điện nước, wifi tốc độ cao, có rèm che riêng tư, tủ đồ cá nhân khóa số.",
-    img: "room5"
+    img: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 6,
@@ -142,7 +143,7 @@ const initialHousing = [
     phone: "0966.889.900",
     host: "Chú Bình",
     desc: "Nhà mới xây xong 100%, gác cao đứng không đụng đầu, bếp riêng tách biệt không lo ám mùi.",
-    img: "room6"
+    img: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=600&q=80"
   }
 ];
 
@@ -160,7 +161,7 @@ const initialFood = [
     address: "Hẻm 45 ĐH Bách Khoa",
     tag: "Quán ruột sinh viên",
     desc: "Cơm thêm miễn phí, trà đá free thoải mái, sườn ướp mật ong đậm đà nóng hổi.",
-    img: "food1"
+    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 2,
@@ -175,7 +176,7 @@ const initialFood = [
     address: "12 Đại lộ Trường Đại Học",
     tag: "Giảm 20% thẻ SV",
     desc: "Không gian máy lạnh 2 tầng ngồi làm bài tập nhóm cực êm, ổ cắm điện trang bị tận bàn.",
-    img: "food2"
+    img: "https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 3,
@@ -190,7 +191,7 @@ const initialFood = [
     address: "88 Đường số 6",
     tag: "Đông khách buổi sáng",
     desc: "Tô bún đầy đặn giò, nạm, chả cua, rau sống tươi sạch xin thêm thoải mái.",
-    img: "food3"
+    img: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 4,
@@ -205,7 +206,7 @@ const initialFood = [
     address: "Góc ngã ba khu Ký Túc Xá",
     tag: "Chuyên cày Deadline",
     desc: "Mở xuyên đêm cho mùa đồ án, wifi cáp quang 300Mbps, không gian tĩnh lặng có khu vực thảo luận nhóm riêng.",
-    img: "food4"
+    img: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 5,
@@ -220,7 +221,7 @@ const initialFood = [
     address: "24 Đường Nhà Thờ",
     tag: "Bổ rẻ no lâu",
     desc: "Chảo sốt xèo xèo pate béo ngậy kèm bánh mì giòn tan, dưa leo xà lách tươi sạch.",
-    img: "food5"
+    img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 6,
@@ -235,7 +236,7 @@ const initialFood = [
     address: "Khu chợ đêm sinh viên",
     tag: "Tụ tập liên hoan",
     desc: "Món tủ của sinh viên khi họp lớp hoặc mừng qua môn, đồ nhúng phong phú tươi ngon.",
-    img: "food6"
+    img: "https://images.unsplash.com/photo-1547928576-a4a33237cbc3?auto=format&fit=crop&w=600&q=80"
   }
 ];
 
@@ -245,72 +246,72 @@ const initialMarket = [
     name: "Bộ Giáo trình Giải tích 1 & 2 + Bài tập có lời giải",
     price: "45.000đ",
     cond: "Đã dùng - 95%",
-    seller: "Nguyễn Minh Anh (K23)",
+    seller: "Nguyễn Minh Anh",
     phone: "0918.234.567",
     loc: "Ký túc xá ĐHQG",
     cat: "Sách",
     desc: "Sách còn rất mới, đã highlight các dạng bài trọng tâm hay ra đề thi giữa kỳ và cuối kỳ.",
-    img: "prod1"
+    img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 2,
     name: "Laptop Dell Inspiron 15 Core i5 16GB RAM đồ họa mượt",
     price: "7.800.000đ",
     cond: "Đã dùng - 90%",
-    seller: "Trần Quốc Huy (K22)",
+    seller: "Trần Quốc Huy",
     phone: "0919.345.678",
     loc: "Q.5, gần ĐH Sư Phạm",
     cat: "Đồ công nghệ",
     desc: "Máy dùng vẽ AutoCAD, Photoshop và code web rất tốt, pin còn 3-4 tiếng, tặng kèm chuột không dây và túi chống sốc.",
-    img: "prod2"
+    img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 3,
     name: "Xe đạp thể thao Martin đi học tiết kiệm xăng",
     price: "850.000đ",
     cond: "Đã dùng - tốt",
-    seller: "Lê Thảo Vy (K24)",
+    seller: "Lê Thảo Vy",
     phone: "0920.456.789",
     loc: "Q. Bình Thạnh",
     cat: "Phương tiện",
     desc: "Xe chạy êm ru, líp xích mới thay dầu, có sẵn giỏ xe đựng cặp và khóa số chống trộm tặng kèm.",
-    img: "prod3"
+    img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 4,
     name: "Máy tính cầm tay Casio FX-580VN X chính hãng",
     price: "320.000đ",
     cond: "Đã dùng - như mới",
-    seller: "Đặng Tuấn Kiệt (K24)",
+    seller: "Đặng Tuấn Kiệt",
     phone: "0921.567.890",
     loc: "Q. Thủ Đức",
     cat: "Dụng cụ học tập",
     desc: "Còn nguyên tem bảo hành Bitex, đầy đủ nắp trượt, màn hình sáng rõ không điểm chết.",
-    img: "prod4"
+    img: "https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 5,
     name: "Bàn học gấp gọn sinh viên + Đèn LED chống cận",
     price: "120.000đ",
     cond: "Mới 98%",
-    seller: "Phạm Thu Trang (K23)",
+    seller: "Phạm Thu Trang",
     phone: "0922.678.901",
     loc: "Quận 10",
     cat: "Nội thất",
     desc: "Bàn có rãnh để iPad và khay đựng ly nước tiện dụng khi học bài trên giường hoặc trên gác lửng.",
-    img: "prod5"
+    img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 6,
     name: "Ấm đun siêu tốc inox 1.8L Sunhouse",
     price: "80.000đ",
     cond: "Đang dùng tốt",
-    seller: "Hoàng Đức Nam (K22)",
+    seller: "Hoàng Đức Nam",
     phone: "0923.789.012",
     loc: "Thủ Đức",
     cat: "Gia dụng",
     desc: "Sôi nhanh 3 phút tự ngắt an toàn, thích hợp nấu mì gói đêm khuya cày đồ án.",
-    img: "prod6"
+    img: "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?auto=format&fit=crop&w=600&q=80"
   }
 ];
 
@@ -326,7 +327,8 @@ const initialEntertainment = [
     hours: "Mở 24/7 cả ngày đêm",
     phone: "028.3888.999",
     address: "Số 15 Đường số 3, gần làng ĐH",
-    desc: "Dàn máy RTX 4060, ghế gaming êm ái, phòng máy lạnh không khói thuốc, menu đồ ăn đêm phong phú."
+    desc: "Dàn máy RTX 4060, ghế gaming êm ái, phòng máy lạnh không khói thuốc, menu đồ ăn đêm phong phú.",
+    img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 2,
@@ -339,7 +341,8 @@ const initialEntertainment = [
     hours: "09:00 - 24:00",
     phone: "0938.112.244",
     address: "45/2 Hoàng Diệu 2",
-    desc: "Phòng cách âm chất lượng cao, màn hình cảm ứng chọn bài Youtube cực nhanh, địa điểm xả stress tuyệt vời sau thi cử."
+    desc: "Phòng cách âm chất lượng cao, màn hình cảm ứng chọn bài Youtube cực nhanh, địa điểm xả stress tuyệt vời sau thi cử.",
+    img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 3,
@@ -352,7 +355,8 @@ const initialEntertainment = [
     hours: "08:30 - 02:00",
     phone: "0939.223.355",
     address: "Đường số 9, Linh Tây",
-    desc: "Bàn Min chuẩn thi đấu, cơ libre & carom mới thay đầu, không gian thoáng đãng có trà đá miễn phí."
+    desc: "Bàn Min chuẩn thi đấu, cơ libre & carom mới thay đầu, không gian thoáng đãng có trà đá miễn phí.",
+    img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 4,
@@ -366,7 +370,8 @@ const initialEntertainment = [
     phone: "0940.334.466",
     address: "Nhà thi đấu ĐH Bách Khoa",
     tag: "Ưu đãi sinh viên",
-    desc: "Mặt thảm chuẩn thi đấu, đèn LED chống chói mắt, có cho thuê vợt và bán cầu giá rẻ cho sinh viên."
+    desc: "Mặt thảm chuẩn thi đấu, đèn LED chống chói mắt, có cho thuê vợt và bán cầu giá rẻ cho sinh viên.",
+    img: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80"
   }
 ];
 
@@ -429,7 +434,25 @@ function StarRow({ rating, size = 14 }) {
 }
 
 function Placeholder({ seed, height = 140, text = "UniLife" }) {
-  const hue = Array.from(String(seed)).reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
+  const isUrl = typeof seed === "string" && (seed.startsWith("http://") || seed.startsWith("https://") || seed.startsWith("/"));
+  if (isUrl) {
+    return (
+      <div style={{ height, width: "100%", overflow: "hidden", position: "relative", borderRadius: "10px 10px 0 0" }}>
+        <img
+          src={seed}
+          alt={text}
+          loading="lazy"
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.3s ease" }}
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 60%)", pointerEvents: "none" }} />
+      </div>
+    );
+  }
+
+  const hue = Array.from(String(seed || "UniLife")).reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
   return (
     <div
       style={{
@@ -451,7 +474,7 @@ function Placeholder({ seed, height = 140, text = "UniLife" }) {
         <Sparkles size={16} />
         <span>{text}</span>
       </div>
-      <span style={{ fontSize: 11, fontWeight: 500, opacity: 0.65, marginTop: 2 }}>Hình ảnh thực tế xác thực</span>
+      <span style={{ fontSize: 11, fontWeight: 500, opacity: 0.65, marginTop: 2 }}>UniLife Community</span>
     </div>
   );
 }
@@ -511,6 +534,12 @@ const TAB_TITLES = {
   home: "Trang chủ", housing: "Phòng trọ", food: "Ăn uống", market: "Chợ đồ cũ",
   entertainment: "Vui chơi", study: "Góc học tập", favorites: "Yêu thích", admin: "Quản trị",
 };
+
+const initialUsers = [
+  { id: 1, name: "Ban Quản Trị", role: "Quản trị viên", email: "admin@unilife.vn", password: "admin123", status: "Active", phone: "0901.111.222" },
+  { id: 2, name: "Nguyễn Văn Khang", role: "Khách hàng", email: "khachhang@gmail.com", password: "123456", status: "Active", phone: "0905.888.999" },
+  { id: 3, name: "Trần Thị Bích", role: "Khách hàng", email: "bich.tran@gmail.com", password: "123456", status: "Active", phone: "0908.777.666" }
+];
 
 const readTabFromHash = () => {
   const h = window.location.hash.replace(/^#\/?/, "");
@@ -1164,9 +1193,13 @@ function EntCard({ item, favorites, toggleFav, setDetail }) {
   return (
     <div className="ul-card" style={{ background: CARD, borderRadius: 14, overflow: "hidden", border: "1px solid #ECE7D8", cursor: "pointer" }} onClick={() => setDetail({ ...item, type: "entertainment" })}>
       <div style={{ position: "relative" }}>
-        <div style={{ height: 140, background: "linear-gradient(135deg, #7F77DD20, #7F77DD40)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Icon size={38} color="#534AB7" />
-        </div>
+        {item.img ? (
+          <Placeholder seed={item.img} height={140} text={item.name} />
+        ) : (
+          <div style={{ height: 140, background: "linear-gradient(135deg, #7F77DD20, #7F77DD40)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Icon size={38} color="#534AB7" />
+          </div>
+        )}
         <FavButton active={!!favorites[key]} onClick={(e) => { e.stopPropagation(); toggleFav(key); }} />
         <div style={{ position: "absolute", bottom: 8, left: 8 }}>
           <Badge bg="#534AB7" color="#fff">{item.cat}</Badge>
@@ -2195,6 +2228,265 @@ function EmptyState({ text }) {
     <div style={{ textAlign: "center", padding: "60px 20px", color: SUBTEXT, background: CARD, borderRadius: 16, border: "1px dashed #E0DCD0", margin: "20px 0" }}>
       <Search size={32} style={{ marginBottom: 12, opacity: 0.4 }} />
       <div style={{ fontSize: 14.5, fontWeight: 500, maxWidth: 400, margin: "0 auto" }}>{text}</div>
+    </div>
+  );
+}
+
+// --- AUTH MODAL (ĐĂNG NHẬP / ĐĂNG KÝ KHÁCH HÀNG & ADMIN) ---
+function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, showToast }) {
+  const [mode, setMode] = useState("login");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+
+  const [regName, setRegName] = useState("");
+  const [regEmail, setRegEmail] = useState("");
+  const [regPassword, setRegPassword] = useState("");
+  const [regPhone, setRegPhone] = useState("");
+  const [regRole, setRegRole] = useState("Khách hàng");
+
+  if (!isOpen) return null;
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setLoginError("");
+
+    const user = users.find((u) => u.email.trim().toLowerCase() === loginEmail.trim().toLowerCase());
+
+    if (!user) {
+      setLoginError("Không tìm thấy tài khoản với email này trên hệ thống.");
+      return;
+    }
+
+    if (user.password !== loginPassword) {
+      setLoginError("Mật khẩu không chính xác. Vui lòng kiểm tra lại.");
+      return;
+    }
+
+    if (user.status === "Banned") {
+      setLoginError("Tài khoản của bạn đã bị khóa. Vui lòng liên hệ ban quản trị.");
+      return;
+    }
+
+    onLoginSuccess(user);
+    showToast(`Chào mừng ${user.name}! Đăng nhập thành công (${user.role}).`);
+    onClose();
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    setLoginError("");
+
+    const exists = users.find((u) => u.email.trim().toLowerCase() === regEmail.trim().toLowerCase());
+    if (exists) {
+      setLoginError("Email này đã được sử dụng. Vui lòng chọn email khác.");
+      return;
+    }
+
+    const newUser = {
+      id: Date.now(),
+      name: regName.trim(),
+      email: regEmail.trim(),
+      password: regPassword,
+      phone: regPhone || "0900.000.000",
+      role: regRole, // "Khách hàng"
+      status: "Active"
+    };
+
+    onRegister(newUser);
+    onLoginSuccess(newUser);
+    showToast(`Đăng ký thành công! Chào mừng khách hàng ${newUser.name}.`);
+    onClose();
+  };
+
+  const quickFill = (email, pass) => {
+    setLoginEmail(email);
+    setLoginPassword(pass);
+    setLoginError("");
+  };
+
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(22,25,46,0.65)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 350, padding: 20 }}>
+      <div onClick={(e) => e.stopPropagation()} className="animate-modal-in" style={{ background: CARD, borderRadius: 18, maxWidth: 440, width: "100%", padding: "26px 24px", boxShadow: "0 20px 45px rgba(0,0,0,0.25)" }}>
+        {/* HEADER */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(255,93,62,0.12)", color: CORAL, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {mode === "login" ? <LogIn size={20} /> : <UserPlus size={20} />}
+            </div>
+            <div>
+              <h2 className="ul-h" style={{ fontSize: 18, margin: 0, fontWeight: 700 }}>
+                {mode === "login" ? "Đăng nhập tài khoản" : "Đăng ký tài khoản khách hàng"}
+              </h2>
+              <span style={{ fontSize: 12, color: SUBTEXT }}>Nền tảng sinh viên UniLife</span>
+            </div>
+          </div>
+          <button onClick={onClose} className="ul-btn" style={{ background: "none" }}><X size={20} /></button>
+        </div>
+
+        {/* TABS CHỌN ĐĂNG NHẬP / ĐĂNG KÝ */}
+        <div style={{ display: "flex", background: PAPER, borderRadius: 10, padding: 4, marginBottom: 18 }}>
+          <button
+            onClick={() => { setMode("login"); setLoginError(""); }}
+            style={{
+              flex: 1, padding: "8px", border: "none", borderRadius: 8, fontSize: 13.5, fontWeight: 600, cursor: "pointer",
+              background: mode === "login" ? INK : "transparent",
+              color: mode === "login" ? "#fff" : SUBTEXT
+            }}
+          >
+            Đăng nhập
+          </button>
+          <button
+            onClick={() => { setMode("register"); setLoginError(""); }}
+            style={{
+              flex: 1, padding: "8px", border: "none", borderRadius: 8, fontSize: 13.5, fontWeight: 600, cursor: "pointer",
+              background: mode === "register" ? INK : "transparent",
+              color: mode === "register" ? "#fff" : SUBTEXT
+            }}
+          >
+            Đăng ký (Khách hàng)
+          </button>
+        </div>
+
+        {/* FORM ĐĂNG NHẬP */}
+        {mode === "login" && (
+          <form onSubmit={handleLogin} style={{ display: "grid", gap: 13 }}>
+            {loginError && (
+              <div style={{ background: "#FCEBEB", border: "1px solid #F7C5C5", padding: "10px 14px", borderRadius: 10, color: "#791F1F", fontSize: 13, display: "flex", gap: 8, alignItems: "center" }}>
+                <AlertCircle size={17} style={{ flexShrink: 0 }} />
+                <span>{loginError}</span>
+              </div>
+            )}
+
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 5 }}>Email tài khoản</label>
+              <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                <Mail size={16} color={SUBTEXT} style={{ position: "absolute", left: 12 }} />
+                <input
+                  required
+                  type="email"
+                  placeholder="name@gmail.com"
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
+                  style={{ width: "100%", padding: "10px 12px 10px 38px", borderRadius: 10, border: "1px solid #E0DCD0", fontSize: 14, outline: "none" }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 5 }}>Mật khẩu</label>
+              <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                <Lock size={16} color={SUBTEXT} style={{ position: "absolute", left: 12 }} />
+                <input
+                  required
+                  type="password"
+                  placeholder="Nhập mật khẩu..."
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  style={{ width: "100%", padding: "10px 12px 10px 38px", borderRadius: 10, border: "1px solid #E0DCD0", fontSize: 14, outline: "none" }}
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="ul-btn" style={{ background: INK, color: "#fff", padding: "12px", borderRadius: 10, fontWeight: 700, fontSize: 14.5, marginTop: 4 }}>
+              Đăng nhập ngay
+            </button>
+
+            {/* TÀI KHOẢN MẪU ĐỂ TEST */}
+            <div style={{ borderTop: "1px dashed #E0DCD0", paddingTop: 14, marginTop: 6 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: SUBTEXT, marginBottom: 8 }}>
+                ⚡ Tài khoản có sẵn để trải nghiệm:
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                <button
+                  type="button"
+                  onClick={() => quickFill("khachhang@gmail.com", "123456")}
+                  className="ul-btn"
+                  style={{ background: "#E8F2FA", color: "#266FB5", padding: "8px 10px", borderRadius: 8, fontSize: 12, fontWeight: 700, textAlign: "left" }}
+                >
+                  👤 Khách hàng (User)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => quickFill("admin@unilife.vn", "admin123")}
+                  className="ul-btn"
+                  style={{ background: "#FFE9C2", color: "#8A5B00", padding: "8px 10px", borderRadius: 8, fontSize: 12, fontWeight: 700, textAlign: "left" }}
+                >
+                  🛡️ Quản trị viên (Admin)
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
+
+        {/* FORM ĐĂNG KÝ KHÁCH HÀNG */}
+        {mode === "register" && (
+          <form onSubmit={handleRegister} style={{ display: "grid", gap: 12 }}>
+            <div style={{ background: "rgba(14,124,102,0.08)", border: "1px solid rgba(14,124,102,0.2)", padding: "8px 12px", borderRadius: 8, fontSize: 12, color: TEAL }}>
+              ℹ️ Tài khoản đăng ký mới là <b>Khách hàng</b>, sử dụng đầy đủ mọi tính năng mua sắm, tìm trọ, quán ăn, nhắn tin (không có quyền can thiệp hệ thống như Admin).
+            </div>
+
+            {loginError && (
+              <div style={{ background: "#FCEBEB", border: "1px solid #F7C5C5", padding: "8px 12px", borderRadius: 8, color: "#791F1F", fontSize: 12.5 }}>
+                {loginError}
+              </div>
+            )}
+
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Họ và tên *</label>
+              <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                <User size={15} color={SUBTEXT} style={{ position: "absolute", left: 12 }} />
+                <input
+                  required
+                  placeholder="Ví dụ: Nguyễn Văn Khang"
+                  value={regName}
+                  onChange={(e) => setRegName(e.target.value)}
+                  style={{ width: "100%", padding: "9px 12px 9px 36px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 13.5 }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <div>
+                <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Email đăng ký *</label>
+                <input
+                  required
+                  type="email"
+                  placeholder="email@gmail.com"
+                  value={regEmail}
+                  onChange={(e) => setRegEmail(e.target.value)}
+                  style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 13.5 }}
+                />
+              </div>
+              <div>
+                <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Số điện thoại</label>
+                <input
+                  placeholder="09xx.xxx.xxx"
+                  value={regPhone}
+                  onChange={(e) => setRegPhone(e.target.value)}
+                  style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 13.5 }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Mật khẩu *</label>
+              <input
+                required
+                type="password"
+                placeholder="Tối thiểu 6 ký tự"
+                value={regPassword}
+                onChange={(e) => setRegPassword(e.target.value)}
+                style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 13.5 }}
+              />
+            </div>
+
+            <button type="submit" className="ul-btn" style={{ background: CORAL, color: "#fff", padding: "12px", borderRadius: 10, fontWeight: 700, fontSize: 14, marginTop: 4 }}>
+              Tạo tài khoản khách hàng
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
