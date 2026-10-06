@@ -665,6 +665,7 @@ export default function App() {
   // Lọc phòng trọ
   const filteredHousing = useMemo(() => {
     return housingList.filter((h) => {
+      if (h.status === "hidden") return false;
       if (h.priceNum > priceMax) return false;
       if (housingFilters.ac && !h.ac) return false;
       if (housingFilters.washer && !h.washer) return false;
@@ -679,6 +680,9 @@ export default function App() {
   const favCount = useMemo(() => {
     return Object.values(favorites).filter(Boolean).length;
   }, [favorites]);
+
+  const publicFood = useMemo(() => foodList.filter((f) => f.status !== "hidden"), [foodList]);
+  const publicMarket = useMemo(() => marketList.filter((m) => m.status !== "hidden"), [marketList]);
 
   const navItems = [
     { id: "home", label: "Trang chủ" },
@@ -888,12 +892,12 @@ export default function App() {
         )}
         {tab === "food" && (
           <FoodView
-            data={foodList} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail}
+            data={publicFood} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail}
           />
         )}
         {tab === "market" && (
           <MarketView
-            data={marketList} favorites={favorites} toggleFav={toggleFav}
+            data={publicMarket} favorites={favorites} toggleFav={toggleFav}
             setDetail={setDetail} onOpenAddModal={() => setShowAddMarketModal(true)}
           />
         )}
@@ -921,8 +925,11 @@ export default function App() {
               setUsers={setUsers}
               currentUser={currentUser}
               housingList={housingList}
+              setHousingList={setHousingList}
               foodList={foodList}
+              setFoodList={setFoodList}
               marketList={marketList}
+              setMarketList={setMarketList}
               showToast={showToast}
             />
           ) : (
@@ -1714,13 +1721,70 @@ const adminStats = [
 
 const adminMenu = ["Users", "Housing", "Food", "Marketplace", "Reports"];
 
-function AdminView({ users, setUsers, currentUser, housingList, foodList, marketList, showToast }) {
+function AdminView({ users, setUsers, currentUser, housingList, setHousingList, foodList, setFoodList, marketList, setMarketList, showToast }) {
   const [active, setActive] = useState("Users");
   const [userSearch, setUserSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
   const activeCount = users.filter((u) => u.status === "Active").length;
   const bannedCount = users.filter((u) => u.status === "Banned").length;
+
+  const toggleHousingStatus = (id) => {
+    setHousingList(housingList.map((h) => {
+      if (h.id === id) {
+        const nextStatus = h.status === "hidden" ? "approved" : "hidden";
+        showToast(nextStatus === "approved" ? `Đã duyệt hiển thị bài phòng trọ "${h.name}"! ✅` : `Đã ẩn bài phòng trọ "${h.name}"! 🔒`);
+        return { ...h, status: nextStatus };
+      }
+      return h;
+    }));
+  };
+
+  const deleteHousingPost = (id) => {
+    const item = housingList.find((h) => h.id === id);
+    if (!item) return;
+    if (!window.confirm(`Bạn có chắc chắn muốn XÓA VĨNH VIỄN bài đăng phòng trọ "${item.name}"?`)) return;
+    setHousingList(housingList.filter((h) => h.id !== id));
+    showToast(`Đã xóa bài đăng phòng trọ "${item.name}"! 🗑️`);
+  };
+
+  const toggleMarketStatus = (id) => {
+    setMarketList(marketList.map((m) => {
+      if (m.id === id) {
+        const nextStatus = m.status === "hidden" ? "approved" : "hidden";
+        showToast(nextStatus === "approved" ? `Đã duyệt tin chợ đồ cũ "${m.name}"! ✅` : `Đã ẩn tin đăng "${m.name}"! 🔒`);
+        return { ...m, status: nextStatus };
+      }
+      return m;
+    }));
+  };
+
+  const deleteMarketPost = (id) => {
+    const item = marketList.find((m) => m.id === id);
+    if (!item) return;
+    if (!window.confirm(`Bạn có chắc chắn muốn XÓA VĨNH VIỄN sản phẩm "${item.name}" khỏi chợ?`)) return;
+    setMarketList(marketList.filter((m) => m.id !== id));
+    showToast(`Đã xóa sản phẩm "${item.name}"! 🗑️`);
+  };
+
+  const toggleFoodStatus = (id) => {
+    setFoodList(foodList.map((f) => {
+      if (f.id === id) {
+        const nextStatus = f.status === "hidden" ? "approved" : "hidden";
+        showToast(nextStatus === "approved" ? `Đã duyệt hiển thị quán "${f.name}"! ✅` : `Đã ẩn quán "${f.name}"! 🔒`);
+        return { ...f, status: nextStatus };
+      }
+      return f;
+    }));
+  };
+
+  const deleteFoodPost = (id) => {
+    const item = foodList.find((f) => f.id === id);
+    if (!item) return;
+    if (!window.confirm(`Bạn có chắc chắn muốn XÓA VĨNH VIỄN quán ăn "${item.name}"?`)) return;
+    setFoodList(foodList.filter((f) => f.id !== id));
+    showToast(`Đã xóa quán ăn "${item.name}"! 🗑️`);
+  };
 
   const filteredUsers = useMemo(() => {
     return users.filter((u) => {
@@ -1984,47 +2048,205 @@ function AdminView({ users, setUsers, currentUser, housingList, foodList, market
           )}
 
           {active === "Housing" && (
-            <div style={{ padding: 16 }}>
-              <div style={{ marginBottom: 12, fontSize: 13, color: SUBTEXT }}>Danh sách {housingList.length} phòng trọ đã kiểm duyệt hiển thị trên sàn:</div>
-              {housingList.map((h) => (
-                <div key={h.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid #F0ECE0" }}>
-                  <div>
-                    <div style={{ fontWeight: 600, fontSize: 14 }}>{h.name}</div>
-                    <div style={{ fontSize: 12, color: SUBTEXT }}>{h.price} · {h.address}</div>
-                  </div>
-                  <Badge bg="#E1F5EE" color="#085041">Đã kiểm duyệt</Badge>
+            <div style={{ padding: 18 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                <div style={{ fontSize: 14, fontWeight: 700 }}>
+                  Kiểm duyệt bài đăng Phòng trọ ({housingList.length} tin)
                 </div>
-              ))}
+                <div style={{ fontSize: 12, color: SUBTEXT }}>
+                  Admin có quyền duyệt hiển thị, tạm ẩn hoặc xóa bài vi phạm.
+                </div>
+              </div>
+              <div style={{ display: "grid", gap: 10 }}>
+                {housingList.map((h) => (
+                  <div key={h.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 14px", background: PAPER, borderRadius: 12, border: "1px solid #ECE7D8", gap: 14, flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, minWidth: 240 }}>
+                      <img
+                        src={h.img || "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=150&q=80"}
+                        alt={h.name}
+                        style={{ width: 48, height: 48, borderRadius: 8, objectFit: "cover" }}
+                      />
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: 14, color: INK }}>{h.name}</div>
+                        <div style={{ fontSize: 12, color: SUBTEXT }}>{h.price} · {h.address}</div>
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <Badge bg={h.status === "hidden" ? "#FCEBEB" : "#E1F5EE"} color={h.status === "hidden" ? "#791F1F" : "#085041"}>
+                        {h.status === "hidden" ? "🔴 Đã ẩn / Khóa" : "🟢 Đã duyệt (Hiển thị)"}
+                      </Badge>
+                      <button
+                        className="ul-btn"
+                        onClick={() => toggleHousingStatus(h.id)}
+                        style={{
+                          background: h.status === "hidden" ? "#E1F5EE" : "rgba(0,0,0,0.06)",
+                          color: h.status === "hidden" ? "#085041" : INK,
+                          padding: "6px 12px",
+                          borderRadius: 8,
+                          fontSize: 12.5,
+                          fontWeight: 600,
+                          border: "none"
+                        }}
+                      >
+                        {h.status === "hidden" ? "Duyệt hiển thị" : "Tạm ẩn bài"}
+                      </button>
+                      <button
+                        className="ul-btn"
+                        onClick={() => deleteHousingPost(h.id)}
+                        title="Xóa vĩnh viễn bài đăng phòng trọ này"
+                        style={{
+                          background: "rgba(224,90,71,0.12)",
+                          color: CORAL,
+                          padding: "6px 10px",
+                          borderRadius: 8,
+                          border: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
           {active === "Marketplace" && (
-            <div style={{ padding: 16 }}>
-              <div style={{ marginBottom: 12, fontSize: 13, color: SUBTEXT }}>Danh sách {marketList.length} tin đăng chợ đồ cũ sinh viên:</div>
-              {marketList.map((m) => (
-                <div key={m.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid #F0ECE0" }}>
-                  <div>
-                    <div style={{ fontWeight: 600, fontSize: 14 }}>{m.name}</div>
-                    <div style={{ fontSize: 12, color: SUBTEXT }}>{m.price} · Người đăng: {m.seller} ({m.phone})</div>
-                  </div>
-                  <Badge bg="#E8F2FA" color="#266FB5">Đang hiển thị</Badge>
+            <div style={{ padding: 18 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                <div style={{ fontSize: 14, fontWeight: 700 }}>
+                  Kiểm duyệt tin đăng Chợ đồ cũ ({marketList.length} tin)
                 </div>
-              ))}
+                <div style={{ fontSize: 12, color: SUBTEXT }}>
+                  Kiểm tra tin đăng bán sách vở, giáo trình, thiết bị sinh viên.
+                </div>
+              </div>
+              <div style={{ display: "grid", gap: 10 }}>
+                {marketList.map((m) => (
+                  <div key={m.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 14px", background: PAPER, borderRadius: 12, border: "1px solid #ECE7D8", gap: 14, flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, minWidth: 240 }}>
+                      <img
+                        src={m.img || "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=150&q=80"}
+                        alt={m.name}
+                        style={{ width: 48, height: 48, borderRadius: 8, objectFit: "cover" }}
+                      />
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: 14, color: INK }}>{m.name}</div>
+                        <div style={{ fontSize: 12, color: SUBTEXT }}>
+                          {m.price} · Người đăng: <b>{m.seller}</b> ({m.phone})
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <Badge bg={m.status === "hidden" ? "#FCEBEB" : "#E8F2FA"} color={m.status === "hidden" ? "#791F1F" : "#266FB5"}>
+                        {m.status === "hidden" ? "🔴 Đã ẩn / Khóa" : "🟢 Đã duyệt (Hiển thị)"}
+                      </Badge>
+                      <button
+                        className="ul-btn"
+                        onClick={() => toggleMarketStatus(m.id)}
+                        style={{
+                          background: m.status === "hidden" ? "#E8F2FA" : "rgba(0,0,0,0.06)",
+                          color: m.status === "hidden" ? "#266FB5" : INK,
+                          padding: "6px 12px",
+                          borderRadius: 8,
+                          fontSize: 12.5,
+                          fontWeight: 600,
+                          border: "none"
+                        }}
+                      >
+                        {m.status === "hidden" ? "Duyệt hiển thị" : "Tạm ẩn bài"}
+                      </button>
+                      <button
+                        className="ul-btn"
+                        onClick={() => deleteMarketPost(m.id)}
+                        title="Xóa vĩnh viễn tin đăng này khỏi chợ"
+                        style={{
+                          background: "rgba(224,90,71,0.12)",
+                          color: CORAL,
+                          padding: "6px 10px",
+                          borderRadius: 8,
+                          border: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
           {active === "Food" && (
-            <div style={{ padding: 16 }}>
-              <div style={{ marginBottom: 12, fontSize: 13, color: SUBTEXT }}>Danh sách {foodList.length} quán ăn đã xác minh vệ sinh & giá:</div>
-              {foodList.map((f) => (
-                <div key={f.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid #F0ECE0" }}>
-                  <div>
-                    <div style={{ fontWeight: 600, fontSize: 14 }}>{f.name}</div>
-                    <div style={{ fontSize: 12, color: SUBTEXT }}>{f.cat} · {f.price} · {f.address}</div>
-                  </div>
-                  <Badge bg="#FFF0D4" color="#8A5B00">Uy tín</Badge>
+            <div style={{ padding: 18 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                <div style={{ fontSize: 14, fontWeight: 700 }}>
+                  Kiểm duyệt Quán ăn sinh viên ({foodList.length} quán)
                 </div>
-              ))}
+                <div style={{ fontSize: 12, color: SUBTEXT }}>
+                  Duyệt hoặc loại bỏ quán ăn không đạt chuẩn vệ sinh an toàn.
+                </div>
+              </div>
+              <div style={{ display: "grid", gap: 10 }}>
+                {foodList.map((f) => (
+                  <div key={f.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 14px", background: PAPER, borderRadius: 12, border: "1px solid #ECE7D8", gap: 14, flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, minWidth: 240 }}>
+                      <img
+                        src={f.img || "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=150&q=80"}
+                        alt={f.name}
+                        style={{ width: 48, height: 48, borderRadius: 8, objectFit: "cover" }}
+                      />
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: 14, color: INK }}>{f.name}</div>
+                        <div style={{ fontSize: 12, color: SUBTEXT }}>{f.cat} · {f.price} · {f.address}</div>
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <Badge bg={f.status === "hidden" ? "#FCEBEB" : "#FFF0D4"} color={f.status === "hidden" ? "#791F1F" : "#8A5B00"}>
+                        {f.status === "hidden" ? "🔴 Đã ẩn / Tắt" : "🟢 Đã duyệt"}
+                      </Badge>
+                      <button
+                        className="ul-btn"
+                        onClick={() => toggleFoodStatus(f.id)}
+                        style={{
+                          background: f.status === "hidden" ? "#FFF0D4" : "rgba(0,0,0,0.06)",
+                          color: f.status === "hidden" ? "#8A5B00" : INK,
+                          padding: "6px 12px",
+                          borderRadius: 8,
+                          fontSize: 12.5,
+                          fontWeight: 600,
+                          border: "none"
+                        }}
+                      >
+                        {f.status === "hidden" ? "Duyệt hiển thị" : "Tạm ẩn quán"}
+                      </button>
+                      <button
+                        className="ul-btn"
+                        onClick={() => deleteFoodPost(f.id)}
+                        title="Xóa vĩnh viễn quán ăn này khỏi hệ thống"
+                        style={{
+                          background: "rgba(224,90,71,0.12)",
+                          color: CORAL,
+                          padding: "6px 10px",
+                          borderRadius: 8,
+                          border: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -3169,8 +3391,40 @@ function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, showToa
               />
             </div>
 
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 6 }}>
+                Chọn loại tài khoản đăng ký: *
+              </label>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                {[
+                  { id: "Khách hàng", label: "🎓 Khách hàng / Sinh viên", desc: "Tìm trọ, ăn uống, mua sắm" },
+                  { id: "Chủ nhà trọ", label: "🏠 Chủ nhà trọ", desc: "Đăng tin cho thuê phòng" },
+                  { id: "Chủ quán ăn", label: "🍜 Chủ quán ăn", desc: "Quảng bá quán ăn ngon" },
+                  { id: "Người bán đồ cũ", label: "📦 Người bán đồ cũ", desc: "Thanh lý sách, đồ dùng" },
+                ].map((r) => (
+                  <div
+                    key={r.id}
+                    onClick={() => setRegRole(r.id)}
+                    style={{
+                      padding: "8px 10px",
+                      borderRadius: 10,
+                      border: regRole === r.id ? `2px solid ${CORAL}` : "1px solid #E0DCD0",
+                      background: regRole === r.id ? "rgba(255,93,62,0.06)" : CARD,
+                      cursor: "pointer",
+                      transition: "all 0.15s ease"
+                    }}
+                  >
+                    <div style={{ fontSize: 12.5, fontWeight: 700, color: regRole === r.id ? CORAL : INK }}>
+                      {r.label}
+                    </div>
+                    <div style={{ fontSize: 10.5, color: SUBTEXT, marginTop: 2 }}>{r.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <button type="submit" className="ul-btn" style={{ background: CORAL, color: "#fff", padding: "12px", borderRadius: 10, fontWeight: 700, fontSize: 14, marginTop: 4 }}>
-              Tạo tài khoản khách hàng
+              Đăng ký tài khoản ({regRole})
             </button>
           </form>
         )}
