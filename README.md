@@ -87,8 +87,140 @@ graph LR
     Auth -->|Khách hàng| Profile[Tài Khoản Khách Hàng]
 
     Housing --> DetailHousing[Xem Chi Tiết & Gọi Điện / Nhắn Tin]
-    Market --> PostMarket[Đăng Bán Sản Phẩm Đồ Cũ]
-    Study --> DownloadDoc[Tải Đề Thi & Giáo Trình]
+```
+
+---
+
+## 🗄️ Cơ Sở Dữ Liệu & Sơ Đồ Quan Hệ (Database Schema & ERD)
+
+Toàn bộ hệ thống cơ sở dữ liệu quan hệ được thiết kế chuẩn hóa và lưu trữ tại thư mục [`database/`](./database/):
+- **Script SQL khởi tạo & Dữ liệu mẫu:** [`database/unilife_database.sql`](./database/unilife_database.sql)
+- **Tài liệu chi tiết từ điển dữ liệu:** [`database/CSDL_DESIGN.md`](./database/CSDL_DESIGN.md)
+
+### Sơ Đồ ERD Thực Thể Quan Hệ (Entity-Relationship Diagram):
+```mermaid
+erDiagram
+    USERS ||--o{ HOUSING : "dang_bai"
+    USERS ||--o{ FOOD_PLACES : "so_huu"
+    USERS ||--o{ MARKETPLACE : "thanh_ly"
+    USERS ||--o{ STUDY_DOCUMENTS : "chia_se"
+    USERS ||--o{ USER_FAVORITES : "luu_tin"
+    USERS ||--o{ REVIEWS : "danh_gia"
+    USERS ||--o{ MESSAGES : "gui_tin"
+
+    USERS {
+        bigint id PK
+        varchar name
+        varchar email UK
+        varchar password_hash
+        varchar phone
+        enum role
+        enum status
+        text avatar_url
+        datetime created_at
+    }
+
+    HOUSING {
+        bigint id PK
+        bigint user_id FK
+        varchar name
+        varchar price
+        decimal price_num
+        varchar area
+        varchar address
+        varchar dist
+        varchar phone
+        tinyint ac
+        tinyint washer
+        tinyint wifi
+        tinyint parking
+        text image_url
+        enum status
+        datetime created_at
+    }
+
+    FOOD_PLACES {
+        bigint id PK
+        bigint user_id FK
+        varchar name
+        varchar cat
+        varchar price
+        varchar address
+        varchar hours
+        decimal rating
+        varchar phone
+        text image_url
+        enum status
+        datetime created_at
+    }
+
+    MARKETPLACE {
+        bigint id PK
+        bigint user_id FK
+        varchar name
+        varchar price
+        varchar cond
+        varchar cat
+        varchar seller
+        varchar phone
+        varchar loc
+        text image_url
+        enum status
+        datetime created_at
+    }
+
+    ENTERTAINMENT {
+        bigint id PK
+        varchar name
+        varchar cat
+        varchar price
+        varchar address
+        varchar hours
+        decimal rating
+        text image_url
+        enum status
+        datetime created_at
+    }
+
+    STUDY_DOCUMENTS {
+        bigint id PK
+        bigint user_id FK
+        varchar title
+        varchar author
+        int downloads
+        decimal rating
+        varchar doc_type
+        text file_url
+        text description
+        datetime created_at
+    }
+
+    USER_FAVORITES {
+        bigint id PK
+        bigint user_id FK
+        enum item_type
+        bigint item_id
+        datetime created_at
+    }
+
+    REVIEWS {
+        bigint id PK
+        bigint user_id FK
+        enum target_type
+        bigint target_id
+        tinyint rating
+        text comment
+        datetime created_at
+    }
+
+    MESSAGES {
+        bigint id PK
+        bigint sender_id FK
+        bigint receiver_id FK
+        text message
+        tinyint is_read
+        datetime created_at
+    }
 ```
 
 ---
