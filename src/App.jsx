@@ -379,7 +379,7 @@ const initialStudy = [
   {
     id: 1,
     title: "Tài liệu & Đề cương ôn thi môn Công Nghệ Phần Mềm (CNPM)",
-    author: "Ban Học Tập 24CT1",
+    author: "Ban Học Tập Sinh Viên",
     downloads: 342,
     rating: 4.9,
     type: "Tài liệu ôn tập",
@@ -399,7 +399,7 @@ const initialStudy = [
   {
     id: 3,
     title: "Slide bài giảng & Tóm tắt Triết học Mác - Lênin sơ đồ tư duy",
-    author: "Nhóm Sinh Viên DAU",
+    author: "Nhóm Sinh Viên UniLife",
     downloads: 512,
     rating: 4.7,
     type: "Sơ đồ tư duy",
@@ -409,7 +409,7 @@ const initialStudy = [
   {
     id: 4,
     title: "Tìm 2 bạn sinh viên ghép nhóm làm Đồ Án Lập Trình Web React + Node",
-    author: "Phan Trí Đức (24CT1)",
+    author: "CLB Tin Học Sinh Viên",
     downloads: 78,
     rating: 5.0,
     type: "Ghép nhóm đồ án",
@@ -602,6 +602,11 @@ export default function App() {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showChatModal, setShowChatModal] = useState(false);
 
+  // Auth state
+  const [users, setUsers] = usePersistentState("unilife:users", initialUsers);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
   // Toast feedback
   const showToast = (msg) => {
     setToast(msg);
@@ -609,11 +614,12 @@ export default function App() {
   };
 
   // Phím Esc đóng cửa sổ trên cùng; khóa cuộn nền khi có cửa sổ mở
-  const anyModalOpen = !!(detail || showContactModal || showAddMarketModal || showAddHousingModal || showNotificationModal || showChatModal);
+  const anyModalOpen = !!(detail || showContactModal || showAddMarketModal || showAddHousingModal || showNotificationModal || showChatModal || showAuthModal);
   useEffect(() => {
     const onKey = (e) => {
       if (e.key !== "Escape") return;
-      if (showContactModal) setShowContactModal(null);
+      if (showAuthModal) setShowAuthModal(false);
+      else if (showContactModal) setShowContactModal(null);
       else if (showAddMarketModal) setShowAddMarketModal(false);
       else if (showAddHousingModal) setShowAddHousingModal(false);
       else if (showChatModal) setShowChatModal(false);
@@ -622,7 +628,7 @@ export default function App() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [detail, showContactModal, showAddMarketModal, showAddHousingModal, showNotificationModal, showChatModal]);
+  }, [detail, showContactModal, showAddMarketModal, showAddHousingModal, showNotificationModal, showChatModal, showAuthModal]);
   useEffect(() => {
     document.body.style.overflow = anyModalOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -674,18 +680,6 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: "'Inter', sans-serif", background: PAPER, minHeight: "100vh", color: INK, display: "flex", flexDirection: "column" }}>
-      {/* TOP NOTIFICATION BANNER */}
-      <div style={{ background: "#21253B", color: "#E0DFD5", fontSize: 12, padding: "6px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <Sparkles size={13} color={MARIGOLD} />
-            <b>UniLife 2026:</b> Nền tảng tiện ích kết nối trọn vẹn đời sống sinh viên
-          </span>
-          <span style={{ color: MARIGOLD, fontWeight: 600 }}>
-            SV thực hiện: <b>Phan Trí Đức</b> · Lớp <b>24CT1</b> (CNPM - DAU)
-          </span>
-        </div>
-      </div>
 
       {/* HEADER */}
       <header style={{ position: "sticky", top: 0, zIndex: 40, background: INK, color: "#fff", boxShadow: "0 4px 18px rgba(0,0,0,0.12)" }}>
@@ -698,9 +692,6 @@ export default function App() {
           >
             <span style={{ color: MARIGOLD, display: "flex", alignItems: "center" }}>
               Uni<span style={{ color: "#fff" }}>Life</span>
-            </span>
-            <span style={{ fontSize: 10, background: CORAL, color: "#fff", padding: "2px 6px", borderRadius: 4, fontWeight: 600, letterSpacing: 0.5, marginLeft: 2 }}>
-              DEMO
             </span>
           </div>
 
@@ -755,27 +746,100 @@ export default function App() {
               <span style={{ position: "absolute", top: 2, right: 2, width: 8, height: 8, borderRadius: "50%", background: TEAL }} />
             </div>
 
-            {/* Admin Avatar */}
-            <div
-              onClick={() => setTab("admin")}
-              title="Khu vực Quản trị (Admin Dashboard)"
-              style={{
-                background: tab === "admin" ? MARIGOLD : "rgba(255,193,69,0.22)",
-                color: tab === "admin" ? INK : MARIGOLD,
-                border: `1.5px solid ${MARIGOLD}`,
-                padding: "6px 12px",
-                borderRadius: 20,
-                fontSize: 13,
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 6
-              }}
-            >
-              <LayoutDashboard size={14} />
-              <span>Admin</span>
-            </div>
+            {/* User Account / Login & Admin */}
+            {currentUser ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                {currentUser.role === "Quản trị viên" && (
+                  <button
+                    className="ul-btn"
+                    onClick={() => setTab("admin")}
+                    title="Khu vực Quản trị (Admin Dashboard)"
+                    style={{
+                      background: tab === "admin" ? MARIGOLD : "rgba(255,193,69,0.22)",
+                      color: tab === "admin" ? INK : MARIGOLD,
+                      border: `1.5px solid ${MARIGOLD}`,
+                      padding: "6px 12px",
+                      borderRadius: 20,
+                      fontSize: 13,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6
+                    }}
+                  >
+                    <LayoutDashboard size={14} />
+                    <span>Admin</span>
+                  </button>
+                )}
+                <div
+                  style={{
+                    background: "rgba(255,255,255,0.12)",
+                    color: "#fff",
+                    padding: "6px 12px",
+                    borderRadius: 20,
+                    fontSize: 13,
+                    fontWeight: 600,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6
+                  }}
+                  title={`Tài khoản: ${currentUser.name} (${currentUser.role})`}
+                >
+                  <User size={14} color={MARIGOLD} />
+                  <span>{currentUser.name.length > 12 ? currentUser.name.slice(0, 12) + "..." : currentUser.name}</span>
+                  <span style={{ fontSize: 10, background: currentUser.role === "Quản trị viên" ? CORAL : TEAL, color: "#fff", padding: "1px 6px", borderRadius: 8, fontWeight: 700 }}>
+                    {currentUser.role === "Quản trị viên" ? "Admin" : "Khách"}
+                  </span>
+                </div>
+                <button
+                  className="ul-btn"
+                  onClick={() => {
+                    setCurrentUser(null);
+                    showToast("Đã đăng xuất tài khoản!");
+                    if (tab === "admin") setTab("home");
+                  }}
+                  title="Đăng xuất"
+                  style={{
+                    background: "rgba(235,87,87,0.18)",
+                    color: "#FF8B8B",
+                    border: "1px solid rgba(235,87,87,0.3)",
+                    padding: "6px 10px",
+                    borderRadius: 20,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 4
+                  }}
+                >
+                  <LogOut size={13} />
+                  <span>Thoát</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                className="ul-btn"
+                onClick={() => setShowAuthModal(true)}
+                style={{
+                  background: CORAL,
+                  color: "#fff",
+                  border: "none",
+                  padding: "7px 14px",
+                  borderRadius: 20,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  boxShadow: "0 2px 8px rgba(224,90,71,0.35)"
+                }}
+              >
+                <LogIn size={14} />
+                <span>Đăng nhập</span>
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -828,34 +892,62 @@ export default function App() {
           />
         )}
         {tab === "admin" && (
-          <AdminView
-            housingList={housingList} foodList={foodList} marketList={marketList}
-            showToast={showToast}
-          />
+          currentUser?.role === "Quản trị viên" ? (
+            <AdminView
+              housingList={housingList} foodList={foodList} marketList={marketList}
+              showToast={showToast}
+            />
+          ) : (
+            <div style={{ textAlign: "center", padding: "80px 20px", maxWidth: 520, margin: "40px auto", background: "#fff", borderRadius: 16, border: "1px solid #E0DCD0", boxShadow: "0 6px 24px rgba(0,0,0,0.06)" }}>
+              <div style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(224,90,71,0.12)", color: CORAL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+                <Lock size={32} />
+              </div>
+              <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 8, color: INK }}>Yêu cầu quyền Quản trị viên</h3>
+              <p style={{ color: SUBTEXT, fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+                {currentUser
+                  ? `Tài khoản "${currentUser.name}" hiện đang ở vai trò "${currentUser.role}", không có quyền truy cập trang quản trị hệ thống.`
+                  : "Khu vực này chỉ dành riêng cho Quản trị viên (Admin). Vui lòng đăng nhập với tài khoản quản trị để tiếp tục."}
+              </p>
+              <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+                <button
+                  className="ul-btn"
+                  onClick={() => setShowAuthModal(true)}
+                  style={{ background: CORAL, color: "#fff", padding: "10px 20px", borderRadius: 10, fontWeight: 600, fontSize: 14 }}
+                >
+                  {currentUser ? "Đổi tài khoản Admin" : "Đăng nhập ngay"}
+                </button>
+                <button
+                  className="ul-btn"
+                  onClick={() => setTab("home")}
+                  style={{ background: "#F0EFEA", color: INK, padding: "10px 20px", borderRadius: 10, fontWeight: 600, fontSize: 14 }}
+                >
+                  Về trang chủ
+                </button>
+              </div>
+            </div>
+          )
         )}
       </main>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid #E2DED2", background: "#EFECE3", padding: "32px 20px", color: SUBTEXT, fontSize: 13.5 }}>
+      <footer style={{ borderTop: "1px solid #E2DED2", background: "#EFECE3", padding: "30px 20px", color: SUBTEXT, fontSize: 13.5 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
           <div>
             <div style={{ fontWeight: 700, fontSize: 16, color: INK, marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ color: CORAL }}>UniLife</span> — Đồng hành cùng sinh viên mọi nẻo đường
             </div>
-            <div>Dự án Học phần Công Nghệ Phần Mềm (CNPM - DAU) · Sinh viên: <b>Phan Trí Đức</b> · Lớp: <b>24CT1</b></div>
+            <div>Nền tảng tiện ích kết nối toàn diện đời sống sinh viên © 2026 UniLife</div>
           </div>
           <div style={{ display: "flex", gap: 14 }}>
             <span style={{ cursor: "pointer" }} onClick={() => setTab("housing")}>Phòng trọ</span>
             <span>·</span>
             <span style={{ cursor: "pointer" }} onClick={() => setTab("food")}>Ăn uống</span>
             <span>·</span>
-            <span style={{ cursor: "pointer" }} onClick={() => setTab("market")}>Chợ cũ</span>
+            <span style={{ cursor: "pointer" }} onClick={() => setTab("market")}>Chợ đồ cũ</span>
             <span>·</span>
             <span style={{ cursor: "pointer" }} onClick={() => setTab("study")}>Góc học tập</span>
             <span>·</span>
-            <span style={{ cursor: "pointer", color: CORAL, fontWeight: 600 }} onClick={() => setTab("admin")}>Bảng Admin</span>
-            <span>·</span>
-            <span style={{ cursor: "pointer" }} onClick={resetDemoData}>Đặt lại dữ liệu demo</span>
+            <span style={{ cursor: "pointer" }} onClick={() => setTab("entertainment")}>Vui chơi</span>
           </div>
         </div>
       </footer>
@@ -917,6 +1009,25 @@ export default function App() {
       {showChatModal && (
         <ChatModal onClose={() => setShowChatModal(false)} showToast={showToast} />
       )}
+
+      {/* AUTH MODAL (LOGIN / REGISTER) */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        users={users}
+        onRegister={(newUser) => {
+          setUsers([...users, newUser]);
+          setCurrentUser(newUser);
+          setShowAuthModal(false);
+          showToast(`Chào mừng thành viên mới, ${newUser.name}! 🎉`);
+        }}
+        onLoginSuccess={(user) => {
+          setCurrentUser(user);
+          setShowAuthModal(false);
+          showToast(`Đăng nhập thành công! Xin chào ${user.name} 👋`);
+        }}
+        showToast={showToast}
+      />
 
       {/* TOAST NOTIFICATION */}
       {toast && (
@@ -1097,7 +1208,7 @@ function HomeView({ query, setQuery, setTab, favorites, toggleFav, setDetail, ho
       <div style={{ marginTop: 40, background: "linear-gradient(135deg, #16192E 0%, #2A3158 100%)", borderRadius: 16, padding: "28px 32px", color: "#fff", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
         <div>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,193,69,0.2)", color: MARIGOLD, padding: "4px 10px", borderRadius: 999, fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
-            <BookOpen size={13} /> Góc học tập 24CT1
+            <BookOpen size={13} /> Góc học tập sinh viên
           </div>
           <h3 className="ul-h" style={{ fontSize: 22, margin: "0 0 6px" }}>Kho tài liệu ôn thi & Tìm bạn cùng tiến</h3>
           <p style={{ margin: 0, opacity: 0.85, fontSize: 14 }}>Tải giáo trình, xem đề thi mẫu các môn đại cương & chuyên ngành miễn phí 100%.</p>
@@ -1384,7 +1495,7 @@ function StudyView({ data, setStudyList, showToast }) {
     const newDoc = {
       id: Date.now(),
       title: docTitle,
-      author: "Phan Trí Đức (24CT1)",
+      author: "Thành viên UniLife",
       downloads: 1,
       rating: 5.0,
       type: docType,
@@ -1474,7 +1585,7 @@ function StudyView({ data, setStudyList, showToast }) {
             </div>
             <button
               className="ul-btn"
-              onClick={() => showToast(`Đang tải file: ${item.title} (PDF demo)`)}
+              onClick={() => showToast(`Đang tải file: ${item.title} (PDF)`)}
               style={{ background: INK, color: "#fff", padding: "10px 18px", borderRadius: 10, fontWeight: 600, fontSize: 13, flexShrink: 0 }}
             >
               Tải tài liệu
@@ -1550,7 +1661,7 @@ const adminMenu = ["Users", "Housing", "Food", "Marketplace", "Reports"];
 function AdminView({ housingList, foodList, marketList, showToast }) {
   const [active, setActive] = useState("Users");
   const [users, setUsers] = useState([
-    { id: 1, name: "Phan Trí Đức", role: "Admin / Kỹ sư", status: "Active", email: "triduc.24ct1@dau.edu.vn" },
+    { id: 1, name: "Ban Quản Trị UniLife", role: "Quản trị viên", status: "Active", email: "admin@unilife.vn" },
     { id: 2, name: "Nguyễn Văn A", role: "Sinh viên", status: "Active", email: "vana@student.edu.vn" },
     { id: 3, name: "Trần Thị B (Chủ trọ)", role: "Chủ nhà", status: "Active", email: "b_chutro@gmail.com" },
     { id: 4, name: "Lê Văn C (Spam bán hàng)", role: "Người bán", status: "Banned", email: "c_spammer@yahoo.com" },
@@ -1934,7 +2045,7 @@ function AddMarketModal({ onClose, onAdd }) {
   const [price, setPrice] = useState("");
   const [cond, setCond] = useState("Đã dùng - tốt");
   const [cat, setCat] = useState("Sách");
-  const [seller, setSeller] = useState("Phan Trí Đức (24CT1)");
+  const [seller, setSeller] = useState("Sinh viên UniLife");
   const [loc, setLoc] = useState("Ký túc xá ĐH Bách Khoa");
   const [desc, setDesc] = useState("");
 
