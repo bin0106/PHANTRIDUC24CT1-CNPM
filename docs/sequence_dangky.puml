@@ -1,0 +1,95 @@
+@startuml
+autonumber
+skinparam BoxPadding 10
+skinparam ParticipantPadding 10
+skinparam SequenceArrowThickness 1.5
+skinparam RoundCorner 8
+skinparam defaultFontName Arial
+
+actor "Nguoi dung" as User
+
+participant "AuthModal.jsx\n(src/components/modals/)" as UI
+participant "handleRegister()\n(AuthModal.jsx)" as Handler
+participant "registerUser()\n(src/services/authService.js)" as AuthService
+participant "onRegister()\n(App.jsx - setUsers)" as AppState
+participant "usePersistentState\n(src/hooks/)" as Hook
+database "LocalStorage\n(unilife:users)" as LS
+
+box "Chuc nang Dang ky tai khoan" #LightYellow
+    participant UI
+    participant Handler
+    participant AuthService
+    participant AppState
+    participant Hook
+end box
+
+== Nguoi dung mo form Dang ky ==
+
+User -> UI : Nhan nut "Dang nhap / Dang ky"
+UI --> User : Hien thi AuthModal (Tab: Dang nhap)
+
+User -> UI : Chon tab "Dang ky tai khoan"
+UI --> User : Hien thi form dang ky\n(Ho ten, Email, Mat khau,\nSo dien thoai, Chon loai tai khoan)
+
+== Nguoi dung nhap thong tin ==
+
+User -> UI : Nhap: Ho ten, Email, Mat khau,\nSo dien thoai\nChon loai tai khoan:\n[Khach hang / Chu nha tro /\n Chu quan an / Nguoi ban do cu]
+
+User -> UI : Nhan nut "Dang ky tai khoan"
+UI -> Handler : onSubmit -> handleRegister(e)
+activate Handler
+
+Handler -> Handler : e.preventDefault()\nsetLoginError("")
+
+Handler -> Handler : Kiem tra email trung lap\nusers.find(u => u.email == regEmail)
+
+alt [Email da ton tai]
+    Handler --> UI : setLoginError("Email nay da duoc su dung")
+    UI --> User : Hien thi loi do\n"Email nay da duoc su dung.\nVui long chon email khac."
+else [Email hop le - Chua ton tai]
+
+    Handler -> AuthService : registerUser(users, { name, email,\npassword, phone, role, avatar })
+    activate AuthService
+
+    AuthService -> AuthService : Validate: trim() cac truong\nKiem tra name, email, password\nkhong duoc trong
+
+    alt [Du lieu hop le]
+        AuthService -> AuthService : Tao newUser object:\n- id: Date.now()\n- name, email, password, phone\n- role: regRole (da chon)\n- status: "Active"\n- avatar: PRESET_AVATARS[random]\n- joined: ngay hom nay
+
+        AuthService --> Handler : { success: true, newUser }
+        deactivate AuthService
+
+        Handler -> AppState : onRegister(newUser)\n-> setUsers([...users, newUser])
+        activate AppState
+
+        AppState -> Hook : usePersistentState setter\nsetValue([...users, newUser])
+        activate Hook
+
+        Hook -> LS : localStorage.setItem\n("unilife:users", JSON.stringify(users))
+        LS --> Hook : Luu thanh cong
+        deactivate Hook
+
+        AppState --> Handler : State cap nhat (re-render)
+        deactivate AppState
+
+        Handler -> AppState : onLoginSuccess(newUser)\n-> setCurrentUser(newUser)
+
+        Handler -> UI : showToast("Dang ky thanh cong!\nChao mung [Ten] ([Vai tro])")
+        Handler -> UI : onClose() -> dong modal
+
+        UI --> User : Hien thi thong bao Toast\n"Dang ky thanh cong!"\nTrang cap nhat voi phien dang nhap moi
+
+    else [Du lieu thieu / khong hop le]
+        AuthService --> Handler : { success: false, message }
+        Handler --> UI : setLoginError(message)
+        UI --> User : Hien thi loi xac thuc tren form
+    end
+end
+
+deactivate Handler
+
+== Sau khi dang ky thanh cong ==
+
+User -> UI : Truy cap tab "Trang ca nhan" (#/profile)
+UI --> User : Hien thi ProfileView:\n- Ten, email, vai tro, avatar\n- Danh sach bai da thich
+@enduml
