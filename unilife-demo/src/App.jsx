@@ -308,29 +308,6 @@ export default function App() {
   return (
     <div style={{ fontFamily: "'Inter', sans-serif", background: PAPER, minHeight: "100vh", color: INK, display: "flex", flexDirection: "column" }}>
       
-      {/* TOP NOTIFICATION BAR */}
-      <div style={{ background: "#21253B", color: "#E0DFD5", fontSize: 12, padding: "6px 20px" }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <Sparkles size={13} color={MARIGOLD} />
-            <b>UniLife 2026:</b> Nền tảng tiện ích thông minh kết nối trọn vẹn đời sống sinh viên
-          </span>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            {pendingUsersCount > 0 && isAdmin && (
-              <span
-                onClick={() => setTab("admin")}
-                style={{ background: CORAL, color: "#fff", padding: "2px 8px", borderRadius: 999, fontSize: 11, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 4 }}
-              >
-                ⚠️ Có {pendingUsersCount} tài khoản chờ duyệt
-              </span>
-            )}
-            <span style={{ color: MARIGOLD, fontWeight: 600 }}>
-              Sinh viên thực hiện: <b>Phan Trí Đức</b> · Lớp <b>24CT1</b> (CNPM - DAU)
-            </span>
-          </div>
-        </div>
-      </div>
-
       {/* HEADER */}
       <header style={{ position: "sticky", top: 0, zIndex: 40, background: INK, color: "#fff", boxShadow: "0 4px 18px rgba(0,0,0,0.12)" }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", height: 64, gap: 16 }}>
@@ -342,9 +319,6 @@ export default function App() {
           >
             <span style={{ color: MARIGOLD, display: "flex", alignItems: "center" }}>
               Uni<span style={{ color: "#fff" }}>Life</span>
-            </span>
-            <span style={{ fontSize: 10, background: CORAL, color: "#fff", padding: "2px 6px", borderRadius: 4, fontWeight: 600, letterSpacing: 0.5 }}>
-              DEMO
             </span>
           </div>
 
@@ -608,7 +582,7 @@ export default function App() {
             <div style={{ fontWeight: 700, fontSize: 16, color: INK, marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ color: CORAL }}>UniLife</span> — Đồng hành cùng sinh viên mọi nẻo đường
             </div>
-            <div>Dự án Học phần Công Nghệ Phần Mềm (CNPM - DAU) · Sinh viên: <b>Phan Trí Đức</b> · Lớp: <b>24CT1</b></div>
+            <div>Nền tảng tiện ích kết nối toàn diện đời sống sinh viên © 2026 UniLife</div>
           </div>
           <div style={{ display: "flex", gap: 14 }}>
             <span style={{ cursor: "pointer" }} onClick={() => setTab("housing")}>Phòng trọ</span>
