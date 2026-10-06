@@ -375,4 +375,20 @@ database/setup_database.bat
 
 ---
 
+## 📊 So Do Sequence UML — Chuc Nang Dang Ky Tai Khoan
+
+> File nguon: [`docs/sequence_dangky.puml`](./docs/sequence_dangky.puml)
+
+![So Do Sequence Dang Ky](./docs/sequence_dangky.png)
+
+**Luong xu ly chinh:**
+1. Nguoi dung mo `AuthModal.jsx` → chon tab "Dang ky"
+2. Nhap: Ho ten, Email, Mat khau, So dien thoai, **Chon loai tai khoan** (4 vai tro)
+3. `handleRegister()` kiem tra email trung lap trong `users[]`
+4. Goi `authService.registerUser()` → validate + tao `newUser` object
+5. `App.setUsers([...users, newUser])` → `usePersistentState` → luu `LocalStorage`
+6. Tu dong dang nhap luon → hien thi Toast thong bao thanh cong
+
+---
+
 © 2026 UniLife — Nen tang tien ich ket noi toan dien doi song sinh vien.
