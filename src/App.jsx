@@ -7,7 +7,8 @@ import {
   MessageSquareWarning, ShieldCheck, TrendingUp, Plus, Clock, Phone,
   ArrowRight, Sparkles, Send, CheckCircle2, Bookmark, ExternalLink,
   SlidersHorizontal, Coffee, FileText, Share2, AlertCircle, Info,
-  LogIn, LogOut, User, UserPlus, Lock, Mail
+  LogIn, LogOut, User, UserPlus, Lock, Mail,
+  Camera, Trash2, Edit3, Check
 } from "lucide-react";
 import "./App.css";
 
@@ -529,16 +530,27 @@ function FavButton({ active, onClick }) {
 // ----------------------------------------------------
 // TIỆN ÍCH: ĐIỀU HƯỚNG THEO URL (#/phong-tro...) & LƯU DỮ LIỆU TRÊN TRÌNH DUYỆT
 // ----------------------------------------------------
-const VALID_TABS = ["home", "housing", "food", "market", "entertainment", "study", "favorites", "admin"];
+const VALID_TABS = ["home", "housing", "food", "market", "entertainment", "study", "favorites", "admin", "profile"];
 const TAB_TITLES = {
   home: "Trang chủ", housing: "Phòng trọ", food: "Ăn uống", market: "Chợ đồ cũ",
-  entertainment: "Vui chơi", study: "Góc học tập", favorites: "Yêu thích", admin: "Quản trị",
+  entertainment: "Vui chơi", study: "Góc học tập", favorites: "Yêu thích", admin: "Quản trị", profile: "Trang cá nhân"
 };
 
+const PRESET_AVATARS = [
+  "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+  "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80",
+  "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80",
+  "https://images.unsplash.com/photo-1628157582853-a796fa650a6a?auto=format&fit=crop&w=200&q=80",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+];
+
 const initialUsers = [
-  { id: 1, name: "Ban Quản Trị", role: "Quản trị viên", email: "admin@unilife.vn", password: "admin123", status: "Active", phone: "0901.111.222" },
-  { id: 2, name: "Nguyễn Văn Khang", role: "Khách hàng", email: "khachhang@gmail.com", password: "123456", status: "Active", phone: "0905.888.999" },
-  { id: 3, name: "Trần Thị Bích", role: "Khách hàng", email: "bich.tran@gmail.com", password: "123456", status: "Active", phone: "0908.777.666" }
+  { id: 1, name: "Ban Quản Trị", role: "Quản trị viên", email: "admin@unilife.vn", password: "admin123", status: "Active", phone: "0901.111.222", avatar: PRESET_AVATARS[7], joined: "01/01/2026" },
+  { id: 2, name: "Nguyễn Văn Khang", role: "Khách hàng", email: "khachhang@gmail.com", password: "123456", status: "Active", phone: "0905.888.999", avatar: PRESET_AVATARS[0], joined: "15/02/2026" },
+  { id: 3, name: "Trần Thị Bích", role: "Khách hàng", email: "bich.tran@gmail.com", password: "123456", status: "Active", phone: "0908.777.666", avatar: PRESET_AVATARS[1], joined: "20/03/2026" }
 ];
 
 const readTabFromHash = () => {
@@ -676,6 +688,7 @@ export default function App() {
     { id: "entertainment", label: "Vui chơi" },
     { id: "study", label: "Góc học tập" },
     { id: "favorites", label: `Yêu thích (${favCount})` },
+    ...(currentUser ? [{ id: "profile", label: "Trang cá nhân" }] : []),
   ];
 
   return (
@@ -773,20 +786,30 @@ export default function App() {
                   </button>
                 )}
                 <div
+                  className="ul-btn"
+                  onClick={() => setTab("profile")}
                   style={{
-                    background: "rgba(255,255,255,0.12)",
+                    background: tab === "profile" ? "rgba(255,193,69,0.25)" : "rgba(255,255,255,0.12)",
+                    border: tab === "profile" ? `1.5px solid ${MARIGOLD}` : "1.5px solid transparent",
                     color: "#fff",
-                    padding: "6px 12px",
+                    padding: "4px 10px 4px 5px",
                     borderRadius: 20,
                     fontSize: 13,
                     fontWeight: 600,
                     display: "flex",
                     alignItems: "center",
-                    gap: 6
+                    gap: 7,
+                    cursor: "pointer",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.1)"
                   }}
-                  title={`Tài khoản: ${currentUser.name} (${currentUser.role})`}
+                  title="Nhấp để vào Trang cá nhân & Đổi ảnh đại diện"
                 >
-                  <User size={14} color={MARIGOLD} />
+                  <img
+                    src={currentUser.avatar || PRESET_AVATARS[0]}
+                    alt={currentUser.name}
+                    style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover", border: "1.5px solid #fff" }}
+                    onError={(e) => { e.target.src = PRESET_AVATARS[0]; }}
+                  />
                   <span>{currentUser.name.length > 12 ? currentUser.name.slice(0, 12) + "..." : currentUser.name}</span>
                   <span style={{ fontSize: 10, background: currentUser.role === "Quản trị viên" ? CORAL : TEAL, color: "#fff", padding: "1px 6px", borderRadius: 8, fontWeight: 700 }}>
                     {currentUser.role === "Quản trị viên" ? "Admin" : "Khách"}
@@ -894,7 +917,12 @@ export default function App() {
         {tab === "admin" && (
           currentUser?.role === "Quản trị viên" ? (
             <AdminView
-              housingList={housingList} foodList={foodList} marketList={marketList}
+              users={users}
+              setUsers={setUsers}
+              currentUser={currentUser}
+              housingList={housingList}
+              foodList={foodList}
+              marketList={marketList}
               showToast={showToast}
             />
           ) : (
@@ -924,6 +952,34 @@ export default function App() {
                   Về trang chủ
                 </button>
               </div>
+            </div>
+          )
+        )}
+        {tab === "profile" && (
+          currentUser ? (
+            <ProfileView
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+              users={users}
+              setUsers={setUsers}
+              favorites={favorites}
+              toggleFav={toggleFav}
+              housingList={housingList}
+              foodList={foodList}
+              marketList={marketList}
+              entertainmentList={entertainmentList}
+              setDetail={setDetail}
+              setTab={setTab}
+              showToast={showToast}
+            />
+          ) : (
+            <div style={{ textAlign: "center", padding: "80px 20px", maxWidth: 440, margin: "40px auto", background: "#fff", borderRadius: 16, border: "1px solid #ECE7D8" }}>
+              <User size={48} color={SUBTEXT} style={{ marginBottom: 12, opacity: 0.5 }} />
+              <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>Vui lòng đăng nhập</h3>
+              <p style={{ color: SUBTEXT, fontSize: 14, marginBottom: 20 }}>Bạn cần đăng nhập để xem thông tin trang cá nhân và các bài viết đã thích.</p>
+              <button onClick={() => setShowAuthModal(true)} className="ul-btn" style={{ background: CORAL, color: "#fff", padding: "10px 20px", borderRadius: 10, fontWeight: 700 }}>
+                Đăng nhập ngay
+              </button>
             </div>
           )
         )}
@@ -1658,25 +1714,52 @@ const adminStats = [
 
 const adminMenu = ["Users", "Housing", "Food", "Marketplace", "Reports"];
 
-function AdminView({ housingList, foodList, marketList, showToast }) {
+function AdminView({ users, setUsers, currentUser, housingList, foodList, marketList, showToast }) {
   const [active, setActive] = useState("Users");
-  const [users, setUsers] = useState([
-    { id: 1, name: "Ban Quản Trị UniLife", role: "Quản trị viên", status: "Active", email: "admin@unilife.vn" },
-    { id: 2, name: "Nguyễn Văn A", role: "Sinh viên", status: "Active", email: "vana@student.edu.vn" },
-    { id: 3, name: "Trần Thị B (Chủ trọ)", role: "Chủ nhà", status: "Active", email: "b_chutro@gmail.com" },
-    { id: 4, name: "Lê Văn C (Spam bán hàng)", role: "Người bán", status: "Banned", email: "c_spammer@yahoo.com" },
-    { id: 5, name: "Phạm Thị D", role: "Sinh viên", status: "Active", email: "d_sinhvien@gmail.com" },
-  ]);
+  const [userSearch, setUserSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const activeCount = users.filter((u) => u.status === "Active").length;
+  const bannedCount = users.filter((u) => u.status === "Banned").length;
+
+  const filteredUsers = useMemo(() => {
+    return users.filter((u) => {
+      if (statusFilter === "Active" && u.status !== "Active") return false;
+      if (statusFilter === "Banned" && u.status !== "Banned") return false;
+      if (userSearch) {
+        const q = userSearch.toLowerCase();
+        return (
+          u.name.toLowerCase().includes(q) ||
+          u.email.toLowerCase().includes(q) ||
+          (u.phone && u.phone.includes(q))
+        );
+      }
+      return true;
+    });
+  }, [users, statusFilter, userSearch]);
 
   const toggleUserStatus = (id) => {
-    setUsers(users.map((u) => {
-      if (u.id === id) {
-        const newStatus = u.status === "Active" ? "Banned" : "Active";
-        showToast(`Đã cập nhật trạng thái người dùng thành: ${newStatus}`);
-        return { ...u, status: newStatus };
-      }
-      return u;
-    }));
+    const target = users.find((u) => u.id === id);
+    if (!target) return;
+    if (target.id === currentUser?.id) {
+      showToast("Bạn không thể tự khóa tài khoản Admin đang sử dụng!");
+      return;
+    }
+    const newStatus = target.status === "Active" ? "Banned" : "Active";
+    setUsers(users.map((u) => (u.id === id ? { ...u, status: newStatus } : u)));
+    showToast(`Đã ${newStatus === "Banned" ? "khóa" : "mở khóa"} tài khoản "${target.name}"!`);
+  };
+
+  const handleDeleteUser = (id) => {
+    const target = users.find((u) => u.id === id);
+    if (!target) return;
+    if (target.id === currentUser?.id) {
+      showToast("Bạn không thể tự xóa tài khoản Admin đang sử dụng!");
+      return;
+    }
+    if (!window.confirm(`Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản "${target.name}" (${target.email}) khỏi hệ thống?`)) return;
+    setUsers(users.filter((u) => u.id !== id));
+    showToast(`Đã xóa vĩnh viễn tài khoản "${target.name}"! 🗑️`);
   };
 
   return (
@@ -1734,48 +1817,169 @@ function AdminView({ housingList, foodList, marketList, showToast }) {
           </div>
 
           {active === "Users" && (
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13.5 }}>
-                <thead>
-                  <tr style={{ background: PAPER, textAlign: "left" }}>
-                    <th style={{ padding: "10px 16px", fontWeight: 600, color: SUBTEXT }}>Họ tên</th>
-                    <th style={{ padding: "10px 16px", fontWeight: 600, color: SUBTEXT }}>Email</th>
-                    <th style={{ padding: "10px 16px", fontWeight: 600, color: SUBTEXT }}>Vai trò</th>
-                    <th style={{ padding: "10px 16px", fontWeight: 600, color: SUBTEXT }}>Trạng thái</th>
-                    <th style={{ padding: "10px 16px", fontWeight: 600, color: SUBTEXT }}>Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((r) => (
-                    <tr key={r.id} style={{ borderTop: "1px solid #ECE7D8" }}>
-                      <td style={{ padding: "12px 16px", fontWeight: 600 }}>{r.name}</td>
-                      <td style={{ padding: "12px 16px", color: SUBTEXT }}>{r.email}</td>
-                      <td style={{ padding: "12px 16px" }}>{r.role}</td>
-                      <td style={{ padding: "12px 16px" }}>
-                        <Badge bg={r.status === "Active" ? "#E1F5EE" : "#FCEBEB"} color={r.status === "Active" ? "#085041" : "#791F1F"}>
-                          {r.status === "Active" ? "Hoạt động" : "Bị khóa"}
-                        </Badge>
-                      </td>
-                      <td style={{ padding: "12px 16px" }}>
-                        <button
-                          className="ul-btn"
-                          onClick={() => toggleUserStatus(r.id)}
-                          style={{
-                            background: r.status === "Active" ? "#FCEBEB" : "#E1F5EE",
-                            color: r.status === "Active" ? "#791F1F" : "#085041",
-                            padding: "4px 10px",
-                            borderRadius: 6,
-                            fontSize: 12,
-                            fontWeight: 600
-                          }}
-                        >
-                          {r.status === "Active" ? "Khóa tài khoản" : "Mở khóa"}
-                        </button>
-                      </td>
-                    </tr>
+            <div style={{ padding: 18 }}>
+              {/* FILTER & SEARCH BAR */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 16, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                  {[
+                    { id: "all", label: `Tất cả (${users.length})` },
+                    { id: "Active", label: `🟢 Hoạt động (${activeCount})` },
+                    { id: "Banned", label: `🔴 Bị khóa (${bannedCount})` },
+                  ].map((f) => (
+                    <button
+                      key={f.id}
+                      onClick={() => setStatusFilter(f.id)}
+                      className="ul-btn"
+                      style={{
+                        padding: "6px 14px",
+                        borderRadius: 20,
+                        fontSize: 12.5,
+                        fontWeight: 600,
+                        background: statusFilter === f.id ? INK : "rgba(0,0,0,0.05)",
+                        color: statusFilter === f.id ? "#fff" : INK,
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {f.label}
+                    </button>
                   ))}
-                </tbody>
-              </table>
+                </div>
+                <div style={{ position: "relative", minWidth: 240 }}>
+                  <Search size={14} color={SUBTEXT} style={{ position: "absolute", left: 12, top: 10 }} />
+                  <input
+                    type="text"
+                    placeholder="Tìm tên, email, số điện thoại..."
+                    value={userSearch}
+                    onChange={(e) => setUserSearch(e.target.value)}
+                    style={{
+                      padding: "7px 12px 7px 34px",
+                      borderRadius: 18,
+                      border: "1px solid #E0DCD0",
+                      fontSize: 12.5,
+                      outline: "none",
+                      width: "100%",
+                      background: PAPER
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* TABLE */}
+              <div style={{ overflowX: "auto", border: "1px solid #ECE7D8", borderRadius: 10 }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13.5 }}>
+                  <thead>
+                    <tr style={{ background: PAPER, textAlign: "left" }}>
+                      <th style={{ padding: "10px 14px", fontWeight: 600, color: SUBTEXT }}>Tài khoản</th>
+                      <th style={{ padding: "10px 14px", fontWeight: 600, color: SUBTEXT }}>Liên hệ</th>
+                      <th style={{ padding: "10px 14px", fontWeight: 600, color: SUBTEXT }}>Vai trò</th>
+                      <th style={{ padding: "10px 14px", fontWeight: 600, color: SUBTEXT }}>Trạng thái</th>
+                      <th style={{ padding: "10px 14px", fontWeight: 600, color: SUBTEXT, textAlign: "center" }}>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredUsers.length === 0 ? (
+                      <tr>
+                        <td colSpan={5} style={{ padding: 32, textAlign: "center", color: SUBTEXT }}>
+                          Không tìm thấy tài khoản nào khớp với bộ lọc tìm kiếm.
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredUsers.map((r) => (
+                        <tr key={r.id} style={{ borderTop: "1px solid #ECE7D8" }}>
+                          <td style={{ padding: "12px 14px" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                              <img
+                                src={r.avatar || PRESET_AVATARS[0]}
+                                alt={r.name}
+                                style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", border: "1px solid #E0DCD0" }}
+                                onError={(e) => { e.target.src = PRESET_AVATARS[0]; }}
+                              />
+                              <div>
+                                <div style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+                                  <span>{r.name}</span>
+                                  {r.id === currentUser?.id && (
+                                    <span style={{ fontSize: 10, background: MARIGOLD, color: INK, padding: "1px 5px", borderRadius: 4, fontWeight: 700 }}>
+                                      Bạn
+                                    </span>
+                                  )}
+                                </div>
+                                <div style={{ fontSize: 11.5, color: SUBTEXT }}>
+                                  ID: #{r.id} {r.joined ? `· Ngày tạo: ${r.joined}` : ""}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td style={{ padding: "12px 14px" }}>
+                            <div style={{ color: INK, fontWeight: 500 }}>{r.email}</div>
+                            <div style={{ fontSize: 12, color: SUBTEXT }}>{r.phone || "Chưa có SĐT"}</div>
+                          </td>
+                          <td style={{ padding: "12px 14px" }}>
+                            <span style={{
+                              fontSize: 12,
+                              fontWeight: 700,
+                              background: r.role === "Quản trị viên" ? "#FFE9C2" : "#E1F5EE",
+                              color: r.role === "Quản trị viên" ? "#8A5B00" : "#085041",
+                              padding: "3px 9px",
+                              borderRadius: 6,
+                            }}>
+                              {r.role}
+                            </span>
+                          </td>
+                          <td style={{ padding: "12px 14px" }}>
+                            <Badge bg={r.status === "Active" ? "#E1F5EE" : "#FCEBEB"} color={r.status === "Active" ? "#085041" : "#791F1F"}>
+                              {r.status === "Active" ? "🟢 Hoạt động" : "🔴 Bị khóa"}
+                            </Badge>
+                          </td>
+                          <td style={{ padding: "12px 14px", textAlign: "center" }}>
+                            <div style={{ display: "flex", gap: 6, justifyContent: "center" }}>
+                              <button
+                                className="ul-btn"
+                                onClick={() => toggleUserStatus(r.id)}
+                                title={r.status === "Active" ? "Khóa tài khoản này" : "Mở khóa tài khoản"}
+                                disabled={r.id === currentUser?.id}
+                                style={{
+                                  background: r.status === "Active" ? "#FCEBEB" : "#E1F5EE",
+                                  color: r.status === "Active" ? "#791F1F" : "#085041",
+                                  border: "none",
+                                  padding: "5px 12px",
+                                  borderRadius: 6,
+                                  fontSize: 12,
+                                  fontWeight: 600,
+                                  opacity: r.id === currentUser?.id ? 0.4 : 1,
+                                  cursor: r.id === currentUser?.id ? "not-allowed" : "pointer"
+                                }}
+                              >
+                                {r.status === "Active" ? "Khóa acc" : "Mở khóa"}
+                              </button>
+                              <button
+                                className="ul-btn"
+                                onClick={() => handleDeleteUser(r.id)}
+                                title={r.id === currentUser?.id ? "Không thể xóa tài khoản của chính mình" : "Xóa vĩnh viễn tài khoản"}
+                                disabled={r.id === currentUser?.id}
+                                style={{
+                                  background: "rgba(224,90,71,0.12)",
+                                  color: CORAL,
+                                  border: "none",
+                                  padding: "5px 9px",
+                                  borderRadius: 6,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  opacity: r.id === currentUser?.id ? 0.4 : 1,
+                                  cursor: r.id === currentUser?.id ? "not-allowed" : "pointer"
+                                }}
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
 
@@ -1833,6 +2037,377 @@ function AdminView({ housingList, foodList, marketList, showToast }) {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+// --- PROFILE VIEW (TRANG CÁ NHÂN CỦA KHÁCH HÀNG & ADMIN) ---
+function ProfileView({
+  currentUser,
+  setCurrentUser,
+  users,
+  setUsers,
+  favorites,
+  toggleFav,
+  housingList,
+  foodList,
+  marketList,
+  entertainmentList,
+  setDetail,
+  setTab,
+  showToast
+}) {
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState(currentUser?.name || "");
+  const [phone, setPhone] = useState(currentUser?.phone || "");
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [customUrl, setCustomUrl] = useState("");
+  const [activeFavTab, setActiveFavTab] = useState("all");
+
+  const likedHousing = useMemo(() => housingList.filter((h) => favorites[`housing-${h.id}`]), [housingList, favorites]);
+  const likedFood = useMemo(() => foodList.filter((f) => favorites[`food-${f.id}`]), [foodList, favorites]);
+  const likedMarket = useMemo(() => marketList.filter((m) => favorites[`market-${m.id}`]), [marketList, favorites]);
+  const likedEntertainment = useMemo(() => entertainmentList.filter((e) => favorites[`entertainment-${e.id}`]), [entertainmentList, favorites]);
+
+  const allLikedItems = useMemo(() => [
+    ...likedHousing.map((i) => ({ ...i, type: "housing" })),
+    ...likedFood.map((i) => ({ ...i, type: "food" })),
+    ...likedMarket.map((i) => ({ ...i, type: "market" })),
+    ...likedEntertainment.map((i) => ({ ...i, type: "entertainment" })),
+  ], [likedHousing, likedFood, likedMarket, likedEntertainment]);
+
+  const displayedFavs = useMemo(() => {
+    if (activeFavTab === "housing") return likedHousing.map((i) => ({ ...i, type: "housing" }));
+    if (activeFavTab === "food") return likedFood.map((i) => ({ ...i, type: "food" }));
+    if (activeFavTab === "market") return likedMarket.map((i) => ({ ...i, type: "market" }));
+    if (activeFavTab === "entertainment") return likedEntertainment.map((i) => ({ ...i, type: "entertainment" }));
+    return allLikedItems;
+  }, [activeFavTab, allLikedItems, likedHousing, likedFood, likedMarket, likedEntertainment]);
+
+  const handleSaveInfo = (e) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+    const updated = { ...currentUser, name: name.trim(), phone: phone.trim() };
+    setCurrentUser(updated);
+    setUsers(users.map((u) => (u.id === currentUser.id ? updated : u)));
+    setEditing(false);
+    showToast("Đã cập nhật thông tin cá nhân! ✨");
+  };
+
+  const handleSelectAvatar = (url) => {
+    const updated = { ...currentUser, avatar: url };
+    setCurrentUser(updated);
+    setUsers(users.map((u) => (u.id === currentUser.id ? updated : u)));
+    setShowAvatarModal(false);
+    showToast("Đã thay đổi ảnh đại diện thành công! 📸");
+  };
+
+  return (
+    <div style={{ paddingTop: 28, maxWidth: 1040, margin: "0 auto" }}>
+      {/* PROFILE HEADER CARD */}
+      <div style={{
+        background: CARD,
+        borderRadius: 20,
+        padding: "32px 28px",
+        border: "1px solid #ECE7D8",
+        boxShadow: "0 6px 20px rgba(0,0,0,0.04)",
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 28,
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 32
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+          {/* AVATAR WITH CAMERA OVERLAY */}
+          <div style={{ position: "relative" }}>
+            <img
+              src={currentUser.avatar || PRESET_AVATARS[0]}
+              alt={currentUser.name}
+              style={{
+                width: 96,
+                height: 96,
+                borderRadius: "50%",
+                objectFit: "cover",
+                border: `3px solid ${MARIGOLD}`,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.12)"
+              }}
+              onError={(e) => { e.target.src = PRESET_AVATARS[0]; }}
+            />
+            <button
+              className="ul-btn"
+              onClick={() => setShowAvatarModal(true)}
+              title="Đổi ảnh đại diện"
+              style={{
+                position: "absolute",
+                bottom: 2,
+                right: 2,
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                background: INK,
+                color: "#fff",
+                border: "2px solid #fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.2)"
+              }}
+            >
+              <Camera size={15} />
+            </button>
+          </div>
+
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
+              <h1 className="ul-h" style={{ fontSize: 24, margin: 0 }}>{currentUser.name}</h1>
+              <span style={{
+                fontSize: 12,
+                fontWeight: 700,
+                background: currentUser.role === "Quản trị viên" ? "#FFE9C2" : "#E1F5EE",
+                color: currentUser.role === "Quản trị viên" ? "#8A5B00" : "#085041",
+                padding: "3px 10px",
+                borderRadius: 20,
+              }}>
+                {currentUser.role}
+              </span>
+              <span style={{ fontSize: 11.5, background: "#E8F2FA", color: "#266FB5", padding: "2px 8px", borderRadius: 12, fontWeight: 600 }}>
+                🟢 Đang hoạt động
+              </span>
+            </div>
+            <div style={{ color: SUBTEXT, fontSize: 13.5, display: "flex", gap: 16, flexWrap: "wrap" }}>
+              <span>✉️ {currentUser.email}</span>
+              <span>📞 {currentUser.phone || "Chưa cập nhật SĐT"}</span>
+              {currentUser.joined && <span>📅 Tham gia: {currentUser.joined}</span>}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 10 }}>
+          <button
+            className="ul-btn"
+            onClick={() => setShowAvatarModal(true)}
+            style={{
+              background: "rgba(255,193,69,0.2)",
+              color: INK,
+              border: `1.5px solid ${MARIGOLD}`,
+              padding: "10px 16px",
+              borderRadius: 12,
+              fontWeight: 700,
+              fontSize: 13.5,
+              display: "flex",
+              alignItems: "center",
+              gap: 6
+            }}
+          >
+            <Camera size={16} color={CORAL} /> Đổi Avatar
+          </button>
+          <button
+            className="ul-btn"
+            onClick={() => setEditing(!editing)}
+            style={{
+              background: editing ? INK : "#F0EFEA",
+              color: editing ? "#fff" : INK,
+              padding: "10px 16px",
+              borderRadius: 12,
+              fontWeight: 600,
+              fontSize: 13.5,
+              display: "flex",
+              alignItems: "center",
+              gap: 6
+            }}
+          >
+            <Edit3 size={15} /> {editing ? "Đóng chỉnh sửa" : "Sửa thông tin"}
+          </button>
+        </div>
+      </div>
+
+      {/* EDIT FORM (KHI BẤM SỬA THÔNG TIN) */}
+      {editing && (
+        <form onSubmit={handleSaveInfo} className="animate-fade-in" style={{
+          background: CARD,
+          border: "1px solid #ECE7D8",
+          borderRadius: 16,
+          padding: 24,
+          marginBottom: 32,
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr)) auto",
+          gap: 16,
+          alignItems: "end"
+        }}>
+          <div>
+            <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 6 }}>Họ và tên</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid #E0DCD0", fontSize: 14, outline: "none" }}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 6 }}>Số điện thoại</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="090x.xxx.xxx"
+              style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid #E0DCD0", fontSize: 14, outline: "none" }}
+            />
+          </div>
+          <button type="submit" className="ul-btn" style={{ background: TEAL, color: "#fff", padding: "11px 22px", borderRadius: 10, fontWeight: 700, fontSize: 14 }}>
+            Lưu thay đổi
+          </button>
+        </form>
+      )}
+
+      {/* SECTION BÀI VIẾT ĐÃ THÍCH */}
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18, flexWrap: "wrap", gap: 12 }}>
+          <div>
+            <h2 className="ul-h" style={{ fontSize: 20, margin: "0 0 4px", display: "flex", alignItems: "center", gap: 8 }}>
+              <Heart size={20} fill={CORAL} color={CORAL} /> Bài viết & Địa điểm đã thích
+            </h2>
+            <span style={{ fontSize: 13.5, color: SUBTEXT }}>Tất cả những phòng trọ, quán ăn, đồ chợ cũ bạn đã thả tim lưu lại</span>
+          </div>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {[
+              { id: "all", label: `Tất cả (${allLikedItems.length})` },
+              { id: "housing", label: `Phòng trọ (${likedHousing.length})` },
+              { id: "food", label: `Ăn uống (${likedFood.length})` },
+              { id: "market", label: `Chợ cũ (${likedMarket.length})` },
+              { id: "entertainment", label: `Vui chơi (${likedEntertainment.length})` },
+            ].map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setActiveFavTab(t.id)}
+                className="ul-btn"
+                style={{
+                  padding: "7px 14px",
+                  borderRadius: 20,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  background: activeFavTab === t.id ? INK : "rgba(0,0,0,0.06)",
+                  color: activeFavTab === t.id ? "#fff" : INK,
+                  border: "none",
+                }}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {displayedFavs.length === 0 ? (
+          <div style={{
+            background: CARD,
+            borderRadius: 16,
+            border: "1px dashed #E0DCD0",
+            padding: "60px 20px",
+            textAlign: "center",
+            color: SUBTEXT
+          }}>
+            <Heart size={44} color="#D0CBC0" style={{ marginBottom: 12 }} />
+            <div style={{ fontSize: 16, fontWeight: 700, color: INK, marginBottom: 6 }}>Chưa có bài viết nào trong danh mục này</div>
+            <p style={{ fontSize: 14, maxWidth: 420, margin: "0 auto 20px" }}>
+              Hãy dạo một vòng khám phá phòng trọ, quán ăn ngon quanh trường và bấm vào biểu tượng trái tim để lưu lại bạn nhé!
+            </p>
+            <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
+              <button onClick={() => setTab("housing")} className="ul-btn" style={{ background: INK, color: "#fff", padding: "10px 18px", borderRadius: 10, fontSize: 13.5, fontWeight: 600 }}>
+                Tìm phòng trọ
+              </button>
+              <button onClick={() => setTab("food")} className="ul-btn" style={{ background: "#F0EFEA", color: INK, padding: "10px 18px", borderRadius: 10, fontSize: 13.5, fontWeight: 600 }}>
+                Xem quán ăn ngon
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 18 }}>
+            {displayedFavs.map((item) => {
+              if (item.type === "housing") return <PlaceCard key={`prof-h-${item.id}`} item={item} type="housing" favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />;
+              if (item.type === "food") return <FoodCard key={`prof-f-${item.id}`} item={item} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />;
+              if (item.type === "market") return <ProductCard key={`prof-m-${item.id}`} item={item} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />;
+              if (item.type === "entertainment") return <EntCard key={`prof-e-${item.id}`} item={item} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail} />;
+              return null;
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* MODAL CHỌN AVATAR */}
+      {showAvatarModal && (
+        <div onClick={() => setShowAvatarModal(false)} style={{
+          position: "fixed", inset: 0, background: "rgba(22,25,46,0.65)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 400, padding: 20
+        }}>
+          <div onClick={(e) => e.stopPropagation()} className="animate-modal-in" style={{
+            background: CARD, borderRadius: 20, maxWidth: 480, width: "100%", padding: 26, boxShadow: "0 20px 45px rgba(0,0,0,0.25)"
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+              <div>
+                <h3 className="ul-h" style={{ fontSize: 18, margin: 0, fontWeight: 700 }}>Chọn ảnh đại diện mới</h3>
+                <span style={{ fontSize: 12.5, color: SUBTEXT }}>Chọn ảnh có sẵn hoặc dán link ảnh tùy thích</span>
+              </div>
+              <button onClick={() => setShowAvatarModal(false)} className="ul-btn" style={{ background: "none" }}><X size={20} /></button>
+            </div>
+
+            {/* PRESET AVATARS GRID */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 20 }}>
+              {PRESET_AVATARS.map((url, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => handleSelectAvatar(url)}
+                  className="ul-card"
+                  style={{
+                    cursor: "pointer",
+                    borderRadius: 14,
+                    overflow: "hidden",
+                    border: currentUser.avatar === url ? `3px solid ${CORAL}` : "2px solid #EAE6D8",
+                    position: "relative",
+                    aspectRatio: "1/1"
+                  }}
+                >
+                  <img src={url} alt={`avatar-${idx}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  {currentUser.avatar === url && (
+                    <div style={{
+                      position: "absolute", inset: 0, background: "rgba(255,93,62,0.3)", display: "flex", alignItems: "center", justifyContent: "center"
+                    }}>
+                      <div style={{ background: CORAL, color: "#fff", width: 22, height: 22, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Check size={14} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* CUSTOM AVATAR URL */}
+            <div style={{ borderTop: "1px dashed #E0DCD0", paddingTop: 16 }}>
+              <label style={{ fontSize: 12.5, fontWeight: 600, display: "block", marginBottom: 6 }}>Hoặc dán URL ảnh đại diện của bạn:</label>
+              <div style={{ display: "flex", gap: 8 }}>
+                <input
+                  type="url"
+                  placeholder="https://images.unsplash.com/..."
+                  value={customUrl}
+                  onChange={(e) => setCustomUrl(e.target.value)}
+                  style={{ flex: 1, padding: "9px 12px", borderRadius: 10, border: "1px solid #E0DCD0", fontSize: 13, outline: "none" }}
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!customUrl.trim()) return;
+                    handleSelectAvatar(customUrl.trim());
+                  }}
+                  className="ul-btn"
+                  style={{ background: INK, color: "#fff", padding: "9px 16px", borderRadius: 10, fontWeight: 700, fontSize: 13 }}
+                >
+                  Sử dụng
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -2401,7 +2976,9 @@ function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, showToa
       password: regPassword,
       phone: regPhone || "0900.000.000",
       role: regRole, // "Khách hàng"
-      status: "Active"
+      status: "Active",
+      avatar: PRESET_AVATARS[Math.floor(Math.random() * PRESET_AVATARS.length)],
+      joined: new Date().toLocaleDateString("vi-VN")
     };
 
     onRegister(newUser);
