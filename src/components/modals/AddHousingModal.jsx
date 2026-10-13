@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import { CARD, CORAL } from "../../data/theme";
 
 export function AddHousingModal({ onClose, onAdd }) {
@@ -12,12 +12,14 @@ export function AddHousingModal({ onClose, onAdd }) {
   const [washer, setWasher] = useState(true);
   const [wifi, setWifi] = useState(true);
   const [parking, setParking] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !address) return;
-    onAdd({
-      id: Date.now(),
+
+    setIsSubmitting(true);
+    await onAdd({
       name,
       price: `${priceNum} triệu`,
       priceNum: parseFloat(priceNum),
@@ -33,13 +35,15 @@ export function AddHousingModal({ onClose, onAdd }) {
       phone: "0908.777.666",
       host: "Chủ trọ mới đăng ký",
       desc: "Phòng trọ mới cập nhật trên UniLife, liên hệ để xem phòng trực tiếp.",
-      img: `new_room_${Date.now()}`
+      img: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
+      status: "approved"
     });
+    setIsSubmitting(false);
   };
 
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(22,25,46,0.65)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 250, padding: 20 }}>
-      <div onClick={(e) => e.stopPropagation()} className="animate-modal-in" style={{ background: CARD, borderRadius: 16, maxWidth: 500, width: "100%", padding: 24 }}>
+      <div onClick={(e) => e.stopPropagation()} className="animate-modal-in" style={{ background: CARD, borderRadius: 16, maxWidth: 500, width: "100%", padding: 24, boxShadow: "0 20px 45px rgba(0,0,0,0.25)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <h2 className="ul-h" style={{ fontSize: 20, margin: 0, fontWeight: 700 }}>Đăng tin phòng trọ cho thuê</h2>
           <button onClick={onClose} className="ul-btn" style={{ background: "none" }}><X size={20} /></button>
@@ -64,12 +68,17 @@ export function AddHousingModal({ onClose, onAdd }) {
 
           <div>
             <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Địa chỉ chi tiết *</label>
-            <input required placeholder="Số nhà, tên đường, phường, quận..." value={address} onChange={(e) => setAddress(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14 }} />
+            <input required placeholder="Số nhà, tên đường, phường..." value={address} onChange={(e) => setAddress(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14 }} />
           </div>
 
           <div>
-            <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 6 }}>Tiện nghi có sẵn:</label>
-            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", fontSize: 13 }}>
+            <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Khoảng cách đến trường</label>
+            <input value={distance} onChange={(e) => setDistance(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14 }} />
+          </div>
+
+          <div>
+            <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 6 }}>Tiện ích đi kèm:</label>
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", fontSize: 13.5 }}>
               <label style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}>
                 <input type="checkbox" checked={ac} onChange={(e) => setAc(e.target.checked)} /> Máy lạnh
               </label>
@@ -87,7 +96,32 @@ export function AddHousingModal({ onClose, onAdd }) {
 
           <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
             <button type="button" className="ul-btn" onClick={onClose} style={{ background: "#EAE6D9", padding: "10px 18px", borderRadius: 10, fontSize: 14 }}>Hủy</button>
-            <button type="submit" className="ul-btn" style={{ background: CORAL, color: "#fff", padding: "10px 22px", borderRadius: 10, fontSize: 14, fontWeight: 700 }}>Đăng phòng ngay</button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="ul-btn"
+              style={{
+                background: CORAL,
+                color: "#fff",
+                padding: "10px 22px",
+                borderRadius: 10,
+                fontSize: 14,
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                cursor: isSubmitting ? "not-allowed" : "pointer"
+              }}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>Đang lưu phpMyAdmin...</span>
+                </>
+              ) : (
+                "Đăng phòng ngay"
+              )}
+            </button>
           </div>
         </form>
       </div>

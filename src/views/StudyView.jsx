@@ -1,33 +1,51 @@
 import React, { useState } from "react";
-import { Plus, FileText } from "lucide-react";
+import { Plus, FileText, Loader2 } from "lucide-react";
 import { SUBTEXT, CARD, INK } from "../data/theme";
 import { Badge } from "../components/common/Badge";
 import { StarRow } from "../components/common/StarRow";
+import { addStudyToBackend } from "../services/postService";
 
 export function StudyView({ data, setStudyList, showToast }) {
   const [showAddDoc, setShowAddDoc] = useState(false);
   const [docTitle, setDocTitle] = useState("");
   const [docType, setDocType] = useState("Tài liệu ôn tập");
   const [docDesc, setDocDesc] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleAddDoc = (e) => {
+  const handleAddDoc = async (e) => {
     e.preventDefault();
     if (!docTitle) return;
+
+    setIsSubmitting(true);
     const newDoc = {
       id: Date.now(),
-      title: docTitle,
+      title: docTitle.trim(),
       author: "Thành viên UniLife",
       downloads: 1,
       rating: 5.0,
       type: docType,
       date: "Vừa xong",
-      desc: docDesc || "Tài liệu học tập chia sẻ cho sinh viên."
+      desc: docDesc.trim() || "Tài liệu học tập chia sẻ cho sinh viên."
     };
-    setStudyList([newDoc, ...data]);
-    setShowAddDoc(false);
-    setDocTitle("");
-    setDocDesc("");
-    showToast("Đã chia sẻ tài liệu học tập mới thành công!");
+
+    try {
+      const res = await addStudyToBackend(newDoc);
+      if (res && res.success && res.item) {
+        setStudyList([res.item, ...data]);
+        showToast("Đã lưu tài liệu học tập vào phpMyAdmin thành công! 📚");
+      } else {
+        setStudyList([newDoc, ...data]);
+        showToast("Đã chia sẻ tài liệu học tập mới thành công!");
+      }
+    } catch (err) {
+      setStudyList([newDoc, ...data]);
+      showToast("Đã chia sẻ tài liệu học tập mới!");
+    } finally {
+      setIsSubmitting(false);
+      setShowAddDoc(false);
+      setDocTitle("");
+      setDocDesc("");
+    }
   };
 
   return (
@@ -48,7 +66,7 @@ export function StudyView({ data, setStudyList, showToast }) {
 
       {showAddDoc && (
         <form onSubmit={handleAddDoc} className="animate-fade-in" style={{ background: CARD, border: "1px solid #ECE7D8", borderRadius: 14, padding: 18, marginBottom: 24 }}>
-          <h3 style={{ fontSize: 16, margin: "0 0 12px" }}>Chia sẻ tài liệu mới</h3>
+          <h3 style={{ fontSize: 16, margin: "0 0 12px" }}>Chia sẻ tài liệu mới (Lưu phpMyAdmin)</h3>
           <div style={{ display: "grid", gap: 10, maxWidth: 600 }}>
             <input
               required
@@ -75,7 +93,32 @@ export function StudyView({ data, setStudyList, showToast }) {
             />
             <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
               <button type="button" className="ul-btn" onClick={() => setShowAddDoc(false)} style={{ background: "#EAE6D9", padding: "8px 16px", borderRadius: 8, fontSize: 13 }}>Hủy</button>
-              <button type="submit" className="ul-btn" style={{ background: "#378ADD", color: "#fff", padding: "8px 16px", borderRadius: 8, fontSize: 13, fontWeight: 600 }}>Đăng tài liệu</button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="ul-btn"
+                style={{
+                  background: "#378ADD",
+                  color: "#fff",
+                  padding: "8px 16px",
+                  borderRadius: 8,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  cursor: isSubmitting ? "not-allowed" : "pointer"
+                }}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={14} className="animate-spin" />
+                    <span>Đang lưu...</span>
+                  </>
+                ) : (
+                  "Đăng tài liệu"
+                )}
+              </button>
             </div>
           </div>
         </form>

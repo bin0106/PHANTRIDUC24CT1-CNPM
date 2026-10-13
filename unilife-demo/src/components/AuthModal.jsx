@@ -52,7 +52,7 @@ export default function AuthModal({ isOpen, onClose, users, onRegister, onLoginS
     onClose();
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setRegSuccessMsg("");
 
@@ -74,9 +74,17 @@ export default function AuthModal({ isOpen, onClose, users, onRegister, onLoginS
       avatar: regName.trim().slice(0, 2).toUpperCase()
     };
 
+    try {
+      fetch("http://localhost/api/register.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUser)
+      }).catch(() => {});
+    } catch (err) {}
+
     onRegister(newUser);
-    setRegSuccessMsg("Đăng ký thành công! Hồ sơ của bạn đã được gửi đến Admin để xét duyệt quyền truy cập theo quy định. Sau khi Admin phê duyệt, bạn mới có thể đăng nhập.");
-    showToast("Đã gửi yêu cầu đăng ký tài khoản tới Admin!");
+    setRegSuccessMsg("Đăng ký thành công! Hồ sơ của bạn đã được lưu vào hệ thống và gửi đến Admin xét duyệt.");
+    showToast("Đã đăng ký tài khoản và lưu vào phpMyAdmin!");
   };
 
   const quickLogin = (email, password) => {

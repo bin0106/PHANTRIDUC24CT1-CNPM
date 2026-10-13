@@ -2,6 +2,11 @@ import React, { useState, useMemo } from "react";
 import { LayoutDashboard, Users, Building2, Utensils, ShoppingCart, PartyPopper, Star, MessageSquareWarning, ShieldCheck, Search, Trash2, CheckCircle2 } from "lucide-react";
 import { CARD, PAPER, INK, CORAL, TEAL, MARIGOLD, SUBTEXT, PRESET_AVATARS } from "../data/theme";
 import { Badge } from "../components/common/Badge";
+import {
+  updateHousingStatusInBackend, deleteHousingFromBackend,
+  updateFoodStatusInBackend, deleteFoodFromBackend,
+  updateMarketStatusInBackend, deleteMarketFromBackend
+} from "../services/postService";
 
 const adminStats = [
   { label: "Người dùng đăng ký", value: "2,481", icon: Users, color: "#378ADD" },
@@ -27,6 +32,7 @@ export function AdminView({ users, setUsers, currentUser, housingList, setHousin
     setHousingList(housingList.map((h) => {
       if (h.id === id) {
         const nextStatus = h.status === "hidden" ? "approved" : "hidden";
+        updateHousingStatusInBackend(id, nextStatus);
         showToast(nextStatus === "approved" ? `Đã duyệt hiển thị bài phòng trọ "${h.name}"! ✅` : `Đã ẩn bài phòng trọ "${h.name}"! 🔒`);
         return { ...h, status: nextStatus };
       }
@@ -38,14 +44,16 @@ export function AdminView({ users, setUsers, currentUser, housingList, setHousin
     const item = housingList.find((h) => h.id === id);
     if (!item) return;
     if (!window.confirm(`Bạn có chắc chắn muốn XÓA VĨNH VIỄN bài đăng phòng trọ "${item.name}"?`)) return;
+    deleteHousingFromBackend(id);
     setHousingList(housingList.filter((h) => h.id !== id));
-    showToast(`Đã xóa bài đăng phòng trọ "${item.name}"! 🗑️`);
+    showToast(`Đã xóa bài đăng phòng trọ "${item.name}" khỏi CSDL! 🗑️`);
   };
 
   const toggleMarketStatus = (id) => {
     setMarketList(marketList.map((m) => {
       if (m.id === id) {
         const nextStatus = m.status === "hidden" ? "approved" : "hidden";
+        updateMarketStatusInBackend(id, nextStatus);
         showToast(nextStatus === "approved" ? `Đã duyệt tin chợ đồ cũ "${m.name}"! ✅` : `Đã ẩn tin đăng "${m.name}"! 🔒`);
         return { ...m, status: nextStatus };
       }
@@ -57,14 +65,16 @@ export function AdminView({ users, setUsers, currentUser, housingList, setHousin
     const item = marketList.find((m) => m.id === id);
     if (!item) return;
     if (!window.confirm(`Bạn có chắc chắn muốn XÓA VĨNH VIỄN sản phẩm "${item.name}" khỏi chợ?`)) return;
+    deleteMarketFromBackend(id);
     setMarketList(marketList.filter((m) => m.id !== id));
-    showToast(`Đã xóa sản phẩm "${item.name}"! 🗑️`);
+    showToast(`Đã xóa sản phẩm "${item.name}" khỏi CSDL! 🗑️`);
   };
 
   const toggleFoodStatus = (id) => {
     setFoodList(foodList.map((f) => {
       if (f.id === id) {
         const nextStatus = f.status === "hidden" ? "approved" : "hidden";
+        updateFoodStatusInBackend(id, nextStatus);
         showToast(nextStatus === "approved" ? `Đã duyệt hiển thị quán "${f.name}"! ✅` : `Đã ẩn quán "${f.name}"! 🔒`);
         return { ...f, status: nextStatus };
       }
@@ -76,8 +86,9 @@ export function AdminView({ users, setUsers, currentUser, housingList, setHousin
     const item = foodList.find((f) => f.id === id);
     if (!item) return;
     if (!window.confirm(`Bạn có chắc chắn muốn XÓA VĨNH VIỄN quán ăn "${item.name}"?`)) return;
+    deleteFoodFromBackend(id);
     setFoodList(foodList.filter((f) => f.id !== id));
-    showToast(`Đã xóa quán ăn "${item.name}"! 🗑️`);
+    showToast(`Đã xóa quán ăn "${item.name}" khỏi CSDL! 🗑️`);
   };
 
   const filteredUsers = useMemo(() => {

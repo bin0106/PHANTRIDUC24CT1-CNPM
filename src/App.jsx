@@ -22,8 +22,16 @@ import { DetailModal } from "./components/modals/DetailModal";
 import { ContactModal } from "./components/modals/ContactModal";
 import { AddMarketModal } from "./components/modals/AddMarketModal";
 import { AddHousingModal } from "./components/modals/AddHousingModal";
+import { AddFoodModal } from "./components/modals/AddFoodModal";
 import { NotificationModal } from "./components/modals/NotificationModal";
 import { ChatModal } from "./components/modals/ChatModal";
+import { fetchUsersFromBackend } from "./services/authService";
+import {
+  fetchHousingFromBackend, addHousingToBackend,
+  fetchFoodFromBackend, addFoodToBackend,
+  fetchMarketFromBackend, addMarketToBackend,
+  fetchStudyFromBackend
+} from "./services/postService";
 
 // 4. Các màn hình giao diện chính (Views / Pages)
 import { HomeView } from "./views/HomeView";
@@ -83,6 +91,7 @@ export default function App() {
   // Quản lý trạng thái các Modals
   const [showAddMarketModal, setShowAddMarketModal] = useState(false);
   const [showAddHousingModal, setShowAddHousingModal] = useState(false);
+  const [showAddFoodModal, setShowAddFoodModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(null);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showChatModal, setShowChatModal] = useState(false);
@@ -92,6 +101,49 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
+  // Đồng bộ toàn bộ dữ liệu từ phpMyAdmin / MySQL khi khởi động
+  useEffect(() => {
+    // 1. Đồng bộ người dùng
+    fetchUsersFromBackend().then((backendUsers) => {
+      if (backendUsers && Array.isArray(backendUsers) && backendUsers.length > 0) {
+        setUsers((prev) => {
+          const map = new Map();
+          prev.forEach((u) => { if (u && u.email) map.set(u.email.toLowerCase(), u); });
+          backendUsers.forEach((u) => { if (u && u.email) map.set(u.email.toLowerCase(), { ...map.get(u.email.toLowerCase()), ...u }); });
+          return Array.from(map.values());
+        });
+      }
+    });
+
+    // 2. Đồng bộ phòng trọ
+    fetchHousingFromBackend().then((backendHousing) => {
+      if (backendHousing && Array.isArray(backendHousing) && backendHousing.length > 0) {
+        setHousingList(backendHousing);
+      }
+    });
+
+    // 3. Đồng bộ quán ăn
+    fetchFoodFromBackend().then((backendFood) => {
+      if (backendFood && Array.isArray(backendFood) && backendFood.length > 0) {
+        setFoodList(backendFood);
+      }
+    });
+
+    // 4. Đồng bộ chợ đồ cũ
+    fetchMarketFromBackend().then((backendMarket) => {
+      if (backendMarket && Array.isArray(backendMarket) && backendMarket.length > 0) {
+        setMarketList(backendMarket);
+      }
+    });
+
+    // 5. Đồng bộ tài liệu học tập
+    fetchStudyFromBackend().then((backendStudy) => {
+      if (backendStudy && Array.isArray(backendStudy) && backendStudy.length > 0) {
+        setStudyList(backendStudy);
+      }
+    });
+  }, []);
+
   // Thông báo phản hồi nhanh (Toast)
   const showToast = (msg) => {
     setToast(msg);
@@ -99,7 +151,7 @@ export default function App() {
   };
 
   // Đóng modal bằng phím Escape
-  const anyModalOpen = !!(detail || showContactModal || showAddMarketModal || showAddHousingModal || showNotificationModal || showChatModal || showAuthModal);
+  const anyModalOpen = !!(detail || showContactModal || showAddMarketModal || showAddHousingModal || showAddFoodModal || showNotificationModal || showChatModal || showAuthModal);
   useEffect(() => {
     const onKey = (e) => {
       if (e.key !== "Escape") return;
@@ -107,13 +159,14 @@ export default function App() {
       else if (showContactModal) setShowContactModal(null);
       else if (showAddMarketModal) setShowAddMarketModal(false);
       else if (showAddHousingModal) setShowAddHousingModal(false);
+      else if (showAddFoodModal) setShowAddFoodModal(false);
       else if (showChatModal) setShowChatModal(false);
       else if (showNotificationModal) setShowNotificationModal(false);
       else if (detail) setDetail(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [detail, showContactModal, showAddMarketModal, showAddHousingModal, showNotificationModal, showChatModal, showAuthModal]);
+  }, [detail, showContactModal, showAddMarketModal, showAddHousingModal, showAddFoodModal, showNotificationModal, showChatModal, showAuthModal]);
 
   useEffect(() => {
     document.body.style.overflow = anyModalOpen ? "hidden" : "";
@@ -276,12 +329,12 @@ export default function App() {
                   title="Nhấp để vào Trang cá nhân & Đổi ảnh đại diện"
                 >
                   <img
-                    src={currentUser.avatar || PRESET_AVATARS[0]}
-                    alt={currentUser.name}
+                    src={currentUser?.avatar || PRESET_AVATARS[0]}
+                    alt={currentUser?.name || "Người dùng"}
                     style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover", border: "1.5px solid #fff" }}
                     onError={(e) => { e.target.src = PRESET_AVATARS[0]; }}
                   />
-                  <span>{currentUser.name.length > 12 ? currentUser.name.slice(0, 12) + "..." : currentUser.name}</span>
+                  <span>{(currentUser?.name || "Người dùng").length > 12 ? (currentUser?.name || "").slice(0, 12) + "..." : (currentUser?.name || "Người dùng")}</span>
                   <span style={{ fontSize: 10, background: currentUser.role === "Quản trị viên" ? CORAL : TEAL, color: "#fff", padding: "1px 6px", borderRadius: 8, fontWeight: 700 }}>
                     {currentUser.role === "Quản trị viên" ? "Admin" : "Khách"}
                   </span>
@@ -360,6 +413,7 @@ export default function App() {
         {tab === "food" && (
           <FoodView
             data={publicFood} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail}
+            onOpenAddModal={() => setShowAddFoodModal(true)}
           />
         )}
         {tab === "market" && (
@@ -508,10 +562,17 @@ export default function App() {
       {showAddMarketModal && (
         <AddMarketModal
           onClose={() => setShowAddMarketModal(false)}
-          onAdd={(newItem) => {
-            setMarketList([newItem, ...marketList]);
+          onAdd={async (newItem) => {
+            try {
+              const res = await addMarketToBackend(newItem);
+              const saved = (res && res.success && res.item) ? res.item : { ...newItem, id: Date.now() };
+              setMarketList([saved, ...marketList]);
+              showToast("Đã lưu sản phẩm chợ cũ vào phpMyAdmin! 📦");
+            } catch (e) {
+              setMarketList([{ ...newItem, id: Date.now() }, ...marketList]);
+              showToast("Đã đăng tin bán sản phẩm thành công lên Chợ UniLife!");
+            }
             setShowAddMarketModal(false);
-            showToast("Đã đăng tin bán sản phẩm thành công lên Chợ UniLife!");
           }}
         />
       )}
@@ -519,10 +580,35 @@ export default function App() {
       {showAddHousingModal && (
         <AddHousingModal
           onClose={() => setShowAddHousingModal(false)}
-          onAdd={(newItem) => {
-            setHousingList([newItem, ...housingList]);
+          onAdd={async (newItem) => {
+            try {
+              const res = await addHousingToBackend(newItem);
+              const saved = (res && res.success && res.item) ? res.item : { ...newItem, id: Date.now() };
+              setHousingList([saved, ...housingList]);
+              showToast("Đã lưu phòng trọ mới vào phpMyAdmin! 🏠");
+            } catch (e) {
+              setHousingList([{ ...newItem, id: Date.now() }, ...housingList]);
+              showToast("Đã đăng tin phòng trọ mới thành công!");
+            }
             setShowAddHousingModal(false);
-            showToast("Đã đăng tin phòng trọ mới thành công!");
+          }}
+        />
+      )}
+
+      {showAddFoodModal && (
+        <AddFoodModal
+          onClose={() => setShowAddFoodModal(false)}
+          onAdd={async (newItem) => {
+            try {
+              const res = await addFoodToBackend(newItem);
+              const saved = (res && res.success && res.item) ? res.item : { ...newItem, id: Date.now() };
+              setFoodList([saved, ...foodList]);
+              showToast("Đã lưu quán ăn mới vào phpMyAdmin! 🍜");
+            } catch (e) {
+              setFoodList([{ ...newItem, id: Date.now() }, ...foodList]);
+              showToast("Đã đăng quán ăn mới thành công!");
+            }
+            setShowAddFoodModal(false);
           }}
         />
       )}

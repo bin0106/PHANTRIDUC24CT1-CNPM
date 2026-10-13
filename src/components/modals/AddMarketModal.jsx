@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import { CARD, CORAL } from "../../data/theme";
 
 export function AddMarketModal({ onClose, onAdd }) {
@@ -10,12 +10,14 @@ export function AddMarketModal({ onClose, onAdd }) {
   const [seller, setSeller] = useState("Sinh viên UniLife");
   const [loc, setLoc] = useState("Ký túc xá ĐH Bách Khoa");
   const [desc, setDesc] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !price) return;
-    onAdd({
-      id: Date.now(),
+
+    setIsSubmitting(true);
+    await onAdd({
       name,
       price: price.includes("đ") ? price : `${price}đ`,
       cond,
@@ -24,13 +26,15 @@ export function AddMarketModal({ onClose, onAdd }) {
       phone: "0909.888.999",
       loc,
       desc: desc || "Sản phẩm sinh viên còn sử dụng rất tốt.",
-      img: `user_${Date.now()}`
+      img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
+      status: "approved"
     });
+    setIsSubmitting(false);
   };
 
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(22,25,46,0.65)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 250, padding: 20 }}>
-      <div onClick={(e) => e.stopPropagation()} className="animate-modal-in" style={{ background: CARD, borderRadius: 16, maxWidth: 480, width: "100%", padding: 24 }}>
+      <div onClick={(e) => e.stopPropagation()} className="animate-modal-in" style={{ background: CARD, borderRadius: 16, maxWidth: 480, width: "100%", padding: 24, boxShadow: "0 20px 45px rgba(0,0,0,0.25)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <h2 className="ul-h" style={{ fontSize: 20, margin: 0, fontWeight: 700 }}>Đăng bán đồ cũ sinh viên</h2>
           <button onClick={onClose} className="ul-btn" style={{ background: "none" }}><X size={20} /></button>
@@ -63,27 +67,52 @@ export function AddMarketModal({ onClose, onAdd }) {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             <div>
               <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Tình trạng</label>
-              <select value={cond} onChange={(e) => setCond(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14, background: CARD }}>
-                <option value="Mới 100%">Mới 100%</option>
-                <option value="Đã dùng - như mới">Đã dùng - như mới</option>
-                <option value="Đã dùng - tốt">Đã dùng - tốt</option>
-                <option value="Đã dùng - khá">Đã dùng - khá</option>
-              </select>
+              <input value={cond} onChange={(e) => setCond(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14 }} />
             </div>
             <div>
-              <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Khu vực</label>
-              <input value={loc} onChange={(e) => setLoc(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14 }} />
+              <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Tên người bán</label>
+              <input value={seller} onChange={(e) => setSeller(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14 }} />
             </div>
           </div>
 
           <div>
+            <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Địa điểm giao dịch</label>
+            <input value={loc} onChange={(e) => setLoc(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14 }} />
+          </div>
+
+          <div>
             <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Mô tả chi tiết</label>
-            <textarea rows={3} placeholder="Mô tả phụ kiện đi kèm, thời gian sử dụng..." value={desc} onChange={(e) => setDesc(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14 }} />
+            <textarea rows={3} placeholder="Mô tả thêm về tình trạng, phụ kiện tặng kèm..." value={desc} onChange={(e) => setDesc(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 14, fontFamily: "inherit" }} />
           </div>
 
           <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
             <button type="button" className="ul-btn" onClick={onClose} style={{ background: "#EAE6D9", padding: "10px 18px", borderRadius: 10, fontSize: 14 }}>Hủy</button>
-            <button type="submit" className="ul-btn" style={{ background: CORAL, color: "#fff", padding: "10px 22px", borderRadius: 10, fontSize: 14, fontWeight: 700 }}>Đăng bán ngay</button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="ul-btn"
+              style={{
+                background: CORAL,
+                color: "#fff",
+                padding: "10px 22px",
+                borderRadius: 10,
+                fontSize: 14,
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                cursor: isSubmitting ? "not-allowed" : "pointer"
+              }}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>Đang lưu phpMyAdmin...</span>
+                </>
+              ) : (
+                "Đăng bán ngay"
+              )}
+            </button>
           </div>
         </form>
       </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { X, LogIn, UserPlus, Mail, Lock, User, AlertCircle } from "lucide-react";
+import { X, LogIn, UserPlus, Mail, Lock, User, AlertCircle, Loader2 } from "lucide-react";
 import { CARD, PAPER, INK, CORAL, TEAL, SUBTEXT, PRESET_AVATARS } from "../../data/theme";
+import { registerUserToBackend } from "../../services/authService";
 
 export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, showToast }) {
   const [mode, setMode] = useState("login");
@@ -13,6 +14,7 @@ export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, 
   const [regPassword, setRegPassword] = useState("");
   const [regPhone, setRegPhone] = useState("");
   const [regRole, setRegRole] = useState("Khách hàng");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
@@ -42,7 +44,7 @@ export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, 
     onClose();
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setLoginError("");
 
@@ -52,22 +54,50 @@ export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, 
       return;
     }
 
-    const newUser = {
-      id: Date.now(),
+    setIsSubmitting(true);
+
+    const randomAvatar = PRESET_AVATARS[Math.floor(Math.random() * PRESET_AVATARS.length)];
+    const userData = {
       name: regName.trim(),
       email: regEmail.trim(),
       password: regPassword,
       phone: regPhone || "0900.000.000",
       role: regRole,
-      status: "Active",
-      avatar: PRESET_AVATARS[Math.floor(Math.random() * PRESET_AVATARS.length)],
-      joined: new Date().toLocaleDateString("vi-VN")
+      avatar: randomAvatar
     };
 
-    onRegister(newUser);
-    onLoginSuccess(newUser);
-    showToast(`Đăng ký thành công! Chào mừng ${newUser.name} (${newUser.role}).`);
-    onClose();
+    try {
+      // Gửi lên backend PHP để lưu vào phpMyAdmin (MySQL)
+      const res = await registerUserToBackend(userData);
+
+      let savedUser;
+      if (res && res.success && res.user) {
+        savedUser = {
+          ...res.user,
+          avatar: res.user.avatar || randomAvatar,
+          joined: res.user.joined || new Date().toLocaleDateString("vi-VN")
+        };
+        showToast(`Đã lưu tài khoản ${savedUser.name} vào phpMyAdmin thành công! 🎉`);
+      } else {
+        // Dự phòng lưu cục bộ nếu MySQL chưa bật
+        savedUser = {
+          id: Date.now(),
+          ...userData,
+          status: "Active",
+          joined: new Date().toLocaleDateString("vi-VN")
+        };
+        showToast(`Đăng ký thành công! Chào mừng ${savedUser.name} (${savedUser.role}).`);
+      }
+
+      onRegister(savedUser);
+      onLoginSuccess(savedUser);
+      onClose();
+    } catch (err) {
+      console.error("Lỗi khi đăng ký:", err);
+      setLoginError("Có lỗi xảy ra khi kết nối máy chủ CSDL!");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const quickFill = (email, pass) => {
@@ -284,8 +314,34 @@ export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, 
               </div>
             </div>
 
-            <button type="submit" className="ul-btn" style={{ background: CORAL, color: "#fff", padding: "12px", borderRadius: 10, fontWeight: 700, fontSize: 14, marginTop: 4 }}>
-              Đăng ký tài khoản ({regRole})
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="ul-btn"
+              style={{
+                background: CORAL,
+                color: "#fff",
+                padding: "12px",
+                borderRadius: 10,
+                fontWeight: 700,
+                fontSize: 14,
+                marginTop: 4,
+                opacity: isSubmitting ? 0.7 : 1,
+                cursor: isSubmitting ? "not-allowed" : "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8
+              }}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>Đang lưu vào MySQL / phpMyAdmin...</span>
+                </>
+              ) : (
+                `Đăng ký tài khoản (${regRole})`
+              )}
             </button>
           </form>
         )}
