@@ -24,6 +24,7 @@ export function AdminView({ users, setUsers, currentUser, housingList, setHousin
   const [active, setActive] = useState("Users");
   const [userSearch, setUserSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [roleFilter, setRoleFilter] = useState("all");
 
   const activeCount = users.filter((u) => u.status === "Active").length;
   const bannedCount = users.filter((u) => u.status === "Banned").length;
@@ -93,19 +94,24 @@ export function AdminView({ users, setUsers, currentUser, housingList, setHousin
 
   const filteredUsers = useMemo(() => {
     return users.filter((u) => {
+      // 1. Lọc theo trạng thái hoạt động (Active / Banned)
       if (statusFilter === "Active" && u.status !== "Active") return false;
       if (statusFilter === "Banned" && u.status !== "Banned") return false;
+
+      // 2. Lọc theo vai trò (Role: Khách hàng, Chủ trọ, Quán ăn, Chợ cũ, Admin)
+      if (roleFilter !== "all" && u.role !== roleFilter) return false;
+
+      // 3. Tìm kiếm / lọc theo Tên hoặc Số điện thoại (hoặc Email)
       if (userSearch) {
-        const q = userSearch.toLowerCase();
-        return (
-          u.name.toLowerCase().includes(q) ||
-          u.email.toLowerCase().includes(q) ||
-          (u.phone && u.phone.includes(q))
-        );
+        const q = userSearch.toLowerCase().trim();
+        const nameMatch = u.name && u.name.toLowerCase().includes(q);
+        const phoneMatch = u.phone && u.phone.toLowerCase().includes(q);
+        const emailMatch = u.email && u.email.toLowerCase().includes(q);
+        if (!nameMatch && !phoneMatch && !emailMatch) return false;
       }
       return true;
     });
-  }, [users, statusFilter, userSearch]);
+  }, [users, statusFilter, roleFilter, userSearch]);
 
   const toggleUserStatus = (id) => {
     const target = users.find((u) => u.id === id);
@@ -179,6 +185,50 @@ export function AdminView({ users, setUsers, currentUser, housingList, setHousin
           })}
         </div>
 
+        {/* THỐNG KÊ PHÂN LOẠI TÀI KHOẢN THEO CƠ SỞ DỮ LIỆU */}
+        <div style={{ background: "#F0F5FF", border: "1px solid #C6D9F1", borderRadius: 12, padding: "14px 18px", marginBottom: 20 }}>
+          <div style={{ fontSize: 13.5, fontWeight: 700, color: "#1E4E79", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
+            <Users size={16} /> Thống kê số lượng tài khoản theo vai trò (CSDL unilife_db)
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 10 }}>
+            <div
+              onClick={() => setRoleFilter(roleFilter === "Khách hàng" ? "all" : "Khách hàng")}
+              style={{ background: roleFilter === "Khách hàng" ? "rgba(30,78,121,0.12)" : "#fff", padding: "8px 12px", borderRadius: 8, border: roleFilter === "Khách hàng" ? "2px solid #1E4E79" : "1px solid #D5E3F5", cursor: "pointer" }}
+            >
+              <div style={{ fontSize: 11.5, color: SUBTEXT }}>🎓 Khách hàng</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#1E4E79" }}>{users.filter(u => u.role === "Khách hàng").length}</div>
+            </div>
+            <div
+              onClick={() => setRoleFilter(roleFilter === "Chủ nhà trọ" ? "all" : "Chủ nhà trọ")}
+              style={{ background: roleFilter === "Chủ nhà trọ" ? "rgba(46,117,182,0.12)" : "#fff", padding: "8px 12px", borderRadius: 8, border: roleFilter === "Chủ nhà trọ" ? "2px solid #2E75B6" : "1px solid #D5E3F5", cursor: "pointer" }}
+            >
+              <div style={{ fontSize: 11.5, color: SUBTEXT }}>🏠 Chủ nhà trọ</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#2E75B6" }}>{users.filter(u => u.role === "Chủ nhà trọ").length}</div>
+            </div>
+            <div
+              onClick={() => setRoleFilter(roleFilter === "Chủ quán ăn" ? "all" : "Chủ quán ăn")}
+              style={{ background: roleFilter === "Chủ quán ăn" ? "rgba(237,125,49,0.12)" : "#fff", padding: "8px 12px", borderRadius: 8, border: roleFilter === "Chủ quán ăn" ? "2px solid #ED7D31" : "1px solid #D5E3F5", cursor: "pointer" }}
+            >
+              <div style={{ fontSize: 11.5, color: SUBTEXT }}>🍜 Chủ quán ăn</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#ED7D31" }}>{users.filter(u => u.role === "Chủ quán ăn").length}</div>
+            </div>
+            <div
+              onClick={() => setRoleFilter(roleFilter === "Người bán đồ cũ" ? "all" : "Người bán đồ cũ")}
+              style={{ background: roleFilter === "Người bán đồ cũ" ? "rgba(14,124,102,0.12)" : "#fff", padding: "8px 12px", borderRadius: 8, border: roleFilter === "Người bán đồ cũ" ? "2px solid #0E7C66" : "1px solid #D5E3F5", cursor: "pointer" }}
+            >
+              <div style={{ fontSize: 11.5, color: SUBTEXT }}>📦 Bán đồ cũ</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#0E7C66" }}>{users.filter(u => u.role === "Người bán đồ cũ").length}</div>
+            </div>
+            <div
+              onClick={() => setRoleFilter(roleFilter === "Quản trị viên" ? "all" : "Quản trị viên")}
+              style={{ background: roleFilter === "Quản trị viên" ? "rgba(127,119,221,0.12)" : "#fff", padding: "8px 12px", borderRadius: 8, border: roleFilter === "Quản trị viên" ? "2px solid #7F77DD" : "1px solid #D5E3F5", cursor: "pointer" }}
+            >
+              <div style={{ fontSize: 11.5, color: SUBTEXT }}>🛡️ Quản trị viên</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#7F77DD" }}>{users.filter(u => u.role === "Quản trị viên").length}</div>
+            </div>
+          </div>
+        </div>
+
         {/* ACTIVE TABLE */}
         <div style={{ background: CARD, border: "1px solid #ECE7D8", borderRadius: 14, overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.03)" }}>
           <div style={{ padding: "14px 18px", borderBottom: "1px solid #ECE7D8", fontWeight: 700, fontSize: 14.5, display: "flex", alignItems: "center", gap: 8 }}>
@@ -187,50 +237,117 @@ export function AdminView({ users, setUsers, currentUser, housingList, setHousin
 
           {active === "Users" && (
             <div style={{ padding: 18 }}>
-              {/* FILTER & SEARCH BAR */}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 16, flexWrap: "wrap" }}>
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {/* BỘ LỌC TÌM KIẾM THEO TÊN, SỐ ĐIỆN THOẠI & VAI TRÒ */}
+              <div style={{ display: "grid", gap: 12, marginBottom: 16 }}>
+                {/* HÀNG 1: LỌC THEO VAI TRÒ (ROLE) */}
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "#1E4E79", marginRight: 4 }}>
+                    Lọc theo vai trò:
+                  </span>
                   {[
                     { id: "all", label: `Tất cả (${users.length})` },
-                    { id: "Active", label: `🟢 Hoạt động (${activeCount})` },
-                    { id: "Banned", label: `🔴 Bị khóa (${bannedCount})` },
-                  ].map((f) => (
+                    { id: "Khách hàng", label: `🎓 Khách hàng (${users.filter(u => u.role === "Khách hàng").length})` },
+                    { id: "Chủ nhà trọ", label: `🏠 Chủ nhà trọ (${users.filter(u => u.role === "Chủ nhà trọ").length})` },
+                    { id: "Chủ quán ăn", label: `🍜 Chủ quán ăn (${users.filter(u => u.role === "Chủ quán ăn").length})` },
+                    { id: "Người bán đồ cũ", label: `📦 Bán đồ cũ (${users.filter(u => u.role === "Người bán đồ cũ").length})` },
+                    { id: "Quản trị viên", label: `🛡️ Admin (${users.filter(u => u.role === "Quản trị viên").length})` },
+                  ].map((r) => (
                     <button
-                      key={f.id}
-                      onClick={() => setStatusFilter(f.id)}
+                      key={r.id}
+                      type="button"
+                      onClick={() => setRoleFilter(r.id)}
                       className="ul-btn"
                       style={{
-                        padding: "6px 14px",
-                        borderRadius: 20,
-                        fontSize: 12.5,
-                        fontWeight: 600,
-                        background: statusFilter === f.id ? INK : "rgba(0,0,0,0.05)",
-                        color: statusFilter === f.id ? "#fff" : INK,
-                        border: "none",
+                        padding: "5px 12px",
+                        borderRadius: 16,
+                        fontSize: 12,
+                        fontWeight: roleFilter === r.id ? 700 : 500,
+                        background: roleFilter === r.id ? "#1E4E79" : "rgba(30,78,121,0.08)",
+                        color: roleFilter === r.id ? "#fff" : "#1E4E79",
+                        border: roleFilter === r.id ? "1px solid #1E4E79" : "1px solid #C6D9F1",
                         cursor: "pointer",
+                        transition: "all 0.15s ease"
                       }}
                     >
-                      {f.label}
+                      {r.label}
                     </button>
                   ))}
                 </div>
-                <div style={{ position: "relative", minWidth: 240 }}>
-                  <Search size={14} color={SUBTEXT} style={{ position: "absolute", left: 12, top: 10 }} />
-                  <input
-                    type="text"
-                    placeholder="Tìm tên, email, số điện thoại..."
-                    value={userSearch}
-                    onChange={(e) => setUserSearch(e.target.value)}
-                    style={{
-                      padding: "7px 12px 7px 34px",
-                      borderRadius: 18,
-                      border: "1px solid #E0DCD0",
-                      fontSize: 12.5,
-                      outline: "none",
-                      width: "100%",
-                      background: PAPER
-                    }}
-                  />
+
+                {/* HÀNG 2: LỌC THEO TRẠNG THÁI & TÌM KIẾM TÊN / SĐT */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: SUBTEXT, marginRight: 2 }}>Trạng thái:</span>
+                    {[
+                      { id: "all", label: `Tất cả` },
+                      { id: "Active", label: `🟢 Hoạt động (${activeCount})` },
+                      { id: "Banned", label: `🔴 Bị khóa (${bannedCount})` },
+                    ].map((f) => (
+                      <button
+                        key={f.id}
+                        type="button"
+                        onClick={() => setStatusFilter(f.id)}
+                        className="ul-btn"
+                        style={{
+                          padding: "5px 12px",
+                          borderRadius: 16,
+                          fontSize: 12,
+                          fontWeight: 600,
+                          background: statusFilter === f.id ? INK : "rgba(0,0,0,0.05)",
+                          color: statusFilter === f.id ? "#fff" : INK,
+                          border: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                    {(roleFilter !== "all" || statusFilter !== "all" || userSearch) && (
+                      <button
+                        type="button"
+                        onClick={() => { setRoleFilter("all"); setStatusFilter("all"); setUserSearch(""); }}
+                        style={{ padding: "4px 10px", borderRadius: 12, fontSize: 11.5, background: "none", border: "1px dashed #dc3545", color: "#dc3545", cursor: "pointer", marginLeft: 6 }}
+                      >
+                        Xóa bộ lọc ✕
+                      </button>
+                    )}
+                  </div>
+
+                  <div style={{ position: "relative", minWidth: 280, flex: 1, maxWidth: 380 }}>
+                    <Search size={14} color={SUBTEXT} style={{ position: "absolute", left: 12, top: 10 }} />
+                    <input
+                      type="text"
+                      placeholder="Tìm kiếm theo Tên hoặc Số điện thoại..."
+                      value={userSearch}
+                      onChange={(e) => setUserSearch(e.target.value)}
+                      style={{
+                        padding: "7px 30px 7px 34px",
+                        borderRadius: 18,
+                        border: "1px solid #1E4E7966",
+                        fontSize: 12.5,
+                        outline: "none",
+                        width: "100%",
+                        background: "#fff"
+                      }}
+                    />
+                    {userSearch && (
+                      <span
+                        onClick={() => setUserSearch("")}
+                        style={{ position: "absolute", right: 10, top: 7, cursor: "pointer", color: SUBTEXT, fontSize: 14 }}
+                      >
+                        ✕
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div style={{ fontSize: 12, color: SUBTEXT, display: "flex", justifyContent: "space-between" }}>
+                  <span>Đang hiển thị <strong>{filteredUsers.length}</strong> / <strong>{users.length}</strong> tài khoản</span>
+                  {(userSearch || roleFilter !== "all") && (
+                    <span style={{ color: "#1E4E79", fontWeight: 600 }}>
+                      Đang lọc: {roleFilter !== "all" ? `Vai trò [${roleFilter}] ` : ""}{userSearch ? `Từ khóa ["${userSearch}"]` : ""}
+                    </span>
+                  )}
                 </div>
               </div>
 

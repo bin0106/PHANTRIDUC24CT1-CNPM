@@ -1,0 +1,245 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif">
+  <defs>
+    <filter id="f1-shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#16192E" flood-opacity="0.08"/>
+    </filter>
+    <marker id="f1-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#4B5563"/>
+    </marker>
+    <marker id="f1-arr-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#059669"/>
+    </marker>
+    <marker id="f1-arr-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1920" height="1080" fill="#F8FAFC"/>
+  <pattern id="grid-f1" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="2.5" cy="2.5" r="1.5" fill="#E2E8F0"/>
+  </pattern>
+  <rect width="1920" height="1080" fill="url(#grid-f1)"/>
+
+  <!-- BOARD HEADER -->
+  <rect x="40" y="24" width="1840" height="84" rx="16" fill="#16192E" filter="url(#f1-shadow)"/>
+  <rect x="58" y="42" width="46" height="46" rx="12" fill="#FF5D3E"/>
+  <text x="81" y="72" text-anchor="middle" font-size="22" font-weight="900" fill="#FFFFFF">1</text>
+  <text x="120" y="60" font-size="21" font-weight="800" fill="#FFFFFF">CHỨC NĂNG 1: ĐĂNG KÝ TÀI KHOẢN SINH VIÊN (REGISTRATION FLOW)</text>
+  <text x="120" y="88" font-size="13.5" fill="#FFC145" font-weight="600">Đề tài: Nền tảng UniLife • Đầy đủ 3 bước: User Flow (FigJam) → Wireframe phác thảo → Mockup chi tiết</text>
+  <rect x="1600" y="44" width="260" height="42" rx="21" fill="#FF5D3E"/>
+  <text x="1730" y="71" text-anchor="middle" font-size="14.5" font-weight="700" fill="#FFFFFF">Phan Trí Đức - 24CT1</text>
+
+  <!-- ========================================================================= -->
+  <!-- CỘT 1: BƯỚC 1 - USER FLOW (FigJam Style - ĐƠN GIẢN HÓA DỄ HIỂU CHO MỌI NGƯỜI) -->
+  <!-- ========================================================================= -->
+  <rect x="40" y="125" width="760" height="935" rx="18" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2" filter="url(#f1-shadow)"/>
+  <rect x="40" y="125" width="760" height="46" rx="18" fill="#EFF6FF"/>
+  <rect x="40" y="150" width="760" height="21" fill="#EFF6FF"/>
+  <text x="65" y="155" font-size="16" font-weight="800" fill="#1E40AF">BƯỚC 1: QUY TRÌNH NGƯỜI DÙNG ĐĂNG KÝ (USER FLOW TRỰC QUAN, DỄ HIỂU)</text>
+
+  <!-- Thanh giải thích thân thiện cho người không chuyên ngành -->
+  <rect x="65" y="180" width="710" height="34" rx="8" fill="#F8FAFC" stroke="#CBD5E1"/>
+  <text x="80" y="202" font-size="12" font-weight="700" fill="#334155">💡 Hướng dẫn luồng sử dụng đơn giản qua 5 bước liên hoàn (Dễ xem, dễ hiểu cho mọi người dùng):</text>
+
+  <!-- CARD BƯỚC 1 -->
+  <rect x="65" y="225" width="710" height="95" rx="14" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.8"/>
+  <rect x="85" y="242" width="60" height="60" rx="30" fill="#22C55E"/>
+  <text x="115" y="279" text-anchor="middle" font-size="24" font-weight="900" fill="#FFFFFF">1</text>
+  <text x="165" y="258" font-size="15" font-weight="800" fill="#15803D">Bước 1: Bấm nút "Đăng ký" trên trang chủ UniLife</text>
+  <text x="165" y="280" font-size="12.5" fill="#166534">Khách hàng / Sinh viên truy cập vào website UniLife và nhấn vào nút "Đăng nhập / Đăng ký" ở góc trên cùng bên phải.</text>
+  <text x="165" y="300" font-size="12" font-weight="600" fill="#047857">→ Thao tác: 1 lần bấm chuột đơn giản</text>
+
+  <!-- Mũi tên liên kết 1 -> 2 -->
+  <line x1="420" y1="320" x2="420" y2="340" stroke="#059669" stroke-width="2.5" marker-end="url(#f1-arr-green)"/>
+
+  <!-- CARD BƯỚC 2 -->
+  <rect x="65" y="340" width="710" height="95" rx="14" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.8"/>
+  <rect x="85" y="357" width="60" height="60" rx="30" fill="#3B82F6"/>
+  <text x="115" y="394" text-anchor="middle" font-size="24" font-weight="900" fill="#FFFFFF">2</text>
+  <text x="165" y="373" font-size="15" font-weight="800" fill="#1D4ED8">Bước 2: Màn hình mở khung điền thông tin (Form đăng ký)</text>
+  <text x="165" y="395" font-size="12.5" fill="#1E40AF">Hệ thống mở ngay một bảng biểu mẫu gọn gàng, rõ ràng, không làm chuyển trang gây khó chịu cho người dùng.</text>
+  <text x="165" y="415" font-size="12" font-weight="600" fill="#2563EB">→ Trạng thái: Sẵn sàng nhận thông tin từ khách hàng</text>
+
+  <!-- Mũi tên liên kết 2 -> 3 -->
+  <line x1="420" y1="435" x2="420" y2="455" stroke="#2563EB" stroke-width="2.5" marker-end="url(#f1-arr)"/>
+
+  <!-- CARD BƯỚC 3 -->
+  <rect x="65" y="455" width="710" height="135" rx="14" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.8"/>
+  <rect x="85" y="492" width="60" height="60" rx="30" fill="#F59E0B"/>
+  <text x="115" y="529" text-anchor="middle" font-size="24" font-weight="900" fill="#FFFFFF">3</text>
+  <text x="165" y="480" font-size="15" font-weight="800" fill="#B45309">Bước 3: Khách hàng điền các thông tin cá nhân cơ bản</text>
+  <text x="165" y="504" font-size="12.5" fill="#92400E">• Họ và tên: Ví dụ "Nguyễn Văn Khang"</text>
+  <text x="165" y="524" font-size="12.5" fill="#92400E">• Email đăng ký: Bắt buộc đuôi @gmail.com (VD: khachhang@gmail.com)</text>
+  <text x="165" y="544" font-size="12.5" fill="#92400E">• Số điện thoại liên hệ: Bắt buộc chính chủ và không trùng lặp (VD: 0905.888.999)</text>
+  <text x="165" y="564" font-size="12.5" fill="#92400E">• Mật khẩu bí mật &amp; Chọn vai trò (Sinh viên, Chủ nhà trọ, Quán ăn, Chợ cũ)</text>
+
+  <!-- Mũi tên liên kết 3 -> 4 -->
+  <line x1="420" y1="590" x2="420" y2="610" stroke="#D97706" stroke-width="2.5" marker-end="url(#f1-arr)"/>
+
+  <!-- CARD BƯỚC 4 -->
+  <rect x="65" y="610" width="710" height="120" rx="14" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1.8"/>
+  <rect x="85" y="640" width="60" height="60" rx="30" fill="#8B5CF6"/>
+  <text x="115" y="677" text-anchor="middle" font-size="24" font-weight="900" fill="#FFFFFF">4</text>
+  <text x="165" y="635" font-size="15" font-weight="800" fill="#6D28D9">Bước 4: Bấm nút "ĐĂNG KÝ TÀI KHOẢN" (Hệ thống kiểm tra 1 giây)</text>
+  <text x="165" y="658" font-size="12.5" fill="#5B21B6">• Tự động kiểm tra: Đuôi email có đúng là @gmail.com hay chưa?</text>
+  <text x="165" y="678" font-size="12.5" fill="#5B21B6">• Tự động kiểm tra: Số điện thoại này đã có ai dùng trước đó hay chưa?</text>
+  <text x="165" y="700" font-size="12" font-style="italic" fill="#DC2626">⚠️ Nếu phát hiện trùng SĐT hoặc sai đuôi email: Màn hình nhắc nhở nhẹ nhàng để sửa lại ngay.</text>
+  <text x="165" y="718" font-size="12" font-weight="700" fill="#059669">✓ Nếu thông tin chính xác: Tự động lưu ngay vào Cơ sở dữ liệu UniLife (MySQL / XAMPP).</text>
+
+  <!-- Mũi tên liên kết 4 -> 5 -->
+  <line x1="420" y1="730" x2="420" y2="750" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#f1-arr)"/>
+
+  <!-- CARD BƯỚC 5 -->
+  <rect x="65" y="750" width="710" height="105" rx="14" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="2"/>
+  <rect x="85" y="772" width="60" height="60" rx="30" fill="#10B981"/>
+  <text x="115" y="809" text-anchor="middle" font-size="24" font-weight="900" fill="#FFFFFF">5</text>
+  <text x="165" y="776" font-size="15.5" font-weight="800" fill="#047857">Bước 5: Hoàn tất &amp; Tự động đăng nhập vào hệ thống ngay lập tức! 🎉</text>
+  <text x="165" y="800" font-size="12.5" fill="#065F46">• Đóng form đăng ký, hiện thông báo xanh: "Chúc mừng bạn đã đăng ký thành công!"</text>
+  <text x="165" y="820" font-size="12.5" fill="#065F46">• Góc màn hình tự động đổi sang Tên và Ảnh đại diện sinh viên của bạn.</text>
+  <text x="165" y="840" font-size="12" font-weight="700" fill="#047857">→ Người dùng có thể bắt đầu tìm trọ, quán ăn, chợ đồ cũ hoặc địa điểm vui chơi ngay!</text>
+
+  <!-- Tóm tắt lợi ích thiết kế ở đáy -->
+  <rect x="65" y="870" width="710" height="175" rx="14" fill="#F8FAFC" stroke="#CBD5E1"/>
+  <text x="85" y="896" font-size="13.5" font-weight="800" fill="#0F172A">🌟 Ưu điểm thiết kế dành cho mọi đối tượng người dùng:</text>
+  <text x="85" y="922" font-size="12" fill="#334155">1. Cực kỳ đơn giản: Chỉ 1 màn hình duy nhất, không phải bấm qua nhiều bước phức tạp.</text>
+  <text x="85" y="946" font-size="12" fill="#334155">2. Tiết kiệm thời gian: Đăng ký xong là vào dùng luôn, không bắt mở hòm thư xác nhận rườm rà.</text>
+  <text x="85" y="970" font-size="12" fill="#334155">3. Bảo vệ tài khoản: Ngăn chặn trùng lặp số điện thoại và đảm bảo định dạng hộp thư @gmail.com chuẩn.</text>
+  <text x="85" y="994" font-size="12" fill="#334155">4. Phù hợp sinh viên &amp; chủ trọ: Bất cứ ai dù không rành công nghệ thông tin đều thao tác thành thạo trong 30 giây.</text>
+  <text x="85" y="1022" font-size="11.5" font-weight="700" fill="#2563EB">Thiết kế chuẩn hóa bởi sinh viên Phan Trí Đức - Lớp 24CT1 (ĐH Kiến Trúc Đà Nẵng)</text>
+
+
+  <!-- ========================================================================= -->
+  <!-- CỘT 2: BƯỚC 2 - WIREFRAME (x: 820, w: 510, h: 935) -->
+  <!-- ========================================================================= -->
+  <rect x="820" y="125" width="510" height="935" rx="18" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2" filter="url(#f1-shadow)"/>
+  <rect x="820" y="125" width="510" height="46" rx="18" fill="#F1F5F9"/>
+  <rect x="820" y="150" width="510" height="21" fill="#F1F5F9"/>
+  <text x="845" y="155" font-size="15.5" font-weight="800" fill="#0F172A">BƯỚC 2: WIREFRAME (PHÁC THẢO BỐ CỤC)</text>
+
+  <!-- Modal Frame -->
+  <rect x="845" y="185" width="460" height="855" rx="14" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5"/>
+
+  <!-- Modal Header -->
+  <text x="875" y="225" font-size="17" font-weight="800" fill="#0F172A">Đăng ký tài khoản</text>
+  <text x="875" y="247" font-size="12" fill="#64748B">Gia nhập cộng đồng sinh viên UniLife</text>
+  <circle cx="1275" cy="225" r="14" fill="#E2E8F0"/>
+  <text x="1275" y="230" text-anchor="middle" font-size="13" font-weight="800" fill="#64748B">✕</text>
+
+  <!-- Tab Bar -->
+  <rect x="875" y="275" width="400" height="40" rx="8" fill="#E2E8F0"/>
+  <text x="975" y="300" text-anchor="middle" font-size="13" font-weight="600" fill="#64748B">Đăng nhập</text>
+  <rect x="1075" y="277" width="198" height="36" rx="7" fill="#475569"/>
+  <text x="1174" y="300" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">Đăng ký</text>
+
+  <!-- Field 1 -->
+  <text x="875" y="345" font-size="12" font-weight="700" fill="#334155">Họ và tên sinh viên (*)</text>
+  <rect x="875" y="355" width="400" height="42" rx="8" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="895" y="382" font-size="12.5" fill="#94A3B8">[👤] Nguyễn Văn A</text>
+
+  <!-- Field 2 -->
+  <text x="875" y="425" font-size="12" font-weight="700" fill="#334155">Địa chỉ Email (*)</text>
+  <rect x="875" y="435" width="400" height="42" rx="8" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="895" y="462" font-size="12.5" fill="#94A3B8">[✉️] sinhvien@truong.edu.vn</text>
+
+  <!-- Field 3 -->
+  <text x="875" y="505" font-size="12" font-weight="700" fill="#334155">Mật khẩu (*)</text>
+  <rect x="875" y="515" width="400" height="42" rx="8" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="895" y="542" font-size="12.5" fill="#94A3B8">[🔒] ••••••••••••</text>
+
+  <!-- Field 4 -->
+  <text x="875" y="585" font-size="12" font-weight="700" fill="#334155">Số điện thoại liên hệ</text>
+  <rect x="875" y="595" width="400" height="42" rx="8" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="895" y="622" font-size="12.5" fill="#94A3B8">[📞] 0908.xxx.xxx</text>
+
+  <!-- Radio Roles -->
+  <text x="875" y="665" font-size="12" font-weight="700" fill="#334155">Vai trò tham gia (*)</text>
+  <circle cx="890" cy="690" r="9" fill="#475569"/>
+  <circle cx="890" cy="690" r="4" fill="#FFFFFF"/>
+  <text x="910" y="695" font-size="12.5" font-weight="600" fill="#334155">Sinh viên / Khách thuê</text>
+  <circle cx="1110" cy="690" r="9" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="1130" y="695" font-size="12.5" fill="#64748B">Chủ nhà trọ</text>
+
+  <!-- Submit CTA -->
+  <rect x="875" y="735" width="400" height="48" rx="8" fill="#334155"/>
+  <text x="1075" y="765" text-anchor="middle" font-size="14" font-weight="800" fill="#FFFFFF">ĐĂNG KÝ TÀI KHOẢN</text>
+
+  <text x="1075" y="815" text-anchor="middle" font-size="12" fill="#64748B">Đã có tài khoản? <tspan font-weight="700" text-decoration="underline" fill="#334155">Đăng nhập</tspan></text>
+
+  <!-- Wireframe Note Box -->
+  <rect x="875" y="855" width="400" height="155" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-dasharray="4,4"/>
+  <text x="895" y="885" font-size="12" font-weight="700" fill="#334155">📐 Nguyên tắc bố cục Wireframe:</text>
+  <text x="895" y="910" font-size="11.5" fill="#64748B">• Đặt các trường bắt buộc (*) theo thứ tự logic</text>
+  <text x="895" y="930" font-size="11.5" fill="#64748B">• Kích thước nút CTA rộng 100% giúp tăng tỷ lệ bấm</text>
+  <text x="895" y="950" font-size="11.5" fill="#64748B">• Icon trực quan bên trong ô input hỗ trợ nhận diện</text>
+  <text x="895" y="970" font-size="11.5" fill="#64748B">• Cung cấp lối thoát (nút X góc phải &amp; link Đăng nhập)</text>
+
+
+  <!-- ========================================================================= -->
+  <!-- CỘT 3: BƯỚC 3 - MOCKUP (x: 1350, w: 530, h: 935) -->
+  <!-- ========================================================================= -->
+  <rect x="1350" y="125" width="530" height="935" rx="18" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2" filter="url(#f1-shadow)"/>
+  <rect x="1350" y="125" width="530" height="46" rx="18" fill="#FFF1F2"/>
+  <rect x="1350" y="150" width="530" height="21" fill="#FFF1F2"/>
+  <text x="1375" y="155" font-size="15.5" font-weight="800" fill="#E11D48">BƯỚC 3: MOCKUP CHI TIẾT (DESIGN SYSTEM UNILIFE)</text>
+
+  <!-- Modal High-fi -->
+  <rect x="1375" y="185" width="480" height="855" rx="18" fill="#FFFFFF" stroke="#E0DCD0" stroke-width="1.5" filter="url(#f1-shadow)"/>
+
+  <!-- Modal Header -->
+  <text x="1410" y="225" font-size="19" font-weight="800" fill="#16192E">Đăng ký tài khoản</text>
+  <text x="1410" y="249" font-size="12.5" fill="#6B6A63">Gia nhập cộng đồng sinh viên UniLife</text>
+  <circle cx="1820" cy="225" r="16" fill="#F6F4EE"/>
+  <text x="1820" y="231" text-anchor="middle" font-size="15" font-weight="700" fill="#6B6A63">✕</text>
+
+  <!-- Tab Switch Active Coral -->
+  <rect x="1410" y="275" width="410" height="44" rx="10" fill="#F6F4EE"/>
+  <text x="1512" y="302" text-anchor="middle" font-size="13.5" font-weight="600" fill="#6B6A63">Đăng nhập</text>
+  <rect x="1615" y="277" width="203" height="40" rx="8" fill="#FF5D3E"/>
+  <text x="1716" y="302" text-anchor="middle" font-size="13.5" font-weight="800" fill="#FFFFFF">Đăng ký</text>
+
+  <!-- Field 1 Mockup -->
+  <text x="1410" y="347" font-size="12.5" font-weight="700" fill="#16192E">Họ và tên sinh viên (*)</text>
+  <rect x="1410" y="357" width="410" height="44" rx="8" fill="#FFFFFF" stroke="#E0DCD0" stroke-width="1.5"/>
+  <text x="1435" y="385" font-size="13.5" fill="#16192E">👤 Phan Trí Đức</text>
+
+  <!-- Field 2 Mockup Active Focus Coral -->
+  <text x="1410" y="427" font-size="12.5" font-weight="700" fill="#16192E">Địa chỉ Email sinh viên (*)</text>
+  <rect x="1410" y="437" width="410" height="44" rx="8" fill="#FFFFFF" stroke="#FF5D3E" stroke-width="1.8"/>
+  <text x="1435" y="465" font-size="13.5" fill="#16192E">✉️ phantriduc.24ct1@unilife.vn</text>
+
+  <!-- Field 3 Mockup -->
+  <text x="1410" y="507" font-size="12.5" font-weight="700" fill="#16192E">Mật khẩu bảo mật (*)</text>
+  <rect x="1410" y="517" width="410" height="44" rx="8" fill="#FFFFFF" stroke="#E0DCD0" stroke-width="1.5"/>
+  <text x="1435" y="545" font-size="13.5" fill="#16192E">🔒 ••••••••••••••••</text>
+  <text x="1795" y="545" text-anchor="end" font-size="14">👁️</text>
+
+  <!-- Field 4 Mockup -->
+  <text x="1410" y="587" font-size="12.5" font-weight="700" fill="#16192E">Số điện thoại liên hệ</text>
+  <rect x="1410" y="597" width="410" height="44" rx="8" fill="#FFFFFF" stroke="#E0DCD0" stroke-width="1.5"/>
+  <text x="1435" y="625" font-size="13.5" fill="#16192E">📞 0905.888.999</text>
+
+  <!-- Radio Roles Mockup -->
+  <text x="1410" y="667" font-size="12.5" font-weight="700" fill="#16192E">Bạn tham gia với vai trò gì? (*)</text>
+  <circle cx="1425" cy="695" r="10" fill="#FF5D3E"/>
+  <circle cx="1425" cy="695" r="4.5" fill="#FFFFFF"/>
+  <text x="1445" y="700" font-size="13" font-weight="700" fill="#16192E">Sinh viên / Khách thuê</text>
+  <circle cx="1650" cy="695" r="10" fill="#FFFFFF" stroke="#E0DCD0" stroke-width="2"/>
+  <text x="1670" y="700" font-size="13" fill="#6B6A63">Chủ nhà trọ</text>
+
+  <!-- Submit CTA Button Mockup -->
+  <rect x="1410" y="745" width="410" height="50" rx="10" fill="#FF5D3E"/>
+  <text x="1615" y="776" text-anchor="middle" font-size="14.5" font-weight="800" fill="#FFFFFF">ĐĂNG KÝ TÀI KHOẢN NGAY 🎉</text>
+
+  <text x="1615" y="825" text-anchor="middle" font-size="12.5" fill="#6B6A63">Đã có tài khoản? <tspan font-weight="800" fill="#FF5D3E">Đăng nhập ngay</tspan></text>
+
+  <!-- Design Spec Box -->
+  <rect x="1410" y="855" width="410" height="155" rx="10" fill="#F8FAFC" stroke="#ECE7D8"/>
+  <text x="1430" y="882" font-size="12.5" font-weight="800" fill="#16192E">🎨 Thông số Design System UniLife:</text>
+  <text x="1430" y="907" font-size="12" fill="#6B6A63">• Màu chính CTA: <tspan font-weight="700" fill="#FF5D3E">Coral #FF5D3E</tspan></text>
+  <text x="1430" y="929" font-size="12" fill="#6B6A63">• Nền Modal: <tspan font-weight="700" fill="#FFFFFF">Card White #FFFFFF</tspan> • Lớp phủ nền: <tspan font-weight="700">rgba(22,25,46,0.6)</tspan></text>
+  <text x="1430" y="951" font-size="12" fill="#6B6A63">• Kiểu chữ: <tspan font-weight="700">Plus Jakarta Sans / Inter</tspan> (Regular &amp; Bold 800)</text>
+  <text x="1430" y="973" font-size="12" fill="#6B6A63">• Bo góc (Border-radius): <tspan font-weight="700">18px (Card)</tspan>, <tspan font-weight="700">10px (Input/Button)</tspan></text>
+  <text x="1430" y="995" font-size="12" fill="#6B6A63">• Đổ bóng: <tspan font-weight="700">box-shadow: 0 10px 25px rgba(22,25,46,0.12)</tspan></text>
+
+</svg>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" width="1600" height="1100" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#16192E" flood-opacity="0.1"/>
+    </filter>
+    <marker id="arrow" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#475569"/>
+    </marker>
+    <marker id="arrow-white" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#FFFFFF" stroke="#475569" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="1100" fill="#F8FAFC"/>
+
+  <!-- Top Title Bar -->
+  <rect x="50" y="25" width="1500" height="70" rx="12" fill="#1E293B" filter="url(#shadow)"/>
+  <text x="80" y="68" font-size="24" font-weight="bold" fill="#FFFFFF">SƠ ĐỒ CA SỬ DỤNG TỔNG QUAN (USE CASE DIAGRAM) — HỆ THỐNG UNILIFE</text>
+  <text x="1280" y="68" font-size="16" font-weight="600" fill="#38BDF8">Sinh viên: Phan Trí Đức - 24CT1</text>
+
+  <!-- System Boundary Box -->
+  <rect x="360" y="125" width="880" height="930" rx="16" fill="#FFFFFF" stroke="#0E7C66" stroke-width="3" filter="url(#shadow)"/>
+  <rect x="360" y="125" width="880" height="45" rx="16" fill="#0E7C66"/>
+  <rect x="360" y="150" width="880" height="20" fill="#0E7C66"/>
+  <text x="800" y="155" text-anchor="middle" font-size="18" font-weight="bold" fill="#FFFFFF">HỆ THỐNG NỀN TẢNG TIỆN ÍCH SINH VIÊN UNILIFE (SYSTEM BOUNDARY)</text>
+
+  <!-- ==================== ACTORS (LEFT) ==================== -->
+
+  <!-- Actor 1: Khách vãng lai -->
+  <g id="actor-guest">
+    <circle cx="160" cy="230" r="22" fill="#FFFFFF" stroke="#1E293B" stroke-width="3"/>
+    <line x1="160" y1="252" x2="160" y2="310" stroke="#1E293B" stroke-width="3"/>
+    <line x1="120" y1="275" x2="200" y2="275" stroke="#1E293B" stroke-width="3"/>
+    <line x1="160" y1="310" x2="125" y2="365" stroke="#1E293B" stroke-width="3"/>
+    <line x1="160" y1="310" x2="195" y2="365" stroke="#1E293B" stroke-width="3"/>
+    <rect x="65" y="380" width="190" height="36" rx="8" fill="#1E293B"/>
+    <text x="160" y="403" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Khách vãng lai (Guest)</text>
+  </g>
+
+  <!-- Actor 2: Sinh viên (Khách thuê) -->
+  <g id="actor-student">
+    <circle cx="160" cy="530" r="22" fill="#FFFFFF" stroke="#FF5D3E" stroke-width="3"/>
+    <line x1="160" y1="552" x2="160" y2="610" stroke="#FF5D3E" stroke-width="3"/>
+    <line x1="120" y1="575" x2="200" y2="575" stroke="#FF5D3E" stroke-width="3"/>
+    <line x1="160" y1="610" x2="125" y2="665" stroke="#FF5D3E" stroke-width="3"/>
+    <line x1="160" y1="610" x2="195" y2="665" stroke="#FF5D3E" stroke-width="3"/>
+    <rect x="55" y="680" width="210" height="36" rx="8" fill="#FF5D3E"/>
+    <text x="160" y="703" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Sinh viên (Khách thuê)</text>
+  </g>
+
+  <!-- Generalization Guest -> Student -->
+  <line x1="160" y1="500" x2="160" y2="425" stroke="#475569" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow-white)"/>
+
+  <!-- Actor 3: Chủ nhà trọ -->
+  <g id="actor-host">
+    <circle cx="160" cy="830" r="22" fill="#FFFFFF" stroke="#0E7C66" stroke-width="3"/>
+    <line x1="160" y1="852" x2="160" y2="910" stroke="#0E7C66" stroke-width="3"/>
+    <line x1="120" y1="875" x2="200" y2="875" stroke="#0E7C66" stroke-width="3"/>
+    <line x1="160" y1="910" x2="125" y2="965" stroke="#0E7C66" stroke-width="3"/>
+    <line x1="160" y1="910" x2="195" y2="965" stroke="#0E7C66" stroke-width="3"/>
+    <rect x="65" y="980" width="190" height="36" rx="8" fill="#0E7C66"/>
+    <text x="160" y="1003" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Chủ nhà trọ (Host)</text>
+  </g>
+
+  <!-- ==================== ACTOR (RIGHT): ADMIN ==================== -->
+  <g id="actor-admin">
+    <circle cx="1430" cy="380" r="24" fill="#FFFFFF" stroke="#DC2626" stroke-width="3"/>
+    <line x1="1430" y1="404" x2="1430" y2="470" stroke="#DC2626" stroke-width="3"/>
+    <line x1="1385" y1="430" x2="1475" y2="430" stroke="#DC2626" stroke-width="3"/>
+    <line x1="1430" y1="470" x2="1390" y2="530" stroke="#DC2626" stroke-width="3"/>
+    <line x1="1430" y1="470" x2="1470" y2="530" stroke="#DC2626" stroke-width="3"/>
+    <rect x="1330" y="550" width="200" height="40" rx="8" fill="#DC2626"/>
+    <text x="1430" y="575" text-anchor="middle" font-size="15" font-weight="bold" fill="#FFFFFF">Quản trị viên (Admin)</text>
+  </g>
+
+  <!-- ==================== USE CASES (ELLIPSES) ==================== -->
+
+  <!-- UC1: Đăng ký -->
+  <g id="uc-1">
+    <ellipse cx="540" cy="220" rx="140" ry="32" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <text x="540" y="226" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400E">UC01: Đăng ký tài khoản</text>
+  </g>
+
+  <!-- UC2: Đăng nhập -->
+  <g id="uc-2">
+    <ellipse cx="540" cy="310" rx="140" ry="32" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <text x="540" y="316" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400E">UC02: Đăng nhập hệ thống</text>
+  </g>
+
+  <!-- UC3: Quản lý hồ sơ -->
+  <g id="uc-3">
+    <ellipse cx="540" cy="400" rx="140" ry="32" fill="#F1F5F9" stroke="#64748B" stroke-width="2"/>
+    <text x="540" y="406" text-anchor="middle" font-size="14" font-weight="bold" fill="#334155">UC03: Quản lý hồ sơ cá nhân</text>
+  </g>
+
+  <!-- UC4: Tìm kiếm trọ -->
+  <g id="uc-4">
+    <ellipse cx="540" cy="510" rx="140" ry="32" fill="#E0F2FE" stroke="#0284C7" stroke-width="2"/>
+    <text x="540" y="516" text-anchor="middle" font-size="14" font-weight="bold" fill="#0369A1">UC04: Tìm kiếm phòng trọ</text>
+  </g>
+
+  <!-- UC5: Lọc tiện ích & giá (extend UC4) -->
+  <g id="uc-5">
+    <ellipse cx="900" cy="510" rx="140" ry="32" fill="#E0F2FE" stroke="#0284C7" stroke-width="2"/>
+    <text x="900" y="516" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#0369A1">UC05: Lọc tiện ích &amp; Giá trần</text>
+  </g>
+
+  <!-- UC6: Xem chi tiết & Lấy SĐT -->
+  <g id="uc-6">
+    <ellipse cx="540" cy="620" rx="140" ry="32" fill="#E0F2FE" stroke="#0284C7" stroke-width="2"/>
+    <text x="540" y="626" text-anchor="middle" font-size="14" font-weight="bold" fill="#0369A1">UC06: Xem chi tiết &amp; Liên hệ</text>
+  </g>
+
+  <!-- UC7: Lưu Yêu thích -->
+  <g id="uc-7">
+    <ellipse cx="540" cy="720" rx="140" ry="32" fill="#FCE7F3" stroke="#DB2777" stroke-width="2"/>
+    <text x="540" y="726" text-anchor="middle" font-size="14" font-weight="bold" fill="#9D174D">UC07: Lưu vào mục Yêu thích</text>
+  </g>
+
+  <!-- UC8: Đăng tin phòng trọ -->
+  <g id="uc-8">
+    <ellipse cx="540" cy="830" rx="140" ry="32" fill="#CCFBF1" stroke="#0D9488" stroke-width="2"/>
+    <text x="540" y="836" text-anchor="middle" font-size="14" font-weight="bold" fill="#0F766E">UC08: Đăng tin cho thuê trọ</text>
+  </g>
+
+  <!-- UC9: Quản lý tin đăng trọ -->
+  <g id="uc-9">
+    <ellipse cx="540" cy="940" rx="140" ry="32" fill="#CCFBF1" stroke="#0D9488" stroke-width="2"/>
+    <text x="540" y="946" text-anchor="middle" font-size="14" font-weight="bold" fill="#0F766E">UC09: Quản lý bài đăng của mình</text>
+  </g>
+
+  <!-- UC10: Duyệt bài đăng (Admin) -->
+  <g id="uc-10">
+    <ellipse cx="1060" cy="330" rx="135" ry="32" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+    <text x="1060" y="336" text-anchor="middle" font-size="14" font-weight="bold" fill="#B91C1C">UC10: Kiểm duyệt bài đăng</text>
+  </g>
+
+  <!-- UC11: Quản lý người dùng (Admin) -->
+  <g id="uc-11">
+    <ellipse cx="1060" cy="430" rx="135" ry="32" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+    <text x="1060" y="436" text-anchor="middle" font-size="14" font-weight="bold" fill="#B91C1C">UC11: Khóa / Mở khóa tài khoản</text>
+  </g>
+
+  <!-- UC12: Thống kê hệ thống (Admin) -->
+  <g id="uc-12">
+    <ellipse cx="1060" cy="720" rx="135" ry="32" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+    <text x="1060" y="726" text-anchor="middle" font-size="14" font-weight="bold" fill="#B91C1C">UC12: Thống kê số liệu hệ thống</text>
+  </g>
+
+  <!-- ==================== RELATION LINES ==================== -->
+
+  <!-- Guest links -->
+  <line x1="260" y1="380" x2="400" y2="230" stroke="#475569" stroke-width="1.8"/>
+  <line x1="260" y1="395" x2="400" y2="310" stroke="#475569" stroke-width="1.8"/>
+  <line x1="260" y1="410" x2="400" y2="510" stroke="#475569" stroke-width="1.8"/>
+  <line x1="260" y1="415" x2="400" y2="615" stroke="#475569" stroke-width="1.8"/>
+
+  <!-- Student links -->
+  <line x1="270" y1="690" x2="400" y2="405" stroke="#FF5D3E" stroke-width="2"/>
+  <line x1="270" y1="700" x2="400" y2="720" stroke="#FF5D3E" stroke-width="2"/>
+
+  <!-- Host links -->
+  <line x1="260" y1="990" x2="400" y2="835" stroke="#0E7C66" stroke-width="2"/>
+  <line x1="260" y1="1000" x2="400" y2="940" stroke="#0E7C66" stroke-width="2"/>
+
+  <!-- Admin links -->
+  <line x1="1325" y1="560" x2="1200" y2="340" stroke="#DC2626" stroke-width="2"/>
+  <line x1="1325" y1="570" x2="1200" y2="435" stroke="#DC2626" stroke-width="2"/>
+  <line x1="1325" y1="580" x2="1200" y2="720" stroke="#DC2626" stroke-width="2"/>
+
+  <!-- <<extend>> UC5 -> UC4 -->
+  <line x1="760" y1="510" x2="685" y2="510" stroke="#0284C7" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="722" y="500" text-anchor="middle" font-size="12" font-style="italic" fill="#0284C7">&lt;&lt;extend&gt;&gt;</text>
+
+  <!-- <<include>> UC7 -> UC2 (Lưu Yêu thích include Đăng nhập) -->
+  <path d="M 670,705 Q 820,530 670,335" fill="none" stroke="#DB2777" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="815" y="470" text-anchor="middle" font-size="12" font-style="italic" fill="#DB2777">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- <<include>> UC8 -> UC2 (Đăng tin include Đăng nhập) -->
+  <path d="M 680,820 Q 940,570 685,320" fill="none" stroke="#0D9488" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="875" y="600" text-anchor="middle" font-size="12" font-style="italic" fill="#0D9488">&lt;&lt;include&gt;&gt;</text>
+
+</svg>

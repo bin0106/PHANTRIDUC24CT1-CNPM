@@ -16,12 +16,15 @@ CREATE TABLE `users` (
     `name` VARCHAR(150) NOT NULL COMMENT 'Họ và tên người dùng',
     `email` VARCHAR(191) NOT NULL UNIQUE COMMENT 'Email đăng nhập hệ thống',
     `password_hash` VARCHAR(255) NOT NULL COMMENT 'Mật khẩu đã mã hóa',
-    `phone` VARCHAR(20) DEFAULT NULL COMMENT 'Số điện thoại liên hệ',
+    `phone` VARCHAR(20) DEFAULT NULL UNIQUE COMMENT 'Số điện thoại liên hệ (không trùng lặp)',
     `role` ENUM('Quản trị viên', 'Khách hàng', 'Chủ nhà trọ', 'Chủ quán ăn', 'Người bán đồ cũ') NOT NULL DEFAULT 'Khách hàng' COMMENT 'Phân loại vai trò người dùng',
     `status` ENUM('Active', 'Banned', 'Pending') NOT NULL DEFAULT 'Active' COMMENT 'Trạng thái hoạt động tài khoản',
     `avatar_url` TEXT DEFAULT NULL COMMENT 'Đường dẫn ảnh đại diện',
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_users_name` (`name`),
+    INDEX `idx_users_role` (`role`),
+    INDEX `idx_users_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------------------------
@@ -193,3 +196,45 @@ INSERT INTO `food_places` (`id`, `user_id`, `name`, `cat`, `price`, `address`, `
 INSERT INTO `marketplace` (`id`, `user_id`, `name`, `price`, `cond`, `cat`, `seller`, `phone`, `loc`, `image_url`, `status`) VALUES
 (1, 2, 'Bộ Giáo Trình Giải Tích 1 + 2 (Kèm bài giải mẫu)', '60.000đ', 'Còn mới 95%', 'Sách', 'Văn Khang', '0905.888.999', 'Ký túc xá khu A', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80', 'approved'),
 (2, 2, 'Nồi Cơm Điện Mini Sunhouse 1.2L', '150.000đ', 'Dùng tốt', 'Gia dụng', 'Thành Đạt', '0914.333.222', 'Ngã tư Phan Đăng Lưu', 'https://images.unsplash.com/photo-1584269600519-112d071b35e6?auto=format&fit=crop&w=800&q=80', 'approved');
+
+-- 5. Dữ liệu tụ điểm vui chơi & giải trí (Entertainment)
+INSERT INTO `entertainment` (`id`, `name`, `cat`, `price`, `address`, `hours`, `rating`, `image_url`, `status`) VALUES
+(1, 'CyberCore Gaming Center Pro 240Hz', 'Gaming/Net', '8.000đ - 12.000đ/giờ', 'Số 15 Đường số 3, gần Làng ĐH', 'Mở 24/7 cả ngày đêm', 4.80, 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80', 'approved'),
+(2, 'Box Music Mini - Phòng Hát Tự Do', 'Karaoke Mini', '60.000đ - 90.000đ/giờ', '45/2 Hoàng Diệu 2', '09:00 - 24:00', 4.70, 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80', 'approved'),
+(3, 'CLB Bida Sinh Viên Billiards Zone', 'Bida', '35.000đ - 50.000đ/giờ', 'Đường số 9, Linh Tây', '08:30 - 02:00', 4.60, 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=600&q=80', 'approved'),
+(4, 'Sân Cầu Lông Sinh Viên Trẻ', 'Thể thao', '50.000đ - 70.000đ/giờ', 'Nhà thi đấu ĐH Bách Khoa', '05:30 - 22:30', 4.90, 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80', 'approved');
+
+-- ==============================================================================
+-- 10. KHUNG NHÌN THỐNG KÊ (VIEWS) ĐẾM SỐ LƯỢNG NGƯỜI DÙNG THEO TỪNG VAI TRÒ
+-- ==============================================================================
+CREATE OR REPLACE VIEW `v_user_role_counts` AS
+SELECT 
+    `role`,
+    COUNT(*) AS `total_users`,
+    SUM(CASE WHEN `status` = 'Active' THEN 1 ELSE 0 END) AS `active_users`
+FROM `users`
+GROUP BY `role`;
+
+-- ------------------------------------------------------------------------------
+-- 11. THỦ TỤC LƯU TRỮ (STORED PROCEDURE) BỘ LỌC TÌM KIẾM NGƯỜI DÙNG CHO ADMIN
+-- ------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_filter_users`;
+DELIMITER //
+CREATE PROCEDURE `sp_filter_users`(
+    IN p_keyword VARCHAR(150),
+    IN p_role VARCHAR(50),
+    IN p_status VARCHAR(20)
+)
+BEGIN
+    SELECT 
+        id, name, email, phone, role, status, avatar_url,
+        DATE_FORMAT(created_at, '%d/%m/%Y') AS joined
+    FROM users
+    WHERE (p_keyword IS NULL OR p_keyword = '' OR name LIKE CONCAT('%', p_keyword, '%') OR phone LIKE CONCAT('%', p_keyword, '%') OR email LIKE CONCAT('%', p_keyword, '%'))
+      AND (p_role IS NULL OR p_role = '' OR p_role = 'all' OR role = p_role)
+      AND (p_status IS NULL OR p_status = '' OR p_status = 'all' OR status = p_status)
+    ORDER BY id ASC;
+END //
+DELIMITER ;
+
+

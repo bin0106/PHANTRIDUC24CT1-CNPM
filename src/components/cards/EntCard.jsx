@@ -1,12 +1,12 @@
 import React from "react";
-import { MapPin, Clock } from "lucide-react";
+import { MapPin, Clock, Trash2 } from "lucide-react";
 import { CARD, SUBTEXT } from "../../data/theme";
 import { Placeholder } from "../common/Placeholder";
 import { FavButton } from "../common/FavButton";
 import { Badge } from "../common/Badge";
 import { StarRow } from "../common/StarRow";
 
-export function EntCard({ item, favorites, toggleFav, setDetail }) {
+export function EntCard({ item, favorites, toggleFav, setDetail, onDelete }) {
   const key = `ent-${item.id}`;
   const Icon = item.icon;
   return (
@@ -17,7 +17,8 @@ export function EntCard({ item, favorites, toggleFav, setDetail }) {
         borderRadius: 14,
         overflow: "hidden",
         border: "1px solid #ECE7D8",
-        cursor: "pointer"
+        cursor: "pointer",
+        position: "relative"
       }}
       onClick={() => setDetail({ ...item, type: "entertainment" })}
     >
@@ -38,6 +39,37 @@ export function EntCard({ item, favorites, toggleFav, setDetail }) {
           </div>
         )}
         <FavButton active={!!favorites[key]} onClick={(e) => { e.stopPropagation(); toggleFav(key); }} />
+        {onDelete && (
+          <button
+            type="button"
+            title="Xóa địa điểm khỏi CSDL"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (window.confirm(`Bạn có chắc chắn muốn xóa "${item.name}" khỏi CSDL?`)) {
+                onDelete(item.id);
+              }
+            }}
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 44,
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.92)",
+              border: "1px solid rgba(220,53,69,0.3)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: "#dc3545",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+              transition: "transform 0.15s ease"
+            }}
+          >
+            <Trash2 size={15} />
+          </button>
+        )}
         <div style={{ position: "absolute", bottom: 8, left: 8 }}>
           <Badge bg="#534AB7" color="#fff">{item.cat}</Badge>
         </div>

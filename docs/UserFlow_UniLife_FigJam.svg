@@ -1,0 +1,400 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2400" width="2000" height="2400" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#16192E" flood-opacity="0.08"/>
+    </filter>
+    <filter id="card-shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#16192E" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#4B5563"/>
+    </marker>
+    <marker id="arrow-coral" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#FF5D3E"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#0E7C66"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <!-- Background FigJam Board -->
+  <rect width="2000" height="2400" fill="#F8FAFC"/>
+  <!-- Dot Grid Pattern for FigJam Feel -->
+  <pattern id="dot-grid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+    <circle cx="3" cy="3" r="1.5" fill="#CBD5E1"/>
+  </pattern>
+  <rect width="2000" height="2400" fill="url(#dot-grid)" opacity="0.45"/>
+
+  <!-- BOARD HEADER -->
+  <rect x="60" y="40" width="1880" height="120" rx="20" fill="#16192E" filter="url(#card-shadow)"/>
+  <text x="100" y="92" font-size="28" font-weight="800" fill="#FFFFFF">🎓 UNILIFE — USER FLOW DIAGRAM (SƠ ĐỒ LUỒNG NGƯỜI DÙNG)</text>
+  <text x="100" y="125" font-size="16" fill="#FFC145" font-weight="600">Đề tài: Nền tảng sinh viên UniLife • 4 Chức năng chính • Chuẩn FigJam Template</text>
+  <rect x="1680" y="70" width="220" height="46" rx="23" fill="#FF5D3E"/>
+  <text x="1790" y="99" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">Phan Trí Đức - 24CT1</text>
+
+  <!-- ========================================== -->
+  <!-- FUNCTION 1: ĐĂNG KÝ TÀI KHOẢN (Top Left) -->
+  <!-- ========================================== -->
+  <rect x="60" y="190" width="910" height="1040" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="60" y="190" width="910" height="60" rx="24" fill="#FFF7ED"/>
+  <rect x="80" y="206" width="32" height="32" rx="8" fill="#FF5D3E"/>
+  <text x="96" y="228" text-anchor="middle" font-size="16" font-weight="800" fill="#FFFFFF">1</text>
+  <text x="125" y="228" font-size="19" font-weight="800" fill="#16192E">CHỨC NĂNG 1: ĐĂNG KÝ TÀI KHOẢN MỚI (REGISTER FLOW)</text>
+
+  <!-- F1 Start -->
+  <rect x="100" y="280" width="180" height="46" rx="23" fill="#16192E" filter="url(#shadow)"/>
+  <text x="190" y="309" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">● BẮT ĐẦU</text>
+
+  <!-- Arrow -->
+  <line x1="280" y1="303" x2="350" y2="303" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 1: Open Modal -->
+  <rect x="350" y="265" width="260" height="76" rx="14" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2" filter="url(#shadow)"/>
+  <text x="370" y="295" font-size="15" font-weight="700" fill="#92400E">1. Bấm Đăng nhập</text>
+  <text x="370" y="322" font-size="13" fill="#78350F">Tại thanh Header góc phải</text>
+
+  <line x1="610" y1="303" x2="680" y2="303" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: Switch Tab -->
+  <rect x="680" y="265" width="250" height="76" rx="14" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2" filter="url(#shadow)"/>
+  <text x="700" y="295" font-size="15" font-weight="700" fill="#92400E">2. Chọn tab "Đăng ký"</text>
+  <text x="700" y="322" font-size="13" fill="#78350F">Chuyển sang form tạo user</text>
+
+  <!-- Down Arrow from Step 2 -->
+  <line x1="805" y1="341" x2="805" y2="400" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Fill Form -->
+  <rect x="580" y="400" width="350" height="120" rx="16" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="605" y="430" font-size="16" font-weight="700" fill="#1E40AF">3. Nhập thông tin đăng ký</text>
+  <text x="605" y="458" font-size="13" fill="#1E3A8A">• Họ tên sinh viên, Email, Mật khẩu, SĐT</text>
+  <text x="605" y="482" font-size="13" fill="#1E3A8A">• Chọn vai trò: Sinh viên / Chủ nhà trọ</text>
+  <text x="605" y="506" font-size="13" font-weight="700" fill="#FF5D3E">→ Nhấn nút "Đăng Ký Tài Khoản"</text>
+
+  <!-- Left Arrow from Step 3 to Decision 1 -->
+  <line x1="580" y1="460" x2="480" y2="460" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Decision 1: Validate -->
+  <polygon points="360,400 480,460 360,520 240,460" fill="#FFFBEB" stroke="#D97706" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="360" y="455" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">Dữ liệu</text>
+  <text x="360" y="475" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">hợp lệ?</text>
+
+  <!-- Branch No: Error 1 -->
+  <line x1="360" y1="400" x2="360" y2="350" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="345" y="380" font-size="12" font-weight="700" fill="#EF4444">Sai</text>
+  <rect x="250" y="275" width="80" height="35" rx="6" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="290" y="297" text-anchor="middle" font-size="11" font-weight="700" fill="#B91C1C">Báo lỗi</text>
+
+  <!-- Branch Yes: Down to Decision 2 (Email exists?) -->
+  <line x1="360" y1="520" x2="360" y2="600" stroke="#0E7C66" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="375" y="560" font-size="13" font-weight="700" fill="#0E7C66">Đúng</text>
+
+  <!-- Decision 2: Email Exists -->
+  <polygon points="360,600 480,660 360,720 240,660" fill="#FFFBEB" stroke="#D97706" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="360" y="655" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">Email đã</text>
+  <text x="360" y="675" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">tồn tại?</text>
+
+  <!-- Branch Yes (Exists -> Error) -->
+  <line x1="240" y1="660" x2="110" y2="660" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="175" y="650" font-size="12" font-weight="700" fill="#EF4444">Đã có</text>
+  <rect x="90" y="680" width="220" height="60" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="105" y="705" font-size="12" font-weight="700" fill="#991B1B">Báo lỗi trùng email</text>
+  <text x="105" y="725" font-size="11" fill="#7F1D1D">Yêu cầu nhập email khác</text>
+
+  <!-- Branch No (New email -> Success API) -->
+  <line x1="480" y1="660" x2="600" y2="660" stroke="#0E7C66" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="525" y="650" font-size="13" font-weight="700" fill="#0E7C66">Chưa có</text>
+
+  <!-- Step 4: Backend API -->
+  <rect x="600" y="615" width="330" height="90" rx="14" fill="#F0FDF4" stroke="#22C55E" stroke-width="2" filter="url(#shadow)"/>
+  <text x="625" y="645" font-size="15" font-weight="700" fill="#15803D">4. Lưu CSDL &amp; Gán Avatar</text>
+  <text x="625" y="670" font-size="13" fill="#166534">• Gửi registerUserToBackend()</text>
+  <text x="625" y="692" font-size="13" fill="#166534">• Random Avatar &amp; Lưu LocalStorage</text>
+
+  <!-- Down to Success -->
+  <line x1="765" y1="705" x2="765" y2="780" stroke="#0E7C66" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- Step 5: Success Toast & State -->
+  <rect x="600" y="780" width="330" height="90" rx="14" fill="#0E7C66" filter="url(#shadow)"/>
+  <text x="625" y="812" font-size="16" font-weight="800" fill="#FFFFFF">✓ ĐĂNG KÝ THÀNH CÔNG!</text>
+  <text x="625" y="836" font-size="13" fill="#CCFBF1">• Hiện Toast chào mừng sinh viên</text>
+  <text x="625" y="856" font-size="13" fill="#CCFBF1">• Tự động đăng nhập &amp; cập nhật Header</text>
+
+  <!-- Connect to Finish -->
+  <line x1="765" y1="870" x2="765" y2="940" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="665" y="940" width="200" height="50" rx="25" fill="#16192E" filter="url(#shadow)"/>
+  <text x="765" y="971" text-anchor="middle" font-size="15" font-weight="800" fill="#FFFFFF">■ KẾT THÚC FLOW 1</text>
+
+  <!-- Sticky Note Tip F1 -->
+  <rect x="100" y="860" width="280" height="130" rx="12" fill="#FEF08A" stroke="#EAB308" filter="url(#shadow)"/>
+  <text x="120" y="890" font-size="14" font-weight="800" fill="#854D0E">📌 Ghi chú UX/UI:</text>
+  <text x="120" y="915" font-size="12" fill="#713F12">• Kiểm tra email regex real-time</text>
+  <text x="120" y="935" font-size="12" fill="#713F12">• Nút Submit có spinner xoay</text>
+  <text x="120" y="955" font-size="12" fill="#713F12">• Nhớ trạng thái tự động đăng nhập</text>
+  <text x="120" y="975" font-size="12" fill="#713F12">• Tối ưu cho cả Mobile &amp; Desktop</text>
+
+
+  <!-- ========================================== -->
+  <!-- FUNCTION 2: ĐĂNG NHẬP & PHÂN QUYỀN (Top Right) -->
+  <!-- ========================================== -->
+  <rect x="1030" y="190" width="910" height="1040" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="1030" y="190" width="910" height="60" rx="24" fill="#EFF6FF"/>
+  <rect x="1050" y="206" width="32" height="32" rx="8" fill="#3B82F6"/>
+  <text x="1066" y="228" text-anchor="middle" font-size="16" font-weight="800" fill="#FFFFFF">2</text>
+  <text x="1095" y="228" font-size="19" font-weight="800" fill="#16192E">CHỨC NĂNG 2: ĐĂNG NHẬP &amp; PHÂN QUYỀN (LOGIN &amp; RBAC)</text>
+
+  <!-- F2 Start -->
+  <rect x="1070" y="280" width="180" height="46" rx="23" fill="#16192E" filter="url(#shadow)"/>
+  <text x="1160" y="309" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">● BẮT ĐẦU</text>
+
+  <line x1="1250" y1="303" x2="1320" y2="303" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 1: Open Login Modal -->
+  <rect x="1320" y="265" width="280" height="76" rx="14" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1340" y="295" font-size="15" font-weight="700" fill="#1E40AF">1. Mở Modal Đăng nhập</text>
+  <text x="1340" y="322" font-size="13" fill="#1E3A8A">Tab Đăng nhập mặc định</text>
+
+  <line x1="1600" y1="303" x2="1670" y2="303" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: Input Email/Pass -->
+  <rect x="1670" y="265" width="240" height="76" rx="14" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1690" y="295" font-size="15" font-weight="700" fill="#1E40AF">2. Nhập Email &amp; Pass</text>
+  <text x="1690" y="322" font-size="13" fill="#1E3A8A">Nhấn nút "Đăng Nhập"</text>
+
+  <line x1="1790" y1="341" x2="1790" y2="400" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Decision 1: Email found? -->
+  <polygon points="1790,400 1910,460 1790,520 1670,460" fill="#FFFBEB" stroke="#D97706" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="1790" y="455" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">Tìm thấy</text>
+  <text x="1790" y="475" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">Email?</text>
+
+  <!-- Error Email Not Found -->
+  <line x1="1670" y1="460" x2="1570" y2="460" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="1625" y="450" font-size="12" font-weight="700" fill="#EF4444">Không</text>
+  <rect x="1400" y="435" width="170" height="50" rx="8" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="1485" y="465" text-anchor="middle" font-size="11" font-weight="700" fill="#991B1B">Báo lỗi: Email không tồn tại</text>
+
+  <!-- Email Found -> Down to Pass check -->
+  <line x1="1790" y1="520" x2="1790" y2="580" stroke="#0E7C66" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="1805" y="555" font-size="13" font-weight="700" fill="#0E7C66">Có</text>
+
+  <!-- Decision 2: Password correct? -->
+  <polygon points="1790,580 1910,640 1790,700 1670,640" fill="#FFFBEB" stroke="#D97706" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="1790" y="635" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">Mật khẩu</text>
+  <text x="1790" y="655" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">đúng?</text>
+
+  <!-- Error Wrong Password -->
+  <line x1="1670" y1="640" x2="1570" y2="640" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="1625" y="630" font-size="12" font-weight="700" fill="#EF4444">Sai</text>
+  <rect x="1400" y="615" width="170" height="50" rx="8" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="1485" y="645" text-anchor="middle" font-size="11" font-weight="700" fill="#991B1B">Báo lỗi: Sai mật khẩu</text>
+
+  <!-- Pass correct -> Down to RBAC branches -->
+  <line x1="1790" y1="700" x2="1790" y2="760" stroke="#0E7C66" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="1805" y="735" font-size="13" font-weight="700" fill="#0E7C66">Đúng</text>
+
+  <!-- RBAC Hub -->
+  <rect x="1640" y="760" width="280" height="70" rx="14" fill="#0E7C66" filter="url(#shadow)"/>
+  <text x="1780" y="790" text-anchor="middle" font-size="15" font-weight="800" fill="#FFFFFF">XÁC THỰC THÀNH CÔNG</text>
+  <text x="1780" y="812" text-anchor="middle" font-size="12" fill="#CCFBF1">Kiểm tra User.role &amp; phân quyền</text>
+
+  <!-- 3 Role Branches (Sinh viên, Chủ trọ, Admin) -->
+  <line x1="1640" y1="795" x2="1500" y2="795" stroke="#4B5563" stroke-width="2"/>
+  <line x1="1500" y1="795" x2="1500" y2="860" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1780" y1="830" x2="1780" y2="860" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1920" y1="795" x2="1920" y2="840" stroke="#4B5563" stroke-width="2"/>
+
+  <!-- Role 1: Sinh viên -->
+  <rect x="1070" y="860" width="260" height="90" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1090" y="888" font-size="14" font-weight="800" fill="#92400E">👤 Vai trò: Khách hàng / SV</text>
+  <text x="1090" y="910" font-size="12" fill="#78350F">• Bật tính năng Lưu Yêu Thích</text>
+  <text x="1090" y="930" font-size="12" fill="#78350F">• Nhắn tin chat với Chủ trọ</text>
+
+  <!-- Role 2: Chủ trọ -->
+  <rect x="1360" y="860" width="260" height="90" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1380" y="888" font-size="14" font-weight="800" fill="#065F46">🏠 Vai trò: Chủ nhà trọ</text>
+  <text x="1380" y="910" font-size="12" fill="#047857">• Kích hoạt nút "+ Đăng tin"</text>
+  <text x="1380" y="930" font-size="12" fill="#047857">• Quản lý phòng &amp; tin đăng</text>
+
+  <!-- Role 3: Admin -->
+  <rect x="1650" y="860" width="260" height="90" rx="12" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1670" y="888" font-size="14" font-weight="800" fill="#991B1B">🛡️ Vai trò: Quản trị viên (Admin)</text>
+  <text x="1670" y="910" font-size="12" fill="#7F1D1D">• Mở tab Quản trị (AdminView)</text>
+  <text x="1670" y="930" font-size="12" fill="#7F1D1D">• Duyệt tin, khóa tài khoản vi phạm</text>
+
+  <!-- All roles to finish -->
+  <line x1="1500" y1="950" x2="1500" y2="1020" stroke="#4B5563" stroke-width="2"/>
+  <line x1="1200" y1="950" x2="1200" y2="1020" stroke="#4B5563" stroke-width="2"/>
+  <line x1="1780" y1="950" x2="1780" y2="1020" stroke="#4B5563" stroke-width="2"/>
+  <line x1="1200" y1="1020" x2="1780" y2="1020" stroke="#4B5563" stroke-width="2"/>
+  <line x1="1500" y1="1020" x2="1500" y2="1070" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="1380" y="1070" width="240" height="50" rx="25" fill="#16192E" filter="url(#shadow)"/>
+  <text x="1500" y="1101" text-anchor="middle" font-size="15" font-weight="800" fill="#FFFFFF">■ KẾT THÚC FLOW 2</text>
+
+
+  <!-- ========================================== -->
+  <!-- FUNCTION 3: TÌM KIẾM & LỌC TRỌ (Bottom Left) -->
+  <!-- ========================================== -->
+  <rect x="60" y="1290" width="910" height="1050" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="60" y="1290" width="910" height="60" rx="24" fill="#F0FDF4"/>
+  <rect x="80" y="1306" width="32" height="32" rx="8" fill="#0E7C66"/>
+  <text x="96" y="1328" text-anchor="middle" font-size="16" font-weight="800" fill="#FFFFFF">3</text>
+  <text x="125" y="1328" font-size="19" font-weight="800" fill="#16192E">CHỨC NĂNG 3: TÌM KIẾM &amp; BỘ LỌC PHÒNG TRỌ (SEARCH &amp; FILTER)</text>
+
+  <!-- F3 Start -->
+  <rect x="100" y="1380" width="180" height="46" rx="23" fill="#16192E" filter="url(#shadow)"/>
+  <text x="190" y="1409" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">● BẮT ĐẦU</text>
+
+  <line x1="280" y1="1403" x2="350" y2="1403" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 1: Nav to Housing View -->
+  <rect x="350" y="1365" width="270" height="76" rx="14" fill="#F0FDF4" stroke="#0E7C66" stroke-width="2" filter="url(#shadow)"/>
+  <text x="370" y="1395" font-size="15" font-weight="700" fill="#065F46">1. Truy cập Tab "Phòng trọ"</text>
+  <text x="370" y="1420" font-size="13" fill="#047857">Load danh sách phòng mặc định</text>
+
+  <line x1="620" y1="1403" x2="690" y2="1403" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: User Inputs Filters -->
+  <rect x="690" y="1365" width="250" height="150" rx="16" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="710" y="1395" font-size="15" font-weight="700" fill="#1E40AF">2. Tùy chỉnh bộ lọc</text>
+  <text x="710" y="1422" font-size="13" fill="#1E3A8A">🔍 Gõ từ khóa: Tên, đường, quận</text>
+  <text x="710" y="1446" font-size="13" fill="#1E3A8A">🏷️ FilterChip: Máy lạnh, giặt, wifi</text>
+  <text x="710" y="1470" font-size="13" fill="#1E3A8A">💰 Range Slider: Giá tối đa (1-5tr)</text>
+  <text x="710" y="1496" font-size="12" font-weight="700" fill="#2563EB">⚡ Xử lý Real-time (useMemo)</text>
+
+  <!-- Down to System Filter Execution -->
+  <line x1="815" y1="1515" x2="815" y2="1580" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Algorithm Execution -->
+  <rect x="580" y="1580" width="360" height="100" rx="16" fill="#FEF3C7" stroke="#D97706" stroke-width="2" filter="url(#shadow)"/>
+  <text x="605" y="1610" font-size="15" font-weight="700" fill="#92400E">3. Thuật toán lọc phòng trọ</text>
+  <text x="605" y="1636" font-size="13" fill="#78350F">• Khớp từ khóa: (name | address | dist)</text>
+  <text x="605" y="1656" font-size="13" fill="#78350F">• Khớp tiện ích bắt buộc &amp; price &lt;= priceMax</text>
+  <text x="605" y="1674" font-size="12" font-weight="700" fill="#B45309">→ Trả về mảng danh sách phòng phù hợp</text>
+
+  <!-- Left to Decision (Results count > 0?) -->
+  <line x1="580" y1="1630" x2="480" y2="1630" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <polygon points="360,1570 480,1630 360,1690 240,1630" fill="#FFFBEB" stroke="#D97706" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="360" y="1625" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">Tìm thấy</text>
+  <text x="360" y="1645" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">phòng?</text>
+
+  <!-- Branch No: Empty State -->
+  <line x1="240" y1="1630" x2="120" y2="1630" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="180" y="1620" font-size="12" font-weight="700" fill="#EF4444">Số lượng = 0</text>
+  <rect x="90" y="1650" width="240" height="75" rx="10" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="105" y="1675" font-size="13" font-weight="700" fill="#991B1B">Hiển thị EmptyState</text>
+  <text x="105" y="1695" font-size="11.5" fill="#7F1D1D">"Không có phòng phù hợp"</text>
+  <text x="105" y="1712" font-size="11" fill="#7F1D1D">Gợi ý tăng mức giá hoặc giảm tiện ích</text>
+
+  <!-- Branch Yes: Down to Card Grid -->
+  <line x1="360" y1="1690" x2="360" y2="1770" stroke="#0E7C66" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="375" y="1730" font-size="13" font-weight="700" fill="#0E7C66">&gt; 0 phòng</text>
+
+  <!-- Step 4: Render Card Grid -->
+  <rect x="230" y="1770" width="260" height="90" rx="14" fill="#0E7C66" filter="url(#shadow)"/>
+  <text x="250" y="1802" font-size="15" font-weight="800" fill="#FFFFFF">4. Render Grid PlaceCard</text>
+  <text x="250" y="1826" font-size="12.5" fill="#CCFBF1">• Ảnh, giá Coral, diện tích</text>
+  <text x="250" y="1846" font-size="12.5" fill="#CCFBF1">• Khoảng cách trường, rating sao</text>
+
+  <line x1="490" y1="1815" x2="570" y2="1815" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 5: Click Card & Actions -->
+  <rect x="570" y="1760" width="360" height="110" rx="16" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="595" y="1790" font-size="15" font-weight="700" fill="#1E40AF">5. Tương tác với phòng trọ</text>
+  <text x="595" y="1815" font-size="13" fill="#1E3A8A">❤️ Nhấn nút Trái tim: Lưu vào FavoritesView</text>
+  <text x="595" y="1838" font-size="13" fill="#1E3A8A">🔍 Nhấn vào Thẻ: Mở DetailModal (Xem chi tiết)</text>
+  <text x="595" y="1860" font-size="13" fill="#1E3A8A">💬 Bấm "Liên hệ": Mở ChatModal / Gọi điện</text>
+
+  <!-- Connect to Finish -->
+  <line x1="750" y1="1870" x2="750" y2="1940" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="650" y="1940" width="200" height="50" rx="25" fill="#16192E" filter="url(#shadow)"/>
+  <text x="750" y="1971" text-anchor="middle" font-size="15" font-weight="800" fill="#FFFFFF">■ KẾT THÚC FLOW 3</text>
+
+
+  <!-- ========================================== -->
+  <!-- FUNCTION 4: ĐĂNG TIN PHÒNG TRỌ (Bottom Right) -->
+  <!-- ========================================== -->
+  <rect x="1030" y="1290" width="910" height="1050" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="1030" y="1290" width="910" height="60" rx="24" fill="#FFF1F2"/>
+  <rect x="1050" y="1306" width="32" height="32" rx="8" fill="#FF5D3E"/>
+  <text x="1066" y="1328" text-anchor="middle" font-size="16" font-weight="800" fill="#FFFFFF">4</text>
+  <text x="1095" y="1328" font-size="19" font-weight="800" fill="#16192E">CHỨC NĂNG 4: ĐĂNG TIN PHÒNG TRỌ (POST HOUSING LISTING)</text>
+
+  <!-- F4 Start -->
+  <rect x="1070" y="1380" width="180" height="46" rx="23" fill="#16192E" filter="url(#shadow)"/>
+  <text x="1160" y="1409" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">● BẮT ĐẦU</text>
+
+  <line x1="1250" y1="1403" x2="1320" y2="1403" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 1: Click Post Button -->
+  <rect x="1320" y="1365" width="280" height="76" rx="14" fill="#FFF1F2" stroke="#FF5D3E" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1340" y="1395" font-size="15" font-weight="700" fill="#9F1239">1. Nhấn nút "+ Đăng tin"</text>
+  <text x="1340" y="1420" font-size="13" fill="#881337">Nút màu Coral góc trên HousingView</text>
+
+  <line x1="1600" y1="1403" x2="1670" y2="1403" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Decision 1: Logged in? -->
+  <polygon points="1790,1350 1910,1410 1790,1470 1670,1410" fill="#FFFBEB" stroke="#D97706" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="1790" y="1405" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">Đã đăng</text>
+  <text x="1790" y="1425" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">nhập?</text>
+
+  <!-- Not Logged in -> Prompt Login -->
+  <line x1="1790" y1="1350" x2="1790" y2="1310" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="1805" y="1335" font-size="12" font-weight="700" fill="#EF4444">Chưa</text>
+  <rect x="1690" y="1265" width="200" height="40" rx="8" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="1790" y="1290" text-anchor="middle" font-size="12" font-weight="700" fill="#991B1B">Mở AuthModal bắt buộc đăng nhập</text>
+
+  <!-- Logged in -> Open AddHousingModal -->
+  <line x1="1790" y1="1470" x2="1790" y2="1530" stroke="#0E7C66" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="1805" y="1505" font-size="13" font-weight="700" fill="#0E7C66">Đã Login</text>
+
+  <!-- Step 2: Open Modal & Input -->
+  <rect x="1610" y="1530" width="320" height="130" rx="16" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1635" y="1560" font-size="15" font-weight="700" fill="#1E40AF">2. Điền thông tin phòng trọ</text>
+  <text x="1635" y="1588" font-size="13" fill="#1E3A8A">• Tiêu đề phòng (*), Địa chỉ (*)</text>
+  <text x="1635" y="1610" font-size="13" fill="#1E3A8A">• Giá thuê (Triệu/tháng), Diện tích (m²)</text>
+  <text x="1635" y="1632" font-size="13" fill="#1E3A8A">• Khoảng cách đến trường, Tick tiện ích</text>
+  <text x="1635" y="1652" font-size="12" font-weight="700" fill="#FF5D3E">→ Nhấn "Đăng Bài Cho Thuê Ngay"</text>
+
+  <!-- Left to Validate -->
+  <line x1="1610" y1="1595" x2="1510" y2="1595" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Decision 2: Valid inputs? -->
+  <polygon points="1390,1535 1510,1595 1390,1655 1270,1595" fill="#FFFBEB" stroke="#D97706" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="1390" y="1590" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">Đủ thông tin</text>
+  <text x="1390" y="1610" text-anchor="middle" font-size="13" font-weight="700" fill="#B45309">bắt buộc?</text>
+
+  <!-- Branch No: Missing info -->
+  <line x1="1390" y1="1535" x2="1390" y2="1475" stroke="#EF4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="1405" y="1510" font-size="12" font-weight="700" fill="#EF4444">Thiếu</text>
+  <rect x="1270" y="1435" width="240" height="40" rx="8" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="1390" y="1460" text-anchor="middle" font-size="12" font-weight="700" fill="#991B1B">Báo lỗi: Điền tiêu đề &amp; địa chỉ</text>
+
+  <!-- Branch Yes: Down to API -->
+  <line x1="1390" y1="1655" x2="1390" y2="1730" stroke="#0E7C66" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="1405" y="1695" font-size="13" font-weight="700" fill="#0E7C66">Đủ (*)</text>
+
+  <!-- Step 3: Call addHousingToBackend -->
+  <rect x="1230" y="1730" width="320" height="90" rx="14" fill="#F0FDF4" stroke="#22C55E" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1255" y="1760" font-size="15" font-weight="700" fill="#15803D">3. Lưu tin vào CSDL MySQL</text>
+  <text x="1255" y="1785" font-size="13" fill="#166534">• addHousingToBackend() gửi POST</text>
+  <text x="1255" y="1805" font-size="13" fill="#166534">• Gán status: "approved" / "pending"</text>
+
+  <line x1="1550" y1="1775" x2="1620" y2="1775" stroke="#0E7C66" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- Step 4: Success Post Listing -->
+  <rect x="1620" y="1730" width="310" height="90" rx="14" fill="#FF5D3E" filter="url(#shadow)"/>
+  <text x="1645" y="1762" font-size="16" font-weight="800" fill="#FFFFFF">✓ ĐĂNG TIN THÀNH CÔNG!</text>
+  <text x="1645" y="1786" font-size="13" fill="#FFF1F2">• Chèn bài mới vào đầu HousingView</text>
+  <text x="1645" y="1806" font-size="13" fill="#FFF1F2">• Hiện Toast chúc mừng &amp; Đóng Modal</text>
+
+  <!-- Connect to Finish -->
+  <line x1="1775" y1="1820" x2="1775" y2="1940" stroke="#4B5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="1675" y="1940" width="200" height="50" rx="25" fill="#16192E" filter="url(#shadow)"/>
+  <text x="1775" y="1971" text-anchor="middle" font-size="15" font-weight="800" fill="#FFFFFF">■ KẾT THÚC FLOW 4</text>
+
+</svg>

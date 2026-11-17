@@ -1,0 +1,48 @@
+@startuml
+autonumber
+skinparam BoxPadding 10
+skinparam ParticipantPadding 15
+skinparam SequenceArrowThickness 1.5
+skinparam RoundCorner 8
+skinparam defaultFontName "Segoe UI", Arial, sans-serif
+
+actor "Khách Hàng\n(Sinh Viên)" as User
+participant "Đường dẫn vào frontend:\nD:\\24CT1-PHANTRIDUC\\src\\\ncomponents\\modals\\AuthModal.jsx" as UI
+participant "Đường dẫn vào file backend:\nD:\\24CT1-PHANTRIDUC\\api\\\nusers.php" as Backend
+database "Tên CSDL / bảng hỗ trợ:\nunilife_db /\nusers" as DB
+
+title SƠ ĐỒ TUẦN TỰ - CHỨC NĂNG ĐĂNG NHẬP (LOGIN)
+
+User -> UI : 1. Yêu cầu mở form đăng nhập (Click nút 'Đăng nhập')
+activate UI
+UI -> Backend : 2. Yêu cầu tải form đăng nhập qua đường dẫn file backend (GET /api/users.php?action=login_form)
+activate Backend
+Backend --> UI : 3. Backend trả file / cấu trúc form về cho khách hàng (HTTP 200 Form Template)
+deactivate Backend
+UI --> User : 4. Hiển thị form đăng nhập lên màn hình cho khách hàng nhập liệu
+
+User -> UI : 5. Nhập Email (@gmail.com) & Mật khẩu, bấm 'Đăng nhập'
+UI -> Backend : 6. Gửi thông tin đăng nhập qua đường dẫn file backend (POST /api/users.php hoặc auth check)
+activate Backend
+
+Backend -> DB : 7. Truy vấn tài khoản: SELECT id, name, email, password_hash, phone, role, status FROM users WHERE email = ?
+activate DB
+
+alt Trường hợp tài khoản không tồn tại hoặc sai mật khẩu
+    DB --> Backend : 8a. Không tìm thấy tài khoản (num_rows === 0) / Mật khẩu không khớp
+    Backend --> UI : 9a. JSON {success: false, message: 'Email hoặc mật khẩu không chính xác!'}
+    UI --> User : 10a. Hiển thị thông báo đăng nhập thất bại trên màn hình
+else Trường hợp Email và Mật khẩu chính xác
+    DB --> Backend : 8b. Trả về thông tin tài khoản người dùng
+    deactivate DB
+    Backend -> Backend : 9b. Khớp mật khẩu & kiểm tra trạng thái hoạt động (Active)
+    Backend --> UI : 10b. JSON {success: true, message: 'Đăng nhập thành công!', user: {id, name, email, role}}
+end
+
+Backend --> UI : 11. Hoàn tất phản hồi kết quả từ file backend
+deactivate Backend
+
+UI --> User : 12. Đóng form, hiển thị tên & avatar người dùng trên Header & thông báo đăng nhập thành công
+deactivate UI
+
+@enduml

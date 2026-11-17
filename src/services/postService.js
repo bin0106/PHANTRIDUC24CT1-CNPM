@@ -135,6 +135,28 @@ export async function deleteStudyFromBackend(id) {
   });
 }
 
+// ======================== ENTERTAINMENT ========================
+export async function fetchEntertainmentFromBackend() {
+  const data = await callApi("entertainment.php");
+  return data && data.success && Array.isArray(data.entertainment) ? data.entertainment : null;
+}
+
+export async function addEntertainmentToBackend(item) {
+  return await callApi("entertainment.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item)
+  });
+}
+
+export async function deleteEntertainmentFromBackend(id) {
+  return await callApi("entertainment.php", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id })
+  });
+}
+
 // ======================== LOCAL HELPERS ========================
 export function approvePost(list, id) {
   return list.map(item => item.id === id ? { ...item, status: POST_STATUS.APPROVED } : item);

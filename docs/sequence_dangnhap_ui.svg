@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1120 890" width="1120" height="890" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#000000" />
+    </marker>
+    <marker id="arr2-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polyline points="0 0, 7 3, 0 6" fill="none" stroke="#000000" stroke-width="1.2" />
+    </marker>
+    <marker id="arr2-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polyline points="0 0, 7 3, 0 6" fill="none" stroke="#b91c1c" stroke-width="1.2" />
+    </marker>
+    <marker id="arr2-green-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polyline points="0 0, 7 3, 0 6" fill="none" stroke="#15803d" stroke-width="1.2" />
+    </marker>
+    <marker id="arr2-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#15803d" />
+    </marker>
+  </defs>
+
+  <!-- Background trắng tinh khôi -->
+  <rect width="1120" height="890" fill="#ffffff" />
+
+  <!-- Tiêu đề sơ đồ -->
+  <rect x="290" y="14" width="540" height="42" rx="10" fill="#E8F5E9" stroke="#C8E6C9" stroke-width="2" />
+  <text x="560" y="41" font-size="16" font-weight="bold" fill="#000000" text-anchor="middle">SƠ ĐỒ TUẦN TỰ - CHỨC NĂNG ĐĂNG NHẬP (LOGIN)</text>
+
+  <!-- Hộp tên chức năng góc phải -->
+  <rect x="940" y="48" width="150" height="52" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+  <text x="1015" y="70" font-size="12.5" font-weight="bold" fill="#000000" text-anchor="middle">Tên chức năng:</text>
+  <text x="1015" y="89" font-size="12.5" fill="#000000" text-anchor="middle">Đăng nhập</text>
+
+  <!-- ACTOR: Khách Hàng (Sinh Viên) -->
+  <circle cx="70" cy="85" r="14" fill="none" stroke="#000000" stroke-width="2" />
+  <line x1="70" y1="99" x2="70" y2="132" stroke="#000000" stroke-width="2" />
+  <line x1="45" y1="110" x2="95" y2="110" stroke="#000000" stroke-width="2" />
+  <line x1="70" y1="132" x2="50" y2="158" stroke="#000000" stroke-width="2" />
+  <line x1="70" y1="132" x2="90" y2="158" stroke="#000000" stroke-width="2" />
+  <text x="70" y="174" font-size="13" font-weight="bold" fill="#000000" text-anchor="middle">Khách Hàng</text>
+  <text x="70" y="190" font-size="11.5" fill="#444444" text-anchor="middle">(Sinh Viên)</text>
+
+  <!-- LIFELINE 1: Frontend Box -->
+  <rect x="180" y="65" width="250" height="58" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+  <text x="305" y="85" font-size="12" font-weight="bold" fill="#000000" text-anchor="middle">Đường dẫn vào frontend:</text>
+  <text x="305" y="103" font-size="10.5" fill="#000000" text-anchor="middle">D:\24CT1-PHANTRIDUC\src\</text>
+  <text x="305" y="117" font-size="10.5" fill="#000000" text-anchor="middle">components\modals\AuthModal.jsx</text>
+
+  <!-- LIFELINE 2: Backend Box -->
+  <rect x="490" y="65" width="250" height="58" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+  <text x="615" y="85" font-size="12" font-weight="bold" fill="#000000" text-anchor="middle">Đường dẫn vào file backend:</text>
+  <text x="615" y="103" font-size="10.5" fill="#000000" text-anchor="middle">D:\24CT1-PHANTRIDUC\api\</text>
+  <text x="615" y="117" font-size="10.5" fill="#000000" text-anchor="middle">users.php</text>
+
+  <!-- LIFELINE 3: Database Cylinder -->
+  <path d="M 800,77 A 70,12 0 0,1 940,77 A 70,12 0 0,1 800,77 Z" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+  <path d="M 800,77 L 800,115 A 70,12 0 0,0 940,115 L 940,77" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+  <text x="870" y="93" font-size="11.5" font-weight="bold" fill="#000000" text-anchor="middle">Tên CSDL / bảng hỗ trợ:</text>
+  <text x="870" y="109" font-size="11" fill="#000000" text-anchor="middle">unilife_db / users</text>
+
+  <!-- Lifelines (đường gióng thẳng đứng) -->
+  <line x1="70" y1="198" x2="70" y2="860" stroke="#888888" stroke-width="1.2" stroke-dasharray="4,4" />
+  <line x1="305" y1="125" x2="305" y2="860" stroke="#888888" stroke-width="1.2" stroke-dasharray="4,4" />
+  <line x1="615" y1="125" x2="615" y2="860" stroke="#888888" stroke-width="1.2" stroke-dasharray="4,4" />
+  <line x1="870" y1="125" x2="870" y2="860" stroke="#888888" stroke-width="1.2" stroke-dasharray="4,4" />
+
+  <!-- Thanh kích hoạt (Activation Bars) -->
+  <rect x="65" y="205" width="10" height="635" fill="#ffffff" stroke="#000000" stroke-width="1" />
+  <rect x="300" y="210" width="10" height="625" fill="#ffffff" stroke="#000000" stroke-width="1" />
+  
+  <!-- Backend Activation 1 (khi tải form) -->
+  <rect x="610" y="240" width="10" height="42" fill="#ffffff" stroke="#000000" stroke-width="1" />
+  <!-- Backend Activation 2 (khi xác thực đăng nhập) -->
+  <rect x="610" y="385" width="10" height="375" fill="#ffffff" stroke="#000000" stroke-width="1" />
+
+  <!-- CSDL Activation (truy vấn người dùng) -->
+  <rect x="865" y="420" width="10" height="240" fill="#ffffff" stroke="#000000" stroke-width="1" />
+
+  <!-- ======================= CÁC BƯỚC THÔNG ĐIỆP ======================= -->
+
+  <!-- BƯỚC 1 -->
+  <line x1="75" y1="215" x2="300" y2="215" stroke="#000000" stroke-width="1.3" marker-end="url(#arr2)" />
+  <text x="187" y="207" font-size="10.5" fill="#000000" text-anchor="middle">1. Yêu cầu mở form đăng nhập (Click nút 'Đăng nhập')</text>
+
+  <!-- BƯỚC 2 -->
+  <line x1="310" y1="245" x2="610" y2="245" stroke="#000000" stroke-width="1.3" marker-end="url(#arr2)" />
+  <text x="460" y="237" font-size="10" fill="#000000" text-anchor="middle">2. Qua đường dẫn file backend: GET /api/users.php?action=login_form</text>
+
+  <!-- BƯỚC 3 -->
+  <line x1="610" y1="275" x2="310" y2="275" stroke="#000000" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr2-open)" />
+  <text x="460" y="267" font-size="9.5" fill="#000000" text-anchor="middle">3. Trả file / cấu trúc form về cho giao diện (HTTP 200 Form Template)</text>
+
+  <!-- BƯỚC 4 -->
+  <line x1="300" y1="305" x2="75" y2="305" stroke="#000000" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr2-open)" />
+  <text x="187" y="297" font-size="10" fill="#000000" text-anchor="middle">4. Hiển thị form đăng nhập lên màn hình cho khách hàng nhập liệu</text>
+
+  <!-- BƯỚC 5 -->
+  <line x1="75" y1="345" x2="300" y2="345" stroke="#000000" stroke-width="1.3" marker-end="url(#arr2)" />
+  <text x="187" y="335" font-size="10.5" fill="#000000" text-anchor="middle">5. Nhập Email (@gmail.com) &amp; Mật khẩu,</text>
+  <text x="187" y="347" font-size="9.5" fill="#555555" text-anchor="middle">sau đó bấm nút 'Đăng nhập ngay'</text>
+
+  <!-- BƯỚC 6 -->
+  <line x1="310" y1="388" x2="610" y2="388" stroke="#000000" stroke-width="1.3" marker-end="url(#arr2)" />
+  <text x="460" y="378" font-size="10" fill="#000000" text-anchor="middle">6. Gửi xác thực qua đường dẫn file backend: POST /api/users.php</text>
+
+  <!-- BƯỚC 7 -->
+  <line x1="620" y1="425" x2="865" y2="425" stroke="#000000" stroke-width="1.3" marker-end="url(#arr2)" />
+  <text x="742" y="415" font-size="9.5" fill="#000000" text-anchor="middle">7. Truy vấn CSDL: SELECT id, name, email,</text>
+  <text x="742" y="426" font-size="9" fill="#444444" text-anchor="middle">password_hash, phone, role, status FROM users WHERE email=?</text>
+
+  <!-- ==================== KHUNG ALT BOX ==================== -->
+  <rect x="510" y="445" width="460" height="275" fill="none" stroke="#000000" stroke-width="1.3" />
+  <rect x="510" y="445" width="55" height="22" fill="#ffffff" stroke="#000000" stroke-width="1.3" />
+  <text x="537" y="461" font-size="11.5" font-weight="bold" fill="#000000" text-anchor="middle">alt</text>
+
+  <!-- NHÁNH 1: BÁO LỖI KHÔNG TÌM THẤY HOẶC SAI MK -->
+  <text x="525" y="482" font-size="10" fill="#b91c1c" font-style="italic">[Trường hợp không tìm thấy tài khoản, sai mật khẩu hoặc bị khóa]</text>
+  
+  <line x1="865" y1="504" x2="620" y2="504" stroke="#b91c1c" stroke-width="1.1" stroke-dasharray="3,3" marker-end="url(#arr2-red)" />
+  <text x="742" y="497" font-size="9.5" fill="#b91c1c" text-anchor="middle">8a. Không tìm thấy email hoặc mật khẩu không khớp</text>
+
+  <line x1="610" y1="532" x2="310" y2="532" stroke="#b91c1c" stroke-width="1.1" stroke-dasharray="3,3" marker-end="url(#arr2-red)" />
+  <text x="460" y="525" font-size="9.5" fill="#b91c1c" text-anchor="middle">9a. JSON {success: false, message: 'Email hoặc mật khẩu không chính xác'}</text>
+
+  <line x1="300" y1="556" x2="75" y2="556" stroke="#b91c1c" stroke-width="1.1" stroke-dasharray="3,3" marker-end="url(#arr2-red)" />
+  <text x="187" y="550" font-size="9.5" fill="#b91c1c" text-anchor="middle">10a. Hiển thị thông báo đăng nhập thất bại trên form modal</text>
+
+  <!-- ĐƯỜNG PHÂN CÁCH NHÁNH ALT -->
+  <line x1="510" y1="575" x2="970" y2="575" stroke="#000000" stroke-width="1" stroke-dasharray="4,4" />
+
+  <!-- NHÁNH 2: THÀNH CÔNG -->
+  <text x="525" y="596" font-size="10" fill="#15803d" font-style="italic">[Trường hợp Email và Mật khẩu chính xác &amp; tài khoản Active]</text>
+
+  <line x1="865" y1="630" x2="620" y2="630" stroke="#15803d" stroke-width="1.1" stroke-dasharray="3,3" marker-end="url(#arr2-green-open)" />
+  <text x="742" y="618" font-size="9.5" fill="#15803d" text-anchor="middle">8b. Trả về thông tin tài khoản người dùng</text>
+  <text x="742" y="629" font-size="9" fill="#15803d" text-anchor="middle">(id, name, email, role, phone, avatar_url, status)</text>
+
+  <!-- Khớp mật khẩu & kiểm tra phiên -->
+  <line x1="620" y1="655" x2="655" y2="655" stroke="#15803d" stroke-width="1" />
+  <line x1="655" y1="655" x2="655" y2="675" stroke="#15803d" stroke-width="1" />
+  <line x1="655" y1="675" x2="620" y2="675" stroke="#15803d" stroke-width="1" marker-end="url(#arr2-green)" />
+  <text x="665" y="668" font-size="9" fill="#15803d">9b. Khớp mật khẩu &amp; phân quyền vai trò</text>
+
+  <line x1="610" y1="700" x2="310" y2="700" stroke="#15803d" stroke-width="1.1" stroke-dasharray="3,3" marker-end="url(#arr2-green-open)" />
+  <text x="460" y="693" font-size="9.5" fill="#15803d" text-anchor="middle">10b. JSON {success: true, message: 'Đăng nhập thành công!', user: {...}}</text>
+
+  <!-- BƯỚC 11 -->
+  <line x1="610" y1="755" x2="310" y2="755" stroke="#000000" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr2-open)" />
+  <text x="460" y="744" font-size="10" fill="#000000" text-anchor="middle">11. Nhận phản hồi đăng nhập thành công &amp; lưu localStorage</text>
+  <text x="460" y="756" font-size="9" fill="#555555" text-anchor="middle">&amp; thiết lập phiên làm việc currentUser</text>
+
+  <!-- BƯỚC 12 -->
+  <line x1="300" y1="810" x2="75" y2="810" stroke="#000000" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr2-open)" />
+  <text x="187" y="796" font-size="10.5" fill="#000000" text-anchor="middle">12. Đóng modal, hiển thị tên &amp; avatar trên Header</text>
+  <text x="187" y="810" font-size="10.5" fill="#000000" text-anchor="middle">&amp; thông báo 'Đăng nhập thành công!'</text>
+</svg>

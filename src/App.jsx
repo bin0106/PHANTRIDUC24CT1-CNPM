@@ -30,7 +30,8 @@ import {
   fetchHousingFromBackend, addHousingToBackend,
   fetchFoodFromBackend, addFoodToBackend,
   fetchMarketFromBackend, addMarketToBackend,
-  fetchStudyFromBackend
+  fetchStudyFromBackend,
+  fetchEntertainmentFromBackend, addEntertainmentToBackend, deleteEntertainmentFromBackend
 } from "./services/postService";
 
 // 4. Các màn hình giao diện chính (Views / Pages)
@@ -85,7 +86,7 @@ export default function App() {
   const [housingList, setHousingList] = usePersistentState("unilife:housing", initialHousing);
   const [foodList, setFoodList] = usePersistentState("unilife:food", initialFood);
   const [marketList, setMarketList] = usePersistentState("unilife:market", initialMarket);
-  const [entertainmentList] = useState(initialEntertainment);
+  const [entertainmentList, setEntertainmentList] = usePersistentState("unilife:entertainment", initialEntertainment);
   const [studyList, setStudyList] = usePersistentState("unilife:study", initialStudy);
 
   // Quản lý trạng thái các Modals
@@ -99,7 +100,7 @@ export default function App() {
   // Quản lý người dùng & phân quyền (Auth State)
   const [users, setUsers] = usePersistentState("unilife:users", initialUsers);
   const [currentUser, setCurrentUser] = useState(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(() => (typeof window !== "undefined" && (window.location.hash.includes("register") || window.location.hash.includes("login") || window.location.hash.includes("auth"))));
 
   // Đồng bộ toàn bộ dữ liệu từ phpMyAdmin / MySQL khi khởi động
   useEffect(() => {
@@ -142,6 +143,13 @@ export default function App() {
         setStudyList(backendStudy);
       }
     });
+
+    // 6. Đồng bộ tụ điểm vui chơi & giải trí từ phpMyAdmin
+    fetchEntertainmentFromBackend().then((backendEnt) => {
+      if (backendEnt && Array.isArray(backendEnt) && backendEnt.length > 0) {
+        setEntertainmentList(backendEnt);
+      }
+    });
   }, []);
 
   // Thông báo phản hồi nhanh (Toast)
@@ -180,6 +188,33 @@ export default function App() {
       showToast(next[key] ? "Đã thêm vào mục Yêu thích! ❤️" : "Đã bỏ khỏi mục Yêu thích!");
       return next;
     });
+  };
+
+  // Xử lý thêm và xóa tụ điểm giải trí (đồng bộ tự động với phpMyAdmin MySQL)
+  const handleAddEntertainment = async (item) => {
+    try {
+      const res = await addEntertainmentToBackend(item);
+      const saved = (res && res.success && res.item) ? res.item : { ...item, id: Date.now() };
+      setEntertainmentList([saved, ...entertainmentList]);
+      showToast(`Đã thêm tụ điểm "${item.name}" và lưu vào phpMyAdmin! 🎉`);
+    } catch (e) {
+      console.error(e);
+      const localItem = { ...item, id: Date.now() };
+      setEntertainmentList([localItem, ...entertainmentList]);
+      showToast(`Đã thêm tụ điểm "${item.name}"!`);
+    }
+  };
+
+  const handleDeleteEntertainment = async (id) => {
+    try {
+      await deleteEntertainmentFromBackend(id);
+      setEntertainmentList(entertainmentList.filter(e => e.id !== id));
+      showToast("Đã xóa tụ điểm giải trí khỏi CSDL phpMyAdmin! 🗑️");
+    } catch (e) {
+      console.error(e);
+      setEntertainmentList(entertainmentList.filter(e => e.id !== id));
+      showToast("Đã xóa tụ điểm giải trí!");
+    }
   };
 
   // Lọc phòng trọ theo tiêu chí
@@ -424,7 +459,12 @@ export default function App() {
         )}
         {tab === "entertainment" && (
           <EntertainmentView
-            data={entertainmentList} favorites={favorites} toggleFav={toggleFav} setDetail={setDetail}
+            data={entertainmentList}
+            favorites={favorites}
+            toggleFav={toggleFav}
+            setDetail={setDetail}
+            onAdd={handleAddEntertainment}
+            onDelete={handleDeleteEntertainment}
           />
         )}
         {tab === "study" && (

@@ -12,7 +12,7 @@ if (!$data) {
 $name = trim($data['name'] ?? '');
 $email = strtolower(trim($data['email'] ?? ''));
 $password = trim($data['password'] ?? '');
-$phone = trim($data['phone'] ?? 'Chưa cập nhật');
+$phone = trim($data['phone'] ?? '');
 $role = trim($data['role'] ?? 'Khách hàng');
 $avatar = trim($data['avatar'] ?? 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80');
 
@@ -20,6 +20,36 @@ if (empty($name) || empty($email) || empty($password)) {
     echo json_encode([
         'success' => false,
         'message' => 'Vui lòng cung cấp đầy đủ họ tên, email và mật khẩu!'
+    ], JSON_UNESCAPED_UNICODE);
+    exit();
+}
+
+// Kiểm tra đuôi email phải là @gmail.com
+if (!preg_match('/^[a-zA-Z0-9._%+-]+@gmail\.com$/i', $email)) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Email đăng ký bắt buộc phải có phần đuôi là @gmail.com!'
+    ], JSON_UNESCAPED_UNICODE);
+    exit();
+}
+
+// Kiểm tra số điện thoại bắt buộc và không trùng lặp
+if (empty($phone) || $phone === 'Chưa cập nhật') {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Vui lòng nhập số điện thoại liên hệ!'
+    ], JSON_UNESCAPED_UNICODE);
+    exit();
+}
+
+// Kiểm tra số điện thoại đã tồn tại chưa
+$checkPhoneStmt = $conn->prepare("SELECT id FROM users WHERE phone = ?");
+$checkPhoneStmt->bind_param("s", $phone);
+$checkPhoneStmt->execute();
+if ($checkPhoneStmt->get_result()->num_rows > 0) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Số điện thoại này đã được sử dụng bởi một tài khoản khác!'
     ], JSON_UNESCAPED_UNICODE);
     exit();
 }

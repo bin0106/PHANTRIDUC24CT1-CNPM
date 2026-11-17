@@ -1,0 +1,44 @@
+@startuml
+autonumber
+skinparam BoxPadding 10
+skinparam ParticipantPadding 15
+skinparam SequenceArrowThickness 1.5
+skinparam RoundCorner 8
+skinparam defaultFontName "Segoe UI", Arial, sans-serif
+
+actor "Khách Hàng\n(Chủ Nhà Trọ)" as User
+participant "Đường dẫn vào frontend:\nD:\\24CT1-PHANTRIDUC\\src\\\ncomponents\\modals\\AddHousingModal.jsx" as UI
+participant "Đường dẫn vào file backend:\nD:\\24CT1-PHANTRIDUC\\api\\\nhousing.php" as Backend
+database "Tên CSDL / bảng hỗ trợ:\nunilife_db /\nhousing" as DB
+
+title SƠ ĐỒ TUẦN TỰ - CHỨC NĂNG ĐĂNG TIN PHÒNG TRỌ (POST HOUSING)
+
+User -> UI : 1. Chọn đăng tin & bấm '+ Đăng tin cho thuê trọ'
+activate UI
+UI --> User : 2. Hiển thị form AddHousingModal (nhập tên phòng, giá, diện tích, địa chỉ, tiện ích)
+
+User -> UI : 3. Nhập đầy đủ thông tin phòng trọ, tiện ích & bấm 'Đăng tin phòng trọ'
+UI -> Backend : 4. Gửi yêu cầu đăng tin: POST /api/housing.php (JSON: name, price, priceNum, area, address, dist, phone, ac, washer, wifi, parking...)
+activate Backend
+
+Backend -> Backend : 5. Kiểm tra dữ liệu đăng tin (!empty($name) && !empty($address))
+
+alt Trường hợp thiếu thông tin hoặc không thể lưu CSDL
+    Backend --> UI : 6a. Dữ liệu không hợp lệ hoặc lỗi INSERT vào bảng housing
+    Backend --> UI : 7a. JSON {success: false, message: 'Thiếu thông tin hoặc không thể lưu'}
+    UI --> User : 8a. Hiển thị thông báo lỗi đăng tin trên giao diện
+else Trường hợp thông tin đầy đủ & hợp lệ
+    Backend -> DB : 6b. INSERT INTO housing (user_id, name, price, price_num, area, address, dist, phone, ac, washer, wifi, parking, image_url, status)
+    activate DB
+    DB --> Backend : 7b. Lưu phòng trọ thành công (insert_id = newId)
+    deactivate DB
+    Backend --> UI : 8b. JSON {success: true, message: 'Đã lưu phòng trọ mới vào phpMyAdmin!', item: {id: newId, ...}}
+end
+
+Backend --> UI : 9. Nhận phản hồi đăng tin thành công & cập nhật state setHousingList([saved, ...housingList])
+deactivate Backend
+
+UI --> User : 10. Đóng AddHousingModal, mở thẻ phòng trọ mới trên danh sách & hiển thị Toast thành công
+deactivate UI
+
+@enduml

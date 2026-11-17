@@ -4,7 +4,7 @@ import { CARD, PAPER, INK, CORAL, TEAL, SUBTEXT, PRESET_AVATARS } from "../../da
 import { registerUserToBackend } from "../../services/authService";
 
 export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, showToast }) {
-  const [mode, setMode] = useState("login");
+  const [mode, setMode] = useState(() => (typeof window !== "undefined" && window.location.hash.includes("register")) ? "register" : "login");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -48,9 +48,38 @@ export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, 
     e.preventDefault();
     setLoginError("");
 
-    const exists = users.find((u) => u.email.trim().toLowerCase() === regEmail.trim().toLowerCase());
+    const cleanEmail = regEmail.trim().toLowerCase();
+    const cleanPhone = regPhone.trim();
+
+    // 1. Kiểm tra đuôi email phải là @gmail.com
+    if (!cleanEmail.endsWith("@gmail.com")) {
+      setLoginError("Email đăng ký bắt buộc phải có đuôi là @gmail.com (VD: yourname@gmail.com)!");
+      return;
+    }
+
+    // 2. Kiểm tra trùng lặp email
+    const exists = users.find((u) => u.email.trim().toLowerCase() === cleanEmail);
     if (exists) {
       setLoginError("Email này đã được sử dụng. Vui lòng chọn email khác.");
+      return;
+    }
+
+    // 3. Kiểm tra số điện thoại bắt buộc
+    if (!cleanPhone) {
+      setLoginError("Vui lòng nhập số điện thoại liên hệ!");
+      return;
+    }
+
+    const digitsOnly = cleanPhone.replace(/\D/g, "");
+    if (digitsOnly.length < 9) {
+      setLoginError("Số điện thoại không hợp lệ (tối thiểu 9-11 chữ số)!");
+      return;
+    }
+
+    // 4. Kiểm tra trùng lặp số điện thoại trong danh sách người dùng
+    const phoneExists = users.some((u) => u.phone && u.phone.replace(/\D/g, "") === digitsOnly);
+    if (phoneExists) {
+      setLoginError("Số điện thoại này đã được đăng ký bởi một tài khoản khác!");
       return;
     }
 
@@ -59,9 +88,9 @@ export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, 
     const randomAvatar = PRESET_AVATARS[Math.floor(Math.random() * PRESET_AVATARS.length)];
     const userData = {
       name: regName.trim(),
-      email: regEmail.trim(),
+      email: cleanEmail,
       password: regPassword,
-      phone: regPhone || "0900.000.000",
+      phone: cleanPhone,
       role: regRole,
       avatar: randomAvatar
     };
@@ -69,6 +98,12 @@ export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, 
     try {
       // Gửi lên backend PHP để lưu vào phpMyAdmin (MySQL)
       const res = await registerUserToBackend(userData);
+
+      if (res && res.success === false) {
+        setLoginError(res.message || "Đăng ký không thành công trên máy chủ CSDL!");
+        setIsSubmitting(false);
+        return;
+      }
 
       let savedUser;
       if (res && res.success && res.user) {
@@ -260,9 +295,10 @@ export function AuthModal({ isOpen, onClose, users, onRegister, onLoginSuccess, 
                 />
               </div>
               <div>
-                <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Số điện thoại</label>
+                <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 4 }}>Số điện thoại *</label>
                 <input
-                  placeholder="09xx.xxx.xxx"
+                  required
+                  placeholder="09xx.xxx.xxx (không trùng)"
                   value={regPhone}
                   onChange={(e) => setRegPhone(e.target.value)}
                   style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid #E0DCD0", fontSize: 13.5 }}

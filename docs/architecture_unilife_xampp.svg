@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 950" width="1600" height="950" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <filter id="shadow-blue" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#1E3A8A" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arr-blue" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#1D4ED8"/>
+    </marker>
+    <marker id="arr-cyan" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#0284C7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="950" fill="#F8FAFC"/>
+
+  <!-- Top Banner (Blue Theme) -->
+  <rect x="40" y="20" width="1520" height="74" rx="12" fill="#1E3A8A" filter="url(#shadow-blue)"/>
+  <rect x="60" y="34" width="46" height="46" rx="10" fill="#2563EB"/>
+  <text x="83" y="64" text-anchor="middle" font-size="22" font-weight="900" fill="#FFFFFF">🏛️</text>
+  <text x="125" y="55" font-size="22" font-weight="bold" fill="#FFFFFF">SƠ ĐỒ 1.2: KIẾN TRÚC TỔNG QUAN HỆ THỐNG UNILIFE TRÊN NỀN TẢNG XAMPP</text>
+  <text x="125" y="78" font-size="13.5" font-weight="600" fill="#93C5FD">Mô hình phân tầng: Frontend React 18 + Vite &lt;-- RESTful API --&gt; Backend PHP 8.x + MySQL trên XAMPP</text>
+  <rect x="1310" y="36" width="230" height="42" rx="21" fill="#2563EB"/>
+  <text x="1425" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Phan Trí Đức - 24CT1</text>
+
+  <!-- ==================== TẦNG 1: FRONTEND (CLIENT TIER) ==================== -->
+  <rect x="40" y="120" width="460" height="790" rx="16" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2.5" filter="url(#shadow-blue)"/>
+  <rect x="40" y="120" width="460" height="50" rx="16" fill="#1E40AF"/>
+  <rect x="40" y="150" width="460" height="20" fill="#1E40AF"/>
+  <text x="270" y="152" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFFFFF">⚛️ TẦNG GIAO DIỆN (CLIENT TIER - REACT 18)</text>
+
+  <!-- Sub-block 1: Views -->
+  <rect x="65" y="190" width="410" height="195" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="85" y="215" font-size="14" font-weight="bold" fill="#1E40AF">1. Các Màn hình chính (Views - Pages):</text>
+  <rect x="80" y="230" width="185" height="34" rx="6" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="95" y="252" font-size="12" font-weight="600" fill="#1E3A8A">🏠 HomeView.jsx (Trang chủ)</text>
+  <rect x="280" y="230" width="180" height="34" rx="6" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="295" y="252" font-size="12" font-weight="600" fill="#1E3A8A">🛏️ HousingView (Phòng trọ)</text>
+  
+  <rect x="80" y="275" width="185" height="34" rx="6" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="95" y="297" font-size="12" font-weight="600" fill="#1E3A8A">🍜 FoodView.jsx (Quán ăn)</text>
+  <rect x="280" y="275" width="180" height="34" rx="6" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="295" y="297" font-size="12" font-weight="600" fill="#1E3A8A">🛍️ MarketView (Chợ cũ)</text>
+
+  <rect x="80" y="320" width="185" height="34" rx="6" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="95" y="342" font-size="12" font-weight="600" fill="#1E3A8A">❤️ FavoritesView (Yêu thích)</text>
+  <rect x="280" y="320" width="180" height="34" rx="6" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="295" y="342" font-size="12" font-weight="600" fill="#1E3A8A">🛡️ AdminView (Quản trị)</text>
+
+  <!-- Sub-block 2: Components -->
+  <rect x="65" y="405" width="410" height="185" rx="12" fill="#F0FDFA" stroke="#99F6E4" stroke-width="1.5"/>
+  <text x="85" y="430" font-size="14" font-weight="bold" fill="#0F766E">2. Thành phần tái sử dụng (Components):</text>
+  <rect x="80" y="445" width="380" height="34" rx="6" fill="#FFFFFF" stroke="#5EEAD4"/>
+  <text x="95" y="467" font-size="12" font-weight="600" fill="#134E4A">📦 Modals: AuthModal.jsx (Đăng ký/nhập), AddHousingModal.jsx</text>
+  <rect x="80" y="490" width="380" height="34" rx="6" fill="#FFFFFF" stroke="#5EEAD4"/>
+  <text x="95" y="512" font-size="12" font-weight="600" fill="#134E4A">🏷️ Cards: PlaceCard.jsx (Thẻ trọ), FoodCard.jsx, ProductCard</text>
+  <rect x="80" y="535" width="380" height="34" rx="6" fill="#FFFFFF" stroke="#5EEAD4"/>
+  <text x="95" y="557" font-size="12" font-weight="600" fill="#134E4A">🎨 UI Base: FilterChip, StarRow, Badge, Toast, FavButton</text>
+
+  <!-- Sub-block 3: Services & Hooks -->
+  <rect x="65" y="610" width="410" height="150" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="85" y="635" font-size="14" font-weight="bold" fill="#334155">3. Quản lý trạng thái &amp; Dịch vụ kết nối:</text>
+  <rect x="80" y="650" width="380" height="32" rx="6" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="95" y="671" font-size="12" font-weight="600" fill="#334155">🔄 src/services/authService.js (Gửi request đăng ký / login)</text>
+  <rect x="80" y="692" width="380" height="32" rx="6" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="95" y="713" font-size="12" font-weight="600" fill="#334155">💾 LocalStorage Hook (Lưu phiên người dùng, Favorites)</text>
+
+  <rect x="65" y="780" width="410" height="105" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-dasharray="4 3"/>
+  <text x="85" y="805" font-size="13" font-weight="bold" fill="#1D4ED8">⚡ Vite 5 Build Tool &amp; Dev Server</text>
+  <text x="85" y="828" font-size="11.5" fill="#475569">• HMR (Hot Module Replacement) tải mã nguồn tức thời</text>
+  <text x="85" y="848" font-size="11.5" fill="#475569">• Đóng gói mã nguồn ESM siêu tốc, hỗ trợ React 18 SPA</text>
+
+  <!-- ==================== GIAO TIẾP Ở GIỮA (API BRIDGE) ==================== -->
+  <rect x="530" y="360" width="200" height="310" rx="14" fill="#FFFFFF" stroke="#0284C7" stroke-width="2" filter="url(#shadow-blue)"/>
+  <rect x="530" y="360" width="200" height="38" rx="14" fill="#0284C7"/>
+  <rect x="530" y="380" width="200" height="18" fill="#0284C7"/>
+  <text x="630" y="385" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">GIAO TIẾP API (JSON)</text>
+  
+  <text x="630" y="425" text-anchor="middle" font-size="12" font-weight="bold" fill="#0369A1">Fetch API / HTTP</text>
+  <line x1="500" y1="440" x2="540" y2="440" stroke="#1D4ED8" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="630" y="460" text-anchor="middle" font-size="11" fill="#475569">POST / GET Request</text>
+  <text x="630" y="480" text-anchor="middle" font-size="11" fill="#475569">Payload JSON Body</text>
+
+  <line x1="720" y1="520" x2="760" y2="520" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arr-cyan)"/>
+  
+  <line x1="760" y1="560" x2="720" y2="560" stroke="#1D4ED8" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="630" y="580" text-anchor="middle" font-size="11" fill="#475569">Response JSON</text>
+  <text x="630" y="600" text-anchor="middle" font-size="11" fill="#475569">{success: true, data}</text>
+  <line x1="540" y1="620" x2="500" y2="620" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arr-cyan)"/>
+
+  <rect x="545" y="635" width="170" height="24" rx="12" fill="#E0F2FE"/>
+  <text x="630" y="651" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0369A1">CORS &amp; RESTful Endpoints</text>
+
+  <!-- ==================== TẦNG 2: MÁY CHỦ XAMPP (SERVER TIER) ==================== -->
+  <rect x="760" y="120" width="800" height="790" rx="16" fill="#FFFFFF" stroke="#1E40AF" stroke-width="2.5" filter="url(#shadow-blue)"/>
+  <rect x="760" y="120" width="800" height="50" rx="16" fill="#1E3A8A"/>
+  <rect x="760" y="150" width="800" height="20" fill="#1E3A8A"/>
+  <text x="1160" y="152" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFFFFF">📦 MÔI TRƯỜNG MÁY CHỦ CỤC BỘ XAMPP (SERVER &amp; DATABASE TIER)</text>
+
+  <!-- XAMPP Apache Server Block -->
+  <rect x="790" y="190" width="740" height="260" rx="14" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  <rect x="805" y="205" width="220" height="34" rx="8" fill="#1D4ED8"/>
+  <text x="915" y="228" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">🌐 Apache Web Server</text>
+  <text x="1040" y="228" font-size="12.5" font-weight="600" fill="#1E40AF">Cổng 80 (HTTP) / Cổng 443 (HTTPS) • Xử lý phân luồng</text>
+
+  <text x="815" y="265" font-size="13.5" font-weight="bold" fill="#1E3A8A">🐘 PHP Engine 8.x (Thư mục api/ — Xử lý nghiệp vụ Backend):</text>
+
+  <!-- PHP Endpoints grid -->
+  <rect x="815" y="280" width="225" height="42" rx="8" fill="#FFFFFF" stroke="#60A5FA"/>
+  <text x="830" y="300" font-size="12" font-weight="bold" fill="#1E40AF">POST /api/register.php</text>
+  <text x="830" y="315" font-size="10.5" fill="#64748B">Đăng ký, kiểm tra trùng email, mã hóa</text>
+
+  <rect x="1055" y="280" width="225" height="42" rx="8" fill="#FFFFFF" stroke="#60A5FA"/>
+  <text x="1070" y="300" font-size="12" font-weight="bold" fill="#1E40AF">GET /api/users.php</text>
+  <text x="1070" y="315" font-size="10.5" fill="#64748B">Xác thực tài khoản, phân quyền RBAC</text>
+
+  <rect x="1295" y="280" width="220" height="42" rx="8" fill="#FFFFFF" stroke="#60A5FA"/>
+  <text x="1310" y="300" font-size="12" font-weight="bold" fill="#1E40AF">GET/POST /api/housing.php</text>
+  <text x="1310" y="315" font-size="10.5" fill="#64748B">Lấy danh sách trọ, đăng tin phòng mới</text>
+
+  <rect x="815" y="335" width="225" height="42" rx="8" fill="#FFFFFF" stroke="#60A5FA"/>
+  <text x="830" y="355" font-size="12" font-weight="bold" fill="#1E40AF">GET /api/food.php</text>
+  <text x="830" y="370" font-size="10.5" fill="#64748B">Danh sách quán ăn sinh viên quanh trường</text>
+
+  <rect x="1055" y="335" width="225" height="42" rx="8" fill="#FFFFFF" stroke="#60A5FA"/>
+  <text x="1070" y="355" font-size="12" font-weight="bold" fill="#1E40AF">GET /api/market.php</text>
+  <text x="1070" y="370" font-size="10.5" fill="#64748B">Danh mục đồ cũ, giáo trình pass lại</text>
+
+  <rect x="1295" y="335" width="220" height="42" rx="8" fill="#FFFFFF" stroke="#60A5FA"/>
+  <text x="1310" y="355" font-size="12" font-weight="bold" fill="#1E40AF">GET /api/study.php</text>
+  <text x="1310" y="370" font-size="10.5" fill="#64748B">Tài liệu học tập, đề thi các khóa</text>
+
+  <rect x="815" y="390" width="700" height="45" rx="8" fill="#DBEAFE"/>
+  <text x="830" y="418" font-size="12" font-weight="bold" fill="#1E40AF">🔌 Kết nối cơ sở dữ liệu:</text>
+  <text x="980" y="418" font-size="12" fill="#334155">Sử dụng api/db.php (Thư viện chuẩn MySQLi / PDO kết nối MySQL localhost:3306)</text>
+
+  <!-- Connection line down to Database -->
+  <line x1="1160" y1="450" x2="1160" y2="480" stroke="#1D4ED8" stroke-width="3" marker-end="url(#arr-blue)"/>
+
+  <!-- XAMPP MySQL Database Block -->
+  <rect x="790" y="480" width="740" height="410" rx="14" fill="#F8FAFC" stroke="#0284C7" stroke-width="2"/>
+  <rect x="805" y="495" width="260" height="34" rx="8" fill="#0284C7"/>
+  <text x="935" y="518" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">🗄️ MySQL Database (Cổng 3306)</text>
+  
+  <rect x="1080" y="495" width="220" height="34" rx="8" fill="#0F766E"/>
+  <text x="1190" y="518" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">📑 Quản trị phpMyAdmin</text>
+  <text x="1315" y="518" font-size="12" font-weight="600" fill="#0369A1">CSDL: unilife_db (utf8mb4)</text>
+
+  <text x="815" y="555" font-size="13.5" font-weight="bold" fill="#0369A1">Cấu trúc các bảng quan hệ dữ liệu trong unilife_db:</text>
+
+  <!-- Table 1: users -->
+  <rect x="815" y="570" width="345" height="85" rx="8" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="830" y="592" font-size="13" font-weight="bold" fill="#1E40AF">👥 Bảng users (Tài khoản người dùng)</text>
+  <text x="830" y="612" font-size="11" fill="#475569">PK: id (bigint) • email (unique) • password_hash</text>
+  <text x="830" y="630" font-size="11" fill="#475569">name, phone, role (Admin/Khách/Chủ trọ), status</text>
+  <text x="830" y="648" font-size="10.5" fill="#059669">✓ Đã nạp 3 tài khoản thực nghiệm mẫu</text>
+
+  <!-- Table 2: housing -->
+  <rect x="1175" y="570" width="340" height="85" rx="8" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="1190" y="592" font-size="13" font-weight="bold" fill="#1E40AF">🏠 Bảng housing (Phòng trọ sinh viên)</text>
+  <text x="1190" y="612" font-size="11" fill="#475569">PK: id • FK: user_id (chủ trọ) • price, price_num</text>
+  <text x="1190" y="630" font-size="11" fill="#475569">area, address, dist, phone, ac, washer, wifi, status</text>
+  <text x="1190" y="648" font-size="10.5" fill="#059669">✓ Đã nạp 12 phòng trọ thực nghiệm</text>
+
+  <!-- Table 3: food_places -->
+  <rect x="815" y="668" width="345" height="80" rx="8" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="830" y="690" font-size="13" font-weight="bold" fill="#1E40AF">🍜 Bảng food_places (Quán ăn ngon)</text>
+  <text x="830" y="710" font-size="11" fill="#475569">PK: id • FK: user_id • name, cat, price, address</text>
+  <text x="830" y="728" font-size="11" fill="#475569">hours, rating, phone, image_url, status</text>
+  <text x="830" y="744" font-size="10.5" fill="#059669">✓ Cơm tấm, bún bò, trà sữa, cafe sinh viên</text>
+
+  <!-- Table 4: marketplace -->
+  <rect x="1175" y="668" width="340" height="80" rx="8" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="1190" y="690" font-size="13" font-weight="bold" fill="#1E40AF">🛍️ Bảng marketplace (Chợ đồ cũ)</text>
+  <text x="1190" y="710" font-size="11" fill="#475569">PK: id • FK: user_id • name, price, cond, cat</text>
+  <text x="1190" y="728" font-size="11" fill="#475569">seller, phone, loc, image_url, status</text>
+  <text x="1190" y="744" font-size="10.5" fill="#059669">✓ Giáo trình giải tích, laptop cũ, xe đạp</text>
+
+  <!-- Table 5: user_favorites -->
+  <rect x="815" y="760" width="700" height="70" rx="8" fill="#FFFFFF" stroke="#93C5FD"/>
+  <text x="830" y="782" font-size="13" font-weight="bold" fill="#1E40AF">❤️ Bảng user_favorites (Lưu bài yêu thích)</text>
+  <text x="830" y="802" font-size="11" fill="#475569">PK: id • FK: user_id (người lưu) • item_type ('housing', 'food', 'market') • item_id • created_at</text>
+  <text x="830" y="820" font-size="11" fill="#1D4ED8">→ Đồng bộ 2 chiều giữa MySQL Database và LocalStorage trên trình duyệt của người dùng</text>
+
+  <rect x="815" y="842" width="700" height="36" rx="8" fill="#E0F2FE"/>
+  <text x="1165" y="865" text-anchor="middle" font-size="12" font-weight="bold" fill="#0369A1">
+    ✓ Toàn bộ cơ sở dữ liệu được nhập tự động bằng script database/setup_database.bat vào MySQL XAMPP
+  </text>
+
+</svg>

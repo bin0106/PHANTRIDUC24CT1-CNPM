@@ -1,0 +1,44 @@
+@startuml
+autonumber
+skinparam BoxPadding 10
+skinparam ParticipantPadding 15
+skinparam SequenceArrowThickness 1.5
+skinparam RoundCorner 8
+skinparam defaultFontName "Segoe UI", Arial, sans-serif
+
+actor "Khách Hàng\n(Sinh Viên)" as User
+participant "Đường dẫn vào frontend:\nD:\\24CT1-PHANTRIDUC\\src\\\nviews\\HousingView.jsx" as UI
+participant "Đường dẫn vào file backend:\nD:\\24CT1-PHANTRIDUC\\api\\\nhousing.php" as Backend
+database "Tên CSDL / bảng hỗ trợ:\nunilife_db /\nhousing" as DB
+
+title SƠ ĐỒ TUẦN TỰ - CHỨC NĂNG TÌM KIẾM PHÒNG TRỌ (SEARCH HOUSING)
+
+User -> UI : 1. Nhập từ khóa tìm kiếm (tên, địa chỉ) hoặc chọn bộ lọc (loại phòng, giá, tiện ích)
+activate UI
+UI --> User : 2. Tiếp nhận dữ liệu tìm kiếm (setQuery, setFilters, setPriceMax)
+
+UI -> Backend : 3. Gửi yêu cầu lấy danh sách phòng trọ: GET /api/housing.php
+activate Backend
+
+Backend -> DB : 4. Truy vấn CSDL: SELECT id, name, price, price_num, area, address, dist, ac, washer, wifi, parking FROM housing ORDER BY id DESC
+activate DB
+
+alt Trường hợp không tìm thấy phòng trọ hoặc lỗi kết nối CSDL
+    DB --> Backend : 5a. Bảng housing rỗng (num_rows === 0) hoặc kết nối CSDL thất bại
+    Backend --> UI : 6a. JSON {"success": true, "housing": []} (hoặc thông báo lỗi)
+    UI --> User : 7a. Hiển thị thông báo: "Không tìm thấy phòng phù hợp với bộ lọc hiện tại"
+else Trường hợp tìm thấy dữ liệu phòng trọ
+    DB --> Backend : 5b. Trả về tập dữ liệu các phòng (id, name, price, price_num, area, address, dist, phone, ac, washer, wifi, parking, image_url, status)
+    deactivate DB
+    Backend -> Backend : 6b. Định dạng dữ liệu: ac, washer, wifi, parking (bool), priceNum (float)...
+    Backend --> UI : 7b. Trả về JSON mảng danh sách phòng trọ
+end
+
+Backend --> UI : 8. Nhận danh sách phòng trọ từ backend & lưu vào state housingList
+deactivate Backend
+
+UI -> UI : 9. filteredHousing() (lọc từ khóa query, tiện ích ac/washer/wifi/parking & mức giá priceMax)
+UI --> User : 10. Hiển thị danh sách các thẻ phòng trọ phù hợp (PlaceCard.jsx) lên giao diện
+deactivate UI
+
+@enduml
